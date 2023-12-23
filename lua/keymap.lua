@@ -1,5 +1,7 @@
 local G = require('G')
 
+G.g.mapleader = " "
+
 G.map({
     -- 设置s t 无效 ;=: ,重复上一次宏操作
     { 'n', 's',           '<nop>',   {} },

@@ -42,6 +42,7 @@ G.opt.shortmess = 'filnxtToOScIF'
 G.opt.scrolloff = 5
 G.opt.showmode = false
 G.opt.number = true
+G.opt.relativenumber = true
 G.opt.numberwidth = 2
 G.opt.cul = true
 G.opt.signcolumn = 'yes'
