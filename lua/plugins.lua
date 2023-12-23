@@ -24,6 +24,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     require("plugins.fzf"),
-    
+    require("plugins.joshuto"),
+
 })
 
