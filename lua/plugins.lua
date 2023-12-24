@@ -30,6 +30,6 @@ require("lazy").setup({
     require("plugins.git"),
     require("plugins.statusline"),
     require("plugins.comment"),    
-
+    require("plugins.indent"),
 })
 
