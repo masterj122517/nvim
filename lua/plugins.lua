@@ -25,6 +25,10 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
     require("plugins.fzf"),
     require("plugins.joshuto"),
+    require("plugins.colorscheme"),
+    require("plugins.scrollbar"),
+    require("plugins.git"),
+    
 
 })
 
