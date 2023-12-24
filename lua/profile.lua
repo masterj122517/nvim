@@ -48,8 +48,11 @@ G.opt.cul = true
 G.opt.signcolumn = 'yes'
 G.opt.fillchars = 'fold:-,stlnc:#,eob: ,foldsep:='
 
+--G.cmd([[
+    --hi Normal ctermfg=7 ctermbg=NONE cterm=NONE
+--]])
+
 G.cmd([[
-    hi Normal ctermfg=7 ctermbg=NONE cterm=NONE
     let &t_SI .= '\e[5 q'
     let &t_EI .= '\e[1 q'
     let &t_vb = ''

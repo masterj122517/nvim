@@ -31,5 +31,7 @@ require("lazy").setup({
     require("plugins.statusline"),
     require("plugins.comment"),    
     require("plugins.indent"),
+    require("plugins.cellular-automation"),
+    require("plugins.treesitter"),
 })
 
