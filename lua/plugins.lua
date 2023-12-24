@@ -33,5 +33,8 @@ require("lazy").setup({
     require("plugins.indent"),
     require("plugins.cellular-automation"),
     require("plugins.treesitter"),
+    require("plugins.markdown"),
+    require("plugins.winbar"),
+
 })
 
