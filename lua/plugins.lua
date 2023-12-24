@@ -28,6 +28,7 @@ require("lazy").setup({
     require("plugins.colorscheme"),
     require("plugins.scrollbar"),
     require("plugins.git"),
+    require("plugins.statusline"),
     
 
 })
