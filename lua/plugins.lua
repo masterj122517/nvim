@@ -29,7 +29,7 @@ require("lazy").setup({
     require("plugins.scrollbar"),
     require("plugins.git"),
     require("plugins.statusline"),
-    
+    require("plugins.comment"),    
 
 })
 
