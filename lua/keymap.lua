@@ -85,7 +85,7 @@ G.map({
 
     -- emacs风格快捷键 清空一行
     -- { 'n', '<c-u>',       'cc<Esc>', { noremap = true } },
-    { 'i', '<c-k>',       '<Esc>cc', { noremap = true } },
+    -- { 'i', '<c-k>',       '<Esc>cc', { noremap = true } },
     { 'i', '<c-a>',       '<Esc>I',  { noremap = true } },
     { 'i', '<c-e>',       '<Esc>A',  { noremap = true } },
 

@@ -35,6 +35,7 @@ require("lazy").setup({
     require("plugins.treesitter"),
     require("plugins.markdown"),
     require("plugins.winbar"),
+    require("plugins.snippets"),
 
 })
 
