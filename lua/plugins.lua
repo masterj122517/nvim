@@ -36,6 +36,7 @@ require("lazy").setup({
     require("plugins.markdown"),
     require("plugins.winbar"),
     require("plugins.snippets"),
+    require("plugins.surround"),
 
 })
 
