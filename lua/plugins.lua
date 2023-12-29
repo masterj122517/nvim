@@ -40,6 +40,7 @@ require("lazy").setup({
     require("plugins.wilder"),
     require("plugins.fcitx"),
     require("plugins.harpoon"),
+    require("plugins.undo"),
 })
 
 

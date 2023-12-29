@@ -13,7 +13,6 @@ return {
 					"javascript",
 					"typescript",
 					"query",
-					"dart",
 					"java",
 					"c",
 					"prisma",
