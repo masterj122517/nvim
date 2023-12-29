@@ -37,6 +37,9 @@ require("lazy").setup({
     require("plugins.winbar"),
     require("plugins.snippets"),
     require("plugins.surround"),
-
+    require("plugins.wilder"),
+    require("plugins.fcitx"),
+    require("plugins.harpoon"),
 })
+
 
