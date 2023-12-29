@@ -10,7 +10,7 @@ local compileRun = function()
         split()
         vim.cmd("term g++ % -o %< && ./%< && rm %<")
     elseif ft == "markdown" then
-        vim.cmd(":InstantMarkdownPreview")
+        vim.cmd(":MarkdownPreviewToggle")
     elseif ft == 'c' then
         split()
         vim.cmd("term gcc % -o %< && ./%< && rm %<")
