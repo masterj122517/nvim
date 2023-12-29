@@ -194,3 +194,4 @@ function MagicToggleHump(upperCase)
     G.fn.setreg('t', w)
     G.fn.execute('normal! "tP')
 end
+
