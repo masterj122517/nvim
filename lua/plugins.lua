@@ -42,5 +42,6 @@ require("lazy").setup({
     require("plugins.harpoon"),
     require("plugins.undo"),
     require("plugins.tex"),
+    require("plugins.editor"),
 
 })
