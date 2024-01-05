@@ -19,6 +19,7 @@ return {
 					"bash",
 					"go",
 					"lua",
+                    "vimdoc",
 					"kdl",
 					"vim",
 					"terraform",
