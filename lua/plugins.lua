@@ -60,6 +60,7 @@ require("lazy").setup({
     require("plugins.tex"),
     require("plugins.editor"),
     require("plugins.yank"),
+    require("plugins.copilot"),
     require("plugins.debugger"),
     require("plugins.autocomplete").config,
     require("plugins.lspconfig").config,
