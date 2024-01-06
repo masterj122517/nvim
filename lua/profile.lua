@@ -93,6 +93,9 @@ vim.g.terminal_color_13 = '#FF92D0'
 vim.g.terminal_color_14 = '#9AEDFE'
 vim.cmd([[autocmd TermOpen term://* startinsert]])
 
+-- set spell when open .md
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, { pattern = "*.md", command = "setlocal spell", })
+-- remember cursor's location
 vim.cmd([[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif]])
+-- cd to buffers
 vim.api.nvim_create_autocmd("BufEnter", { pattern = "*", command = "silent! lcd %:p:h", })
