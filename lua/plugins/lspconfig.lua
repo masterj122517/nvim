@@ -57,6 +57,7 @@ M.config = {
                 'html',
                 'dockerls',
                 'ansiblels',
+                'typos_lsp',
                 'terraformls',
                 'texlab',
                 'pyright',

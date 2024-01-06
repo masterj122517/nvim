@@ -66,7 +66,6 @@ require("lazy").setup({
     require("plugins.telescope").config,
     require("plugins.go"),
     --
-    require("plugins.copilot"),
     require("plugins.comment").setup(),
     require("plugins.comment").config(),
 
