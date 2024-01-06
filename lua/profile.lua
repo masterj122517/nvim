@@ -56,22 +56,39 @@ G.cmd([[
 ]])
 
 function MagicFoldText()
-  local spacetext = ("        "):sub(0, G.opt.shiftwidth:get())
-  local line = G.fn.getline(G.v.foldstart):gsub("\t", spacetext)
-  local folded = G.v.foldend - G.v.foldstart + 1
-  local findresult = line:find('%S')
-  if not findresult then return '+ folded ' .. folded .. ' lines ' end
-  local empty = findresult - 1
-  local funcs = {
-    [0] = function(_) return '' .. line end,
-    [1] = function(_) return '+' .. line:sub(2) end,
-    [2] = function(_) return '+ ' .. line:sub(3) end,
-    [-1] = function(c)
-      local result = ' ' .. line:sub(c + 1)
-      local foldednumlen = #tostring(folded)
-      for _ = 1, c - 2 - foldednumlen do result = '-' .. result end
-      return '+' .. folded .. result
-    end,
-  }
-  return funcs[empty <= 2 and empty or -1](empty) .. ' folded ' .. folded .. ' lines '
+    local spacetext = ("        "):sub(0, G.opt.shiftwidth:get())
+    local line = G.fn.getline(G.v.foldstart):gsub("\t", spacetext)
+    local folded = G.v.foldend - G.v.foldstart + 1
+    local findresult = line:find('%S')
+    if not findresult then return '+ folded ' .. folded .. ' lines ' end
+    local empty = findresult - 1
+    local funcs = {
+        [0] = function(_) return '' .. line end,
+        [1] = function(_) return '+' .. line:sub(2) end,
+        [2] = function(_) return '+ ' .. line:sub(3) end,
+        [-1] = function(c)
+            local result = ' ' .. line:sub(c + 1)
+            local foldednumlen = #tostring(folded)
+            for _ = 1, c - 2 - foldednumlen do result = '-' .. result end
+            return '+' .. folded .. result
+        end,
+    }
+    return funcs[empty <= 2 and empty or -1](empty) .. ' folded ' .. folded .. ' lines '
 end
+
+vim.g.terminal_color_0  = '#000000'
+vim.g.terminal_color_1  = '#FF5555'
+vim.g.terminal_color_2  = '#50FA7B'
+vim.g.terminal_color_3  = '#F1FA8C'
+vim.g.terminal_color_4  = '#BD93F9'
+vim.g.terminal_color_5  = '#FF79C6'
+vim.g.terminal_color_6  = '#8BE9FD'
+vim.g.terminal_color_7  = '#BFBFBF'
+vim.g.terminal_color_8  = '#4D4D4D'
+vim.g.terminal_color_9  = '#FF6E67'
+vim.g.terminal_color_10 = '#5AF78E'
+vim.g.terminal_color_11 = '#F4F99D'
+vim.g.terminal_color_12 = '#CAA9FA'
+vim.g.terminal_color_13 = '#FF92D0'
+vim.g.terminal_color_14 = '#9AEDFE'
+vim.cmd([[autocmd TermOpen term://* startinsert]])
