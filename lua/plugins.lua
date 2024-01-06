@@ -71,3 +71,7 @@ require("lazy").setup({
 
 }, {
 })
+
+
+require("utils.compile_run")
+require("utils.cursor_for_qwerty")
