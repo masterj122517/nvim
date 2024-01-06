@@ -55,7 +55,6 @@ M.config = {
                 'gopls',
                 'jsonls',
                 'html',
-                'clangd',
                 'dockerls',
                 'ansiblels',
                 'terraformls',

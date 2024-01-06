@@ -6,7 +6,7 @@ end
 local compileRun = function()
     vim.cmd("w")
     local ft = vim.bo.filetype
-    if ft =="cpp" then
+    if ft == "cpp" then
         split()
         vim.cmd("term g++ % -o %< && ./%< && rm %<")
     elseif ft == "markdown" then
@@ -22,6 +22,9 @@ local compileRun = function()
         vim.cmd("term luajit %")
     elseif ft == 'tex' then
         vim.cmd(":VimtexCompile")
+    elseif ft == 'go' then
+        split()
+        vim.cmd("term go run %")
     end
 end
 
