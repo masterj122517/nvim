@@ -65,6 +65,7 @@ require("lazy").setup({
     require("plugins.lspconfig").config,
     require("plugins.telescope").config,
     require("plugins.go"),
+    require("plugins.multi-cursor"),
     --
     require("plugins.comment").setup(),
     require("plugins.comment").config(),
