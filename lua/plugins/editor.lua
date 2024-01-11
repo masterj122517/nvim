@@ -8,4 +8,8 @@ return {
     {
         "lambdalisue/suda.vim",
     },
+
+    {
+        "dstein64/vim-startuptime",
+    },
 }
