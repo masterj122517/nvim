@@ -25,6 +25,9 @@ local compileRun = function()
     elseif ft == 'go' then
         split()
         vim.cmd("term go run %")
+    elseif ft == 'python' then
+        split()
+        vim.cmd("term python %")
     end
 end
 
