@@ -124,8 +124,8 @@ M.config = {
             ts.load_extension('simulators')
 
             require("simulators").setup({
-                android_emulator = false,
-                apple_simulator = true,
+                android_emulator = true,
+                apple_simulator = false,
             })
             -- ts.load_extension("ui-select")
             local tsdap = ts.extensions.dap;

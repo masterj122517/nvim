@@ -64,7 +64,6 @@ require("lazy").setup({
     require("plugins.autocomplete").config,
     require("plugins.lspconfig").config,
     require("plugins.telescope").config,
-    require("plugins.go"),
     require("plugins.multi-cursor"),
     require("plugins.notify"),
     require("plugins.window-management"),
