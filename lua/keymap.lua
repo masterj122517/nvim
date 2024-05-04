@@ -148,9 +148,10 @@ G.map({
     { 'v', '-',           'zf',                                                           { noremap = true, silent = true } },
 
     -- space 行首行尾跳转
-    { 'n', '<space>',     ':call v:lua.MagicMove()<cr>',                                  { noremap = true, silent = true } },
-    { 'n', '0',           '%',                                                            { noremap = true } },
-    { 'v', '0',           '%',                                                            { noremap = true } },
+    { 'n', '0',           ':call v:lua.MagicMove()<cr>',                                  { noremap = true, silent = true } },
+    { 'v', '0',           ':call v:lua.MagicMove()<cr>',                                  { noremap = true, silent = true } },
+    -- { 'n', '0',           '%',                                                            { noremap = true } },
+    -- { 'v', '0',           '%',                                                            { noremap = true } },
 
     -- 驼峰转换
     { 'v', 'T',           ':call v:lua.MagicToggleHump(v:true)<CR>',                      { noremap = true, silent = true } },
