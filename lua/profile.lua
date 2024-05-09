@@ -97,6 +97,18 @@ vim.g.terminal_color_14 = '#9AEDFE'
 
 vim.cmd([[autocmd TermOpen term://* startinsert]])
 
+
+vim.cmd([[
+augroup NVIMRC
+    autocmd!
+    autocmd BufWritePost .vim.lua exec ":so %"
+augroup END
+tnoremap <C-N> <C-\><C-N>
+tnoremap <C-O> <C-\><C-N><C-O>
+]])
+
+
+vim.cmd([[hi NonText ctermfg=gray guifg=grey10]])
 -- set spell when open .md
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, { pattern = "*.md", command = "setlocal spell", })
 -- remember cursor's location
