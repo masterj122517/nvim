@@ -49,7 +49,7 @@ require("lazy").setup({
     require("plugins.cellular-automation"),
     require("plugins.treesitter"),
     require("plugins.markdown"),
-    require("plugins.winbar"),
+    -- require("plugins.winbar"),
     require("plugins.joshuto"),
     require("plugins.snippets"),
     require("plugins.surround"),
