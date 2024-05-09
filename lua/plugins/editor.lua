@@ -1,17 +1,42 @@
+vim.cmd([[
+fun! s:MakePair()
+	let line = getline('.')
+	let len = strlen(line)
+	if line[len - 1] == ";" || line[len - 1] == ","
+		normal! lx$P
+	else
+		normal! lx$p
+	endif
+endfun
+inoremap <c-u> <ESC>:call <SID>MakePair()<CR>
+]])
+
 return {
     {
-        'windwp/nvim-autopairs',
-        event = "InsertEnter",
-        opts = {} -- this is equalent to setup({}) function
+        "RRethy/vim-illuminate",
+        config = function()
+            require('illuminate').configure({
+                providers = {
+                    -- 'lsp',
+                    -- 'treesitter',
+                    'regex',
+                },
+            })
+            vim.cmd("hi IlluminatedWordText guibg=#393E4D gui=none")
+        end
     },
-
     {
-        "lambdalisue/suda.vim",
+        "dkarter/bullets.vim",
+        lazy = false,
+        ft = { "markdown", "txt" },
     },
-
-    {
-        "dstein64/vim-startuptime",
-    },
+    -- {
+    -- 	"psliwka/vim-smoothie",
+    -- 	init = function()
+    -- 		vim.cmd([[nnoremap <unique> <C-e> <cmd>call smoothie#do("\<C-D>") <CR>]])
+    -- 		vim.cmd([[nnoremap <unique> <C-u> <cmd>call smoothie#do("\<C-U>") <CR>]])
+    -- 	end
+    -- },
     {
         "NvChad/nvim-colorizer.lua",
         opts = {
@@ -37,5 +62,13 @@ return {
             -- all the sub-options of filetypes apply to buftypes
             buftypes = {},
         }
+    },
+    { 'theniceboy/antovim', lazy = false, },
+    { 'gcmt/wildfire.vim',  lazy = false, },
+    {
+        "windwp/nvim-autopairs",
+        config = function()
+            require("nvim-autopairs").setup({})
+        end
     },
 }
