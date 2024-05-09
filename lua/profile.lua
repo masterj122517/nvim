@@ -1,3 +1,6 @@
+vim.o.termguicolors = true
+vim.env.NVIM_TUI_ENABLE_TRUE_COLOR = 1
+
 local G = require('G')
 
 G.g.python3_host_prog = os.getenv('PYTHON') -- export PYTHON=$(which python3)

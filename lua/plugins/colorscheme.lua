@@ -1,12 +1,22 @@
+-- return {
+--     -- "rmehri01/onenord.nvim",
+--     -- "rebelot/kanagawa.nvim",
+--     "rose-pine/neovim",
+--     name = "rose-pine",
+--     lazy = false,
+--     priority = 1000,
+--     config = function()
+--         --vim.cmd([[hi Normal ctermfg=7 ctermbg=NONE cterm=NONE
+--         vim.cmd([[colorscheme rose-pine]])
+--     end,
+-- }
+--
+--
 return {
-    -- "rmehri01/onenord.nvim",
-    -- "rebelot/kanagawa.nvim",
-    "rose-pine/neovim",
-    name = "rose-pine",
+    "theniceboy/nvim-deus",
     lazy = false,
     priority = 1000,
     config = function()
-        --vim.cmd([[hi Normal ctermfg=7 ctermbg=NONE cterm=NONE
-        vim.cmd([[colorscheme rose-pine]])
+        vim.cmd([[colorscheme deus]])
     end,
 }
