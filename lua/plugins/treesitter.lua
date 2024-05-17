@@ -16,6 +16,7 @@ return {
                     "query",
                     "java",
                     "c",
+                    "cpp",
                     "prisma",
                     "bash",
                     "go",

@@ -11,6 +11,7 @@ function M.config()
         java = '//',
         class = '//',
         c = '//',
+        cpp = '//',
         h = '//',
         go = '//',
         lua = '--',
