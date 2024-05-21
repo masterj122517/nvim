@@ -68,6 +68,7 @@ require("lazy").setup({
     require("plugins.multi-cursor"),
     require("plugins.tabline"),
     require("plugins.window-management"),
+    require("plugins.oil"),
     --
     require("plugins.comment").setup(),
     require("plugins.comment").config(),
