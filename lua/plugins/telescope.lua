@@ -32,8 +32,7 @@ M.config = {
             vim.keymap.set('n', '<c-h>', builtin.oldfiles, m)
             -- vim.keymap.set('n', '<c-_>', builtin.current_buffer_fuzzy_find, m)
             vim.keymap.set('n', 'z=', builtin.spell_suggest, m)
-            vim.keymap.set("n", "<space>fh", builtin.help_tags)
-            vim.keymap.set("n", "<space>fg", builtin.live_grep)
+            vim.keymap.set("n", "<space>?", builtin.help_tags)
             vim.keymap.set("n", "<space>/", builtin.current_buffer_fuzzy_find)
 
 
