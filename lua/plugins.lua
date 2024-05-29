@@ -26,7 +26,9 @@ require("lazy").setup(
     require("plugins.indent"),
     require("plugins.treesitter"),
     require("plugins.notify"),
+    require("plugins.tabline"),
     require("plugins.scrollbar"),
+    require("plugins.undo"),
     require("plugins.comment").setup(),
     require("plugins.comment").config(),
 
