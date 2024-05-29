@@ -33,7 +33,7 @@ require("lazy").setup(
     require("plugins.telescope"),
     require("plugins.editor"),
     require("plugins.joshuto"),
-    require("plugins.winbar"),
+    -- require("plugins.winbar"),
     require("plugins.wilder"),
     require("plugins.comment").setup(),
     require("plugins.comment").config(),
