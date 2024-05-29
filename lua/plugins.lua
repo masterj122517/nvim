@@ -23,7 +23,10 @@ require("lazy").setup(
     require("plugins.git"),
     require("plugins.fcitx"),
     require("plugins.statusline"),
+    require("plugins.indent"),
     require("plugins.treesitter"),
+    require("plugins.notify"),
+    require("plugins.scrollbar"),
     require("plugins.comment").setup(),
     require("plugins.comment").config(),
 
