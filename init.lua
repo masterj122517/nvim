@@ -1,7 +1,2 @@
-require("G")
-require("keymap")
-require("profile")
-require("md-snippets")
-require("utils.compile_run")
-require("plugins")
-
+-- bootstrap lazy.nvim, LazyVim and your plugins
+require("config.lazy")
