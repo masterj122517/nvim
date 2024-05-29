@@ -1,7 +1,6 @@
 vim.o.termguicolors = true
 vim.env.NVIM_TUI_ENABLE_TRUE_COLOR = 1
 local G = require('G')
-
 G.g.python3_host_prog = os.getenv('PYTHON') -- export PYTHON=$(which python3)
 G.opt.showcmd = true
 G.opt.encoding = 'utf-8'
@@ -12,7 +11,7 @@ G.opt.clipboard = 'unnamed,unnamedplus'
 G.opt.hlsearch = true
 G.opt.showmatch = true
 G.opt.incsearch = true
-G.opt.inccommand = ''
+G.opt.inccommand = 'split'
 G.opt.ignorecase = true
 G.opt.smartcase = true
 G.opt.timeoutlen = 400
@@ -49,6 +48,11 @@ G.opt.numberwidth = 2
 G.opt.cul = true
 G.opt.signcolumn = 'yes'
 G.opt.fillchars = 'fold:-,stlnc:#,eob: ,foldsep:='
+G.opt.formatoptions:remove('o')
+
+
+
+
 
 G.cmd([[
     let &t_SI .= '\e[5 q'
@@ -102,3 +106,4 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, { pattern = "*.md", com
 vim.cmd([[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif]])
 -- cd to buffers
 vim.api.nvim_create_autocmd("BufEnter", { pattern = "*", command = "silent! lcd %:p:h", })
+

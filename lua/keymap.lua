@@ -208,3 +208,5 @@ vim.keymap.set("n", "<leader>q", function()
         run_vim_shortcut([[<C-w>j:q<CR>]])
     end
 end, { noremap = true, silent = true })
+
+
