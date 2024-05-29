@@ -21,6 +21,7 @@ require("lazy").setup(
     require("plugins.fzf"),
     require("plugins.harpoon"),
     require("plugins.git"),
+    require("plugins.fcitx"),
     require("plugins.statusline"),
     require("plugins.treesitter"),
     require("plugins.comment").setup(),
