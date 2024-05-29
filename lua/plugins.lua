@@ -22,6 +22,10 @@ require("lazy").setup(
     require("plugins.harpoon"),
     require("plugins.git"),
     require("plugins.statusline"),
+    require("plugins.treesitter"),
+    require("plugins.comment").setup(),
+    require("plugins.comment").config(),
+
 
 
 })
