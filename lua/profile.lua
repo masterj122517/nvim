@@ -48,7 +48,7 @@ G.opt.numberwidth = 2
 G.opt.cul = true
 G.opt.signcolumn = 'yes'
 G.opt.fillchars = 'fold:-,stlnc:#,eob: ,foldsep:='
-G.opt.formatoptions:remove('o')
+vim.o.formatoptions = vim.o.formatoptions:gsub('tc', '')
 
 
 
@@ -99,6 +99,7 @@ vim.g.terminal_color_13 = '#FF92D0'
 vim.g.terminal_color_14 = '#9AEDFE'
 
 vim.cmd([[autocmd TermOpen term://* startinsert]])
+vim.cmd([[hi NonText ctermfg=gray guifg=grey10]])
 
 -- set spell when open .md
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, { pattern = "*.md", command = "setlocal spell", })

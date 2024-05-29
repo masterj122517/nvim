@@ -30,7 +30,10 @@ require("lazy").setup(
     require("plugins.scrollbar"),
     require("plugins.undo"),
     require("plugins.snippets"),
+    require("plugins.telescope"),
     require("plugins.editor"),
+    require("plugins.joshuto"),
+    require("plugins.winbar"),
     require("plugins.comment").setup(),
     require("plugins.comment").config(),
 
