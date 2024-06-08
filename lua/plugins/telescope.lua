@@ -1,54 +1,28 @@
 return {
-  {
     "nvim-telescope/telescope.nvim",
-    keys = {
-      {
-        "<leader>fp",
-        function()
-          require("telescope.builtin").find_files({
-            cwd = require("lazy.core.config").options.root,
-          })
-        end,
-        desc = "Find Plugin File",
-      },
-      {
-        "<leader>fl",
-        function()
-          local files = {} ---@type table<string, string>
-          for _, plugin in pairs(require("lazy.core.config").plugins) do
-            repeat
-              if plugin._.module then
-                local info = vim.loader.find(plugin._.module)[1]
-                if info then
-                  files[info.modpath] = info.modpath
-                end
-              end
-              plugin = plugin._.super
-            until not plugin
-          end
-          require("telescope.builtin").live_grep({
-            default_text = "/",
-            search_dirs = vim.tbl_values(files),
-          })
-        end,
-        desc = "Find Lazy Plugin Spec",
-      },
+
+    tag = "0.1.5",
+
+    dependencies = {
+        "nvim-lua/plenary.nvim"
     },
-    opts = {
-      defaults = {
-        layout_strategy = "horizontal",
-        layout_config = {
-          horizontal = {
-            prompt_position = "top",
-            preview_width = 0.5,
-          },
-          width = 0.8,
-          height = 0.8,
-          preview_cutoff = 120,
-        },
-        sorting_strategy = "ascending",
-        winblend = 0,
-      },
-    },
-  },
+
+    config = function()
+        require('telescope').setup({})
+
+        local builtin = require('telescope.builtin')
+        vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
+        vim.keymap.set('n', '<C-p>', builtin.git_files, {})
+        vim.keymap.set('n', '<leader>pws', function()
+            local word = vim.fn.expand("<cword>")
+            builtin.grep_string({ search = word })
+        end)
+        vim.keymap.set('n', '<leader>pWs', function()
+            local word = vim.fn.expand("<cWORD>")
+            builtin.grep_string({ search = word })
+        end)
+        vim.keymap.set('n', '<leader>ps', function()
+            builtin.grep_string({ search = vim.fn.input("Grep > ") })
+        end)
+    end
 }
