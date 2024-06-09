@@ -41,6 +41,7 @@ vim.keymap.set("n", "<leader>pl", ":Lazy<CR>", { noremap = true })
 
 require("lazy").setup({
     require("plugins.colorscheme"),
+    require("plugins.startuptime"),
 
 }, {
 })
