@@ -217,24 +217,9 @@ local function run_vim_shortcut(shortcut)
 end
 
 
--- 监听终端窗口的打开和关闭事件
-local is_terminal_open = false
-vim.api.nvim_exec([[
-    augroup TerminalDetect
-        autocmd!
-        autocmd TermOpen * lua is_terminal_open = true
-        autocmd TermClose * lua is_terminal_open = false
-    augroup END
-]], false)
-
--- 设置终端模式下的 <C-q> 快捷键关闭终端窗口
-vim.api.nvim_set_keymap('t', '<C-q>', '<C-\\><C-n>:q<CR>', { noremap = true, silent = true })
--- 设置普通模式下的 <C-q> 快捷键保留默认功能
-vim.api.nvim_set_keymap('n', '<C-q>', '<NOP>', { noremap = true, silent = true })
-
 -- 设置 ~ 键映射在两个窗口之间切换
 vim.api.nvim_set_keymap('t', '|', '<C-\\><C-n><C-W>w', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '|', '<C-w>w', { noremap = true, silent = true })
 
-
-
+-- 设置终端模式下的 <C-q> 关闭终端窗口
+vim.api.nvim_set_keymap('t', '<C-q>', '<C-\\><C-n>:q<CR>', { noremap = true, silent = true })

@@ -1,5 +1,6 @@
-vim.o.termguicolors =true
-vim.env.NVIM_TUI_ENABLE_TRUE_COLOR = 1 vim.g.python3_host_prog = os.getenv('PYTHON')
+vim.o.termguicolors = true
+vim.env.NVIM_TUI_ENABLE_TRUE_COLOR = 1
+vim.g.python3_host_prog = os.getenv('PYTHON')
 vim.opt.showcmd = true
 vim.opt.wildmenu = true
 vim.opt.pumheight = 10
