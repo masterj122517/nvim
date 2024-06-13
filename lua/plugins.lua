@@ -48,7 +48,7 @@ require("lazy").setup({
     require("plugins.hlchunk"),
     require("plugins.statusline"),
     require("plugins.treesitter"),
-
+    require("plugins.fcitx"),
 
 
 }, {
