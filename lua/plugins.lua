@@ -54,6 +54,8 @@ require("lazy").setup({
     require("plugins.notify"),
     require("plugins.scrollbar"),
     require("plugins.undo"),
+    require("plugins.wilder"),
+    require("plugins.comment"),
 
 
 }, {
