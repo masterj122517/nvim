@@ -49,6 +49,11 @@ require("lazy").setup({
     require("plugins.statusline"),
     require("plugins.treesitter"),
     require("plugins.fcitx"),
+    require("plugins.tabline"),
+    require("plugins.git"),
+    require("plugins.notify"),
+    require("plugins.scrollbar"),
+    require("plugins.undo"),
 
 
 }, {
