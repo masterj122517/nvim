@@ -42,6 +42,9 @@ require("lazy").setup({
     require("plugins.colorscheme"),
     require("plugins.startuptime"),
     require("plugins.markdown"),
+    require("plugins.telescope"),
+    require("plugins.editor"),
+    require("plugins.fzf"),
 
 
 
