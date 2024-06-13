@@ -45,6 +45,9 @@ require("lazy").setup({
     require("plugins.telescope"),
     require("plugins.editor"),
     require("plugins.fzf"),
+    require("plugins.hlchunk"),
+    require("plugins.statusline"),
+    require("plugins.treesitter"),
 
 
 
