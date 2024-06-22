@@ -1,4 +1,18 @@
-local G = require('G')
+local G = {}
+
+G.g = vim.g
+G.b = vim.b
+G.o = vim.o
+G.v = vim.v
+G.fn = vim.fn
+G.api = vim.api
+G.opt = vim.opt
+
+function G.map(maps)
+    for _,map in pairs(maps) do
+        G.api.nvim_set_keymap(map[1], map[2], map[3], map[4])
+    end
+end
 
 G.g.mapleader = " "
 
@@ -11,15 +25,15 @@ G.map({
     { 'n', '_',           '<c-x>',                                                        { noremap = true } },
     { 'n', ',',           '@q',                                                           { noremap = true } },
 
-    { 'n', '\\',          ':nohlsearch<CR>',                                              { noremap = true, silent = true } },
+    { 'n', '\\',          ':nohlsearch<CR>',                                              { noremap = true } },
 
     -- 快速删除
     { 'n', '<bs>',        '"_ciw',                                                        { noremap = true } },
     { 'i', '<c-h>',       'col(".") == col("$") ? \'<esc>"_db"_xa\' : \'<esc>"_db"_xi\'', { noremap = true, expr = true } },
 
-    -- -- ,打断
-    -- { 'n', '<c-j>',       'f,a<cr><esc>',                                                 { noremap = true } },
-    -- { 'i', '<c-j>',       '<esc>f,a<cr>',                                                 { noremap = true } },
+    -- ,打断
+    { 'n', '<c-j>',       'f,a<cr><esc>',                                                 { noremap = true } },
+    { 'i', '<c-j>',       '<esc>f,a<cr>',                                                 { noremap = true } },
 
     -- cmap
     { 'c', '<c-a>',       '<home>',                                                       { noremap = true } },
@@ -27,6 +41,9 @@ G.map({
     { 'c', '<up>',        '<c-p>',                                                        { noremap = true } },
     { 'c', '<down>',      '<c-n>',                                                        { noremap = true } },
 
+    -- c-s = :%s/
+    { 'n', '<c-s>',       ':<c-u>%s/\\v//gc<left><left><left><left>',                     { noremap = true } },
+    { 'v', '<c-s>',       ':s/\\v//gc<left><left><left><left>',                           { noremap = true } },
 
     -- only change text
     { 'v', '<BS>',        '"_d',                                                          { noremap = true } },
@@ -52,15 +69,29 @@ G.map({
     { 'v', '<s-right>',   'e',                                                            { noremap = true } },
     { 'i', '<s-right>',   '<esc>ea',                                                      { noremap = true } },
 
-    -- -- SHIFT + 方向 选择文本
-    -- { 'i', '<s-up>',      '<esc>vk',                                                      { noremap = true } },
-    -- { 'i', '<s-down>',    '<esc>vj',                                                      { noremap = true } },
-    -- { 'n', '<s-up>',      'Vk',                                                           { noremap = true } },
-    -- { 'n', '<s-down>',    'Vj',                                                           { noremap = true } },
-    -- { 'v', '<s-up>',      'k',                                                            { noremap = true } },
-    -- { 'v', '<s-down>',    'j',                                                            { noremap = true } },
-    -- { 'n', '<s-left>',    '<left>vh',                                                     { noremap = true } },
-    -- { 'n', '<s-right>',   'vl',                                                           { noremap = true } },
+    -- SHIFT + 方向 选择文本
+    { 'i', '<s-up>',      '<esc>vk',                                                      { noremap = true } },
+    { 'i', '<s-down>',    '<esc>vj',                                                      { noremap = true } },
+    { 'n', '<s-up>',      'Vk',                                                           { noremap = true } },
+    { 'n', '<s-down>',    'Vj',                                                           { noremap = true } },
+    { 'v', '<s-up>',      'k',                                                            { noremap = true } },
+    { 'v', '<s-down>',    'j',                                                            { noremap = true } },
+    { 'n', '<s-left>',    '<left>vh',                                                     { noremap = true } },
+    { 'n', '<s-right>',   'vl',                                                           { noremap = true } },
+
+    -- CTRL SHIFT + 方向 快速跳转
+    { 'i', '<c-s-up>',    '<up><up><up><up><up><up><up><up><up><up>',                     { noremap = true, silent = true } },
+    { 'i', '<c-s-down>',  '<down><down><down><down><down><down><down><down><down><down>', { noremap = true, silent = true } },
+    -- { 'i', '<c-s-left>',  '<home>',  { noremap = true, silent = true } },
+    -- { 'i', '<c-s-right>', '<end>',   { noremap = true, silent = true } },
+    { 'n', '<c-s-up>',    '10k',                                                          { noremap = true } },
+    { 'n', '<c-s-down>',  '10j',                                                          { noremap = true } },
+    { 'n', '<c-s-left>',  '^',                                                            { noremap = true } },
+    { 'n', '<c-s-right>', '$',                                                            { noremap = true } },
+    { 'v', '<c-s-up>',    '10k',                                                          { noremap = true } },
+    { 'v', '<c-s-down>',  '10j',                                                          { noremap = true } },
+    { 'v', '<c-s-left>',  '^',                                                            { noremap = true } },
+    { 'v', '<c-s-right>', '$h',                                                           { noremap = true } },
 
     -- 选中全文 选中{ 复制全文
     { 'n', '<m-a>',       'ggVG',                                                         { noremap = true } },
@@ -80,6 +111,13 @@ G.map({
     { 'v', '<m-k>',       ":m '<-2<cr>gv",                                                { noremap = true, silent = true } },
     { 'v', '<m-j>',       ":m '>+1<cr>gv",                                                { noremap = true, silent = true } },
 
+    -- alt + key 操作
+    { 'i', '<m-d>',       '<Esc>"_ciw',                                                   { noremap = true } },
+    -- { 'i', '<m-r>',       '<Esc>"_ciw',       { noremap = true } },
+    { 'i', '<m-o>',       '<Esc>o',                                                       { noremap = true } },
+    { 'i', '<m-O>',       '<Esc>O',                                                       { noremap = true } },
+    -- { 'n', '<m-d>',       '"_diw',            { noremap = true } },
+    -- { 'n', '<m-r>',       '"_ciw',            { noremap = true } },
 
     -- windows: sp 上下窗口 sv 左右分屏 sc关闭当前 so关闭其他 s方向切换
     { 'n', 'sv',          ':vsp<cr><c-w>w',                                               { noremap = true, silent = true } },
@@ -105,11 +143,11 @@ G.map({
 
 
     -- buffers
-    { 'n', 'te',          ':tabedit<CR>',                                                 { noremap = true } },
-    { 'n', 'th',          ':-tabnext<CR>',                                                { noremap = true } },
-    { 'n', 'tl',          ':+tabnext<CR>',                                                { noremap = true } },
-    { 'n', 'tmh',         ':-tabmove<CR>',                                                { noremap = true } },
-    { 'n', 'tml',         ':+tabmove<CR>',                                                { noremap = true } },
+    { 'n', 'te',          ':tabedit<CR>',                                                 { noremap = true, silent = true } },
+    { 'n', 'th',          ':-tabnext<CR>',                                                { noremap = true, silent = true } },
+    { 'n', 'tl',          ':+tabnext<CR>',                                                { noremap = true, silent = true } },
+    { 'n', 'tmh',         ':-tabmove<CR>',                                                { noremap = true, silent = true } },
+    { 'n', 'tml',         ':+tabmove<CR>',                                                { noremap = true, silent = true } },
     { 'n', 'W',           ':bw<cr>',                                                      { noremap = true, silent = true } },
     { 'n', 'ss',          ':bn<cr>',                                                      { noremap = true, silent = true } },
 
@@ -117,20 +155,23 @@ G.map({
     { 'n', 'tt',          ':below 10sp | term<cr>',                                       { noremap = true, silent = true } },
 
     -- 切换是否wrap
-    { 'n', '\\w',         "&wrap == 1 ? ':set nowrap<cr>' : ':set wrap<cr>'",             { noremap = true, silent = true, expr = true } },
+    { 'n', '\\w',         "&wrap == 1 ? ':set nowrap<cr>' : ':set wrap<cr>'",             { noremap = true, expr = true } },
 
     -- 折叠
-    { 'n', '-',           "foldlevel('.') > 0 ? 'za' : 'va{zf^'",                         { noremap = true, silent = true, expr = true } },
-    { 'v', '-',           'zf',                                                           { noremap = true, silent = true } },
+    --{ 'n', '-',           "foldlevel('.') > 0 ? 'za' : 'va{zf^'",                         { noremap = true, silent = true, expr = true } },
+    --{ 'v', '-',           'zf',                                                           { noremap = true, silent = true } },
 
     -- space 行首行尾跳转
-    { 'n', '0',           '%',                                                            { noremap = true } },
-    { 'v', '0',           '%',                                                            { noremap = true } },
+    { 'n', '0',           ':call v:lua.MagicMove()<cr>',                                  { noremap = true, silent = true } },
+    { 'v', '0',           ':call v:lua.MagicMove()<cr>',                                  { noremap = true, silent = true } },
+    -- { 'n', '0',           '%',                                                            { noremap = true } },
+    -- { 'v', '0',           '%',                                                            { noremap = true } },
 
     -- 驼峰转换
     { 'v', 'T',           ':call v:lua.MagicToggleHump(v:true)<CR>',                      { noremap = true, silent = true } },
     { 'v', 't',           ':call v:lua.MagicToggleHump(v:false)<CR>',                     { noremap = true, silent = true } },
 })
+
 
 -- 光标在$ 0 ^依次跳转
 function MagicMove()
@@ -175,11 +216,10 @@ local function run_vim_shortcut(shortcut)
     vim.api.nvim_feedkeys(escaped_shortcut, 'n', true)
 end
 
--- close win below
-vim.keymap.set("n", "<leader>q", function()
-    vim.cmd("TroubleClose")
-    local wins = vim.api.nvim_tabpage_list_wins(0)
-    if #wins > 1 then
-        run_vim_shortcut([[<C-w>j:q<CR>]])
-    end
-end, { noremap = true, silent = true })
+
+-- 设置 ~ 键映射在两个窗口之间切换
+vim.api.nvim_set_keymap('t', '|', '<C-\\><C-n><C-W>w', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '|', '<C-w>w', { noremap = true, silent = true })
+
+-- 设置终端模式下的 <C-q> 关闭终端窗口
+vim.api.nvim_set_keymap('t', '<C-q>', '<C-\\><C-n>:q<CR>', { noremap = true, silent = true })
