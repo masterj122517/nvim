@@ -25,7 +25,7 @@ G.map({
     { 'n', '_',           '<c-x>',                                                        { noremap = true } },
     { 'n', ',',           '@q',                                                           { noremap = true } },
 
-    { 'n', '\\',          ':nohlsearch<CR>',                                              { noremap = true } },
+    { 'n', '\\',          ':nohlsearch<CR>',                                              { noremap = true, silent = true } },
 
     -- 快速删除
     { 'n', '<bs>',        '"_ciw',                                                        { noremap = true } },
