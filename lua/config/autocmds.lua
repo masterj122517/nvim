@@ -1,3 +1,36 @@
 -- Autocmds are automatically loaded on the VeryLazy event
 -- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
 -- Add any additional autocmds here
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "json", "jsonc" },
+  callback = function()
+    vim.wo.conceallevel = 0
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "markdown" },
+  callback = function()
+    vim.cmd([[
+        "autocmd Filetype markdown map <leader>w yiWi[<esc>Ea](<esc>pa)
+        autocmd Filetype markdown inoremap <buffer> ,f <Esc>/<++><CR>:nohlsearch<CR>"_c4l
+        autocmd Filetype markdown inoremap <buffer> <c-e> <Esc>/<++><CR>:nohlsearch<CR>"_c4l
+        autocmd Filetype markdown inoremap <buffer> ,w <Esc>/ <++><CR>:nohlsearch<CR>"_c5l<CR>
+        autocmd Filetype markdown inoremap <buffer> ,n ---<Enter><Enter>
+        autocmd Filetype markdown inoremap <buffer> ,b **** <++><Esc>F*hi
+        autocmd Filetype markdown inoremap <buffer> ,s ~~~~ <++><Esc>F~hi
+        autocmd Filetype markdown inoremap <buffer> ,i ** <++><Esc>F*i
+        autocmd Filetype markdown inoremap <buffer> ,d `` <++><Esc>F`i
+        autocmd Filetype markdown inoremap <buffer> ,c ```<Enter><++><Enter>```<Enter><Enter><++><Esc>4kA
+        autocmd Filetype markdown inoremap <buffer> ,m - [ ] 
+        autocmd Filetype markdown inoremap <buffer> ,p ![](<++>) <++><Esc>F[a
+        autocmd Filetype markdown inoremap <buffer> ,a [](<++>) <++><Esc>F[a
+        autocmd Filetype markdown inoremap <buffer> ,1 #<Space><Enter><++><Esc>kA
+        autocmd Filetype markdown inoremap <buffer> ,2 ##<Space><Enter><++><Esc>kA
+        autocmd Filetype markdown inoremap <buffer> ,3 ###<Space><Enter><++><Esc>kA
+        autocmd Filetype markdown inoremap <buffer> ,4 ####<Space><Enter><++><Esc>kA
+        autocmd Filetype markdown inoremap <buffer> ,l --------<Enter>
+        autocmd Filetype markdown inoremap <buffer> ,h <font color=><++></font><Space><++><Esc>F=a
+]])
+  end,
+})
