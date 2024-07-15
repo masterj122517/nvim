@@ -30,11 +30,11 @@ vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.wrap = false
 vim.opt.undofile = true
-vim.opt.undodir = os.getenv("HOME") .. "/.config/nvim/cache/undodir"
+-- vim.opt.undodir = os.getenv("HOME") .. "/.config/nvim/cache/undodir"
 vim.opt.viminfo = "!,'10000,<50,s10,h"
 --vim.opt.foldenable = true
 --vim.opt.foldmethod = 'manual'
-vim.opt.viewdir = os.getenv("HOME") .. "/.config/nvim/cache/viewdir"
+-- vim.opt.viewdir = os.getenv("HOME") .. "/.config/nvim/cache/viewdir"
 vim.opt.updatetime = 300
 vim.opt.cmdheight = 1
 vim.opt.scrolloff = 5
@@ -88,3 +88,9 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, { pattern = "*.md", com
 vim.cmd([[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif]])
 -- cd to buffers
 vim.api.nvim_create_autocmd("BufEnter", { pattern = "*", command = "silent! lcd %:p:h" })
+
+-- set powershell to default shell
+vim.opt.shell = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+vim.opt.shellcmdflag = "-Command"
+vim.opt.shellquote = ""
+vim.opt.shellxquote = ""
