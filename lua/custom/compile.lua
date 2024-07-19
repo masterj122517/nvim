@@ -3,17 +3,49 @@ local split = function()
   vim.cmd("sp")
   vim.cmd("res -5")
 end
+
 local compileRun = function()
+  local function find_project_root(path)
+    if vim.fn.filereadable(path .. "/Makefile") == 1 then
+      return path
+    end
+    local parent = vim.fn.fnamemodify(path, ":h")
+    if parent == path then
+      return nil
+    else
+      return find_project_root(parent)
+    end
+  end
+
+  local function find_first_executable(path)
+    local handle = io.popen("find " .. path .. " -type f -executable -print -quit")
+    local executable = handle:read("*line")
+    handle:close()
+    return executable
+  end
+
   vim.cmd("w")
   local ft = vim.bo.filetype
-  if ft == "cpp" then
-    split()
-    vim.cmd("term g++ % -o %< && ./%< && rm %<")
+  local current_file_dir = vim.fn.expand("%:p:h")
+  local project_root = find_project_root(current_file_dir)
+
+  if ft == "cpp" or ft == "c" then
+    if project_root then
+      split()
+      vim.cmd("term cd " .. project_root .. " && make")
+      vim.cmd("sleep 500m")
+      local executable = find_first_executable(project_root)
+      vim.cmd("term" .. executable)
+    else
+      split()
+      if ft == "cpp" then
+        vim.cmd("term g++ % -o %< && ./%< && rm %<")
+      else
+        vim.cmd("term gcc % -o %< && ./%< && rm %<")
+      end
+    end
   elseif ft == "markdown" then
     vim.cmd(":MarkdownPreviewToggle")
-  elseif ft == "c" then
-    split()
-    vim.cmd("term gcc % -o %< && ./%< && rm %<")
   elseif ft == "javascript" then
     split()
     vim.cmd("term node %")
