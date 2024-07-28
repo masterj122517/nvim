@@ -18,7 +18,7 @@ local compileRun = function()
   end
 
   local function find_first_executable(path)
-    local handle = io.popen("find " .. path .. " -type f -executable -print -quit")
+    local handle = io.popen("find " .. path .. " -type d -name '.*' -prune -o -type f -executable -print -quit")
     local executable = handle:read("*line")
     handle:close()
     return executable
@@ -32,7 +32,7 @@ local compileRun = function()
   if ft == "cpp" or ft == "c" then
     if project_root then
       split()
-      vim.cmd("term cd " .. project_root .. " && make")
+      vim.cmd("term cd " .. project_root .. " && make && exit")
       vim.cmd("sleep 500m")
       local executable = find_first_executable(project_root)
       vim.cmd("term" .. executable)
