@@ -32,10 +32,12 @@ local compileRun = function()
   if ft == "cpp" or ft == "c" then
     if project_root then
       split()
-      vim.cmd("term cd " .. project_root .. " && make && exit")
+      vim.cmd("term cd " .. project_root .. " && make  && exit")
       vim.cmd("sleep 500m")
       local executable = find_first_executable(project_root)
-      vim.cmd("term" .. executable)
+      if executable then
+        vim.cmd("term " .. executable .. " && make -s clean  && exit")
+      end
     else
       split()
       if ft == "cpp" then
