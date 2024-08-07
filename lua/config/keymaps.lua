@@ -51,6 +51,10 @@ G.map({
   { "c", "<up>", "<c-p>", { noremap = true } },
   { "c", "<down>", "<c-n>", { noremap = true } },
 
+  -- -- c-s = :%s/
+  -- { "n", "<c-s>", ":<c-u>%s/\\v//gc<left><left><left><left>", { noremap = true } },
+  -- { "v", "<c-s>", ":s/\\v//gc<left><left><left><left>", { noremap = true } },
+
   -- only change text
   { "v", "<BS>", '"_d', { noremap = true } },
   { "n", "x", '"_x', { noremap = true } },
@@ -61,18 +65,18 @@ G.map({
   { "v", "P", "Pgvy", { noremap = true } },
 
   -- S保存 Q退出
-  {
-    "n",
-    "S",
-    ":call v:lua.MagicSave()<cr>",
-    { noremap = true, silent = true },
-  },
-  {
-    "v",
-    "S",
-    ":call v:lua.MagicSave()<cr>",
-    { noremap = true, silent = true },
-  },
+  -- {
+  --   "n",
+  --   "S",
+  --   ":call v:lua.MagicSave()<cr>",
+  --   { noremap = true, silent = true },
+  -- },
+  -- {
+  --   "v",
+  --   "S",
+  --   ":call v:lua.MagicSave()<cr>",
+  --   { noremap = true, silent = true },
+  -- },
   {
     "n",
     "Q",
@@ -86,43 +90,43 @@ G.map({
   { "v", "<s-tab>", "<gv", { noremap = true } },
   { "v", "<tab>", ">gv", { noremap = true } },
 
-  -- 重写Shift + 左右
-  { "v", "<s-right>", "e", { noremap = true } },
-  { "i", "<s-right>", "<esc>ea", { noremap = true } },
+  -- -- 重写Shift + 左右
+  -- { "v", "<s-right>", "e", { noremap = true } },
+  -- { "i", "<s-right>", "<esc>ea", { noremap = true } },
 
-  -- SHIFT + 方向 选择文本
-  { "i", "<s-up>", "<esc>vk", { noremap = true } },
-  { "i", "<s-down>", "<esc>vj", { noremap = true } },
-  { "n", "<s-up>", "Vk", { noremap = true } },
-  { "n", "<s-down>", "Vj", { noremap = true } },
-  { "v", "<s-up>", "k", { noremap = true } },
-  { "v", "<s-down>", "j", { noremap = true } },
-  { "n", "<s-left>", "<left>vh", { noremap = true } },
-  { "n", "<s-right>", "vl", { noremap = true } },
+  -- -- SHIFT + 方向 选择文本
+  -- { "i", "<s-up>", "<esc>vk", { noremap = true } },
+  -- { "i", "<s-down>", "<esc>vj", { noremap = true } },
+  -- { "n", "<s-up>", "Vk", { noremap = true } },
+  -- { "n", "<s-down>", "Vj", { noremap = true } },
+  -- { "v", "<s-up>", "k", { noremap = true } },
+  -- { "v", "<s-down>", "j", { noremap = true } },
+  -- { "n", "<s-left>", "<left>vh", { noremap = true } },
+  -- { "n", "<s-right>", "vl", { noremap = true } },
 
-  -- CTRL SHIFT + 方向 快速跳转
-  {
-    "i",
-    "<c-s-up>",
-    "<up><up><up><up><up><up><up><up><up><up>",
-    { noremap = true, silent = true },
-  },
-  {
-    "i",
-    "<c-s-down>",
-    "<down><down><down><down><down><down><down><down><down><down>",
-    { noremap = true, silent = true },
-  },
-  -- { 'i', '<c-s-left>',  '<home>',  { noremap = true, silent = true } },
-  -- { 'i', '<c-s-right>', '<end>',   { noremap = true, silent = true } },
-  { "n", "<c-s-up>", "10k", { noremap = true } },
-  { "n", "<c-s-down>", "10j", { noremap = true } },
-  { "n", "<c-s-left>", "^", { noremap = true } },
-  { "n", "<c-s-right>", "$", { noremap = true } },
-  { "v", "<c-s-up>", "10k", { noremap = true } },
-  { "v", "<c-s-down>", "10j", { noremap = true } },
-  { "v", "<c-s-left>", "^", { noremap = true } },
-  { "v", "<c-s-right>", "$h", { noremap = true } },
+  -- -- CTRL SHIFT + 方向 快速跳转
+  -- {
+  --   "i",
+  --   "<c-s-up>",
+  --   "<up><up><up><up><up><up><up><up><up><up>",
+  --   { noremap = true, silent = true },
+  -- },
+  -- {
+  --   "i",
+  --   "<c-s-down>",
+  --   "<down><down><down><down><down><down><down><down><down><down>",
+  --   { noremap = true, silent = true },
+  -- },
+  -- -- { 'i', '<c-s-left>',  '<home>',  { noremap = true, silent = true } },
+  -- -- { 'i', '<c-s-right>', '<end>',   { noremap = true, silent = true } },
+  -- { "n", "<c-s-up>", "10k", { noremap = true } },
+  -- { "n", "<c-s-down>", "10j", { noremap = true } },
+  -- { "n", "<c-s-left>", "^", { noremap = true } },
+  -- { "n", "<c-s-right>", "$", { noremap = true } },
+  -- { "v", "<c-s-up>", "10k", { noremap = true } },
+  -- { "v", "<c-s-down>", "10j", { noremap = true } },
+  -- { "v", "<c-s-left>", "^", { noremap = true } },
+  -- { "v", "<c-s-right>", "$h", { noremap = true } },
 
   -- 选中全文 选中{ 复制全文
   { "n", "<m-a>", "ggVG", { noremap = true } },
