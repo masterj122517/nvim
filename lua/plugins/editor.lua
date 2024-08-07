@@ -36,4 +36,8 @@ return {
       opts.config.header = vim.split(logo, "\n")
     end,
   },
+
+  {
+    "yaocccc/vim-surround",
+  },
 }
