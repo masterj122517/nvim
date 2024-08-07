@@ -51,10 +51,6 @@ G.map({
   { "c", "<up>", "<c-p>", { noremap = true } },
   { "c", "<down>", "<c-n>", { noremap = true } },
 
-  -- c-s = :%s/
-  { "n", "<c-s>", ":<c-u>%s/\\v//gc<left><left><left><left>", { noremap = true } },
-  { "v", "<c-s>", ":s/\\v//gc<left><left><left><left>", { noremap = true } },
-
   -- only change text
   { "v", "<BS>", '"_d', { noremap = true } },
   { "n", "x", '"_x', { noremap = true } },
