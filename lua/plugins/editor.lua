@@ -45,4 +45,9 @@ return {
       require("nvim-surround").setup({})
     end,
   },
+
+  {
+    "lambdalisue/vim-suda",
+    event = "VeryLazy",
+  },
 }

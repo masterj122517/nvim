@@ -52,5 +52,6 @@
   "ts-comments.nvim": { "branch": "main", "commit": "98d7d4dec0af1312d38e288f800bbf6ff562b6ab" },
   "vim-comment": { "branch": "master", "commit": "efc0472cf21614268a8dcc2904d686a24d7c66d6" },
   "vim-fcitx2en": { "branch": "master", "commit": "79fe7dc52de11574a7915a11338a21996719bd7f" },
+  "vim-suda": { "branch": "master", "commit": "b97fab52f9cdeabe2bbb5eb98d82356899f30829" },
   "which-key.nvim": { "branch": "main", "commit": "6c1584eb76b55629702716995cca4ae2798a9cca" }
 }
