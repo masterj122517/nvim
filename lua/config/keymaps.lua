@@ -112,12 +112,12 @@ G.map({
   { "n", "\\w", "&wrap == 1 ? ':set nowrap<cr>' : ':set wrap<cr>'", { noremap = true, expr = true } },
 
   -- space 行首行尾跳转
-  { "n", "0", ":call v:lua.MagicMove()<cr>", { noremap = true, silent = true } },
-  { "v", "0", ":call v:lua.MagicMove()<cr>", { noremap = true, silent = true } },
+  -- { "n", "0", ":call v:lua.MagicMove()<cr>", { noremap = true, silent = true } },
+  -- { "v", "0", ":call v:lua.MagicMove()<cr>", { noremap = true, silent = true } },
 
   -- 驼峰转换
-  { "v", "T", ":call v:lua.MagicToggleHump(v:true)<CR>", { noremap = true, silent = true } },
-  { "v", "t", ":call v:lua.MagicToggleHump(v:false)<CR>", { noremap = true, silent = true } },
+  -- { "v", "T", ":call v:lua.MagicToggleHump(v:true)<CR>", { noremap = true, silent = true } },
+  -- { "v", "t", ":call v:lua.MagicToggleHump(v:false)<CR>", { noremap = true, silent = true } },
 })
 
 -- 光标在$ 0 ^依次跳转
