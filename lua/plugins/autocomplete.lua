@@ -14,6 +14,7 @@ return {
 
       opts.mapping = vim.tbl_extend("force", opts.mapping, {
         ["<C-o>"] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.abort(),
 
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
