@@ -28,7 +28,6 @@ local compileRun = function()
   local ft = vim.bo.filetype
   local current_file_dir = vim.fn.expand("%:p:h")
   local project_root = find_project_root(current_file_dir)
-
   if ft == "cpp" or ft == "c" then
     if project_root then
       split()

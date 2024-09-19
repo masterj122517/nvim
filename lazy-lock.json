@@ -56,5 +56,6 @@
   "vim-comment": { "branch": "master", "commit": "efc0472cf21614268a8dcc2904d686a24d7c66d6" },
   "vim-fcitx2en": { "branch": "master", "commit": "79fe7dc52de11574a7915a11338a21996719bd7f" },
   "vim-suda": { "branch": "master", "commit": "b97fab52f9cdeabe2bbb5eb98d82356899f30829" },
+  "vimtex": { "branch": "master", "commit": "539a203f19531c6b9d2d1b093ee8911fb7050bbc" },
   "which-key.nvim": { "branch": "main", "commit": "bfec3d6bc0a9b0b2cb11644642f78c2c3915eef0" }
 }
