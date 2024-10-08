@@ -63,6 +63,9 @@ local compileRun = function()
   elseif ft == "python" then
     split()
     vim.cmd("term python %")
+  elseif ft == "rust" then
+    split()
+    vim.cmd("term cargo run %")
   end
 end
 
