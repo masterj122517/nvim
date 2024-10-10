@@ -168,10 +168,10 @@ function MagicToggleHump(upperCase)
   G.fn.execute('normal! "tP')
 end
 
-local function run_vim_shortcut(shortcut)
-  local escaped_shortcut = vim.api.nvim_replace_termcodes(shortcut, true, false, true)
-  vim.api.nvim_feedkeys(escaped_shortcut, "n", true)
-end
+-- local function run_vim_shortcut(shortcut)
+--   local escaped_shortcut = vim.api.nvim_replace_termcodes(shortcut, true, false, true)
+--   vim.api.nvim_feedkeys(escaped_shortcut, "n", true)
+-- end
 
 -- 设置 ~ 键映射在两个窗口之间切换
 vim.api.nvim_set_keymap("t", "|", "<C-\\><C-n><C-W>w", { noremap = true, silent = true })
@@ -179,3 +179,7 @@ vim.api.nvim_set_keymap("n", "|", "<C-w>w", { noremap = true, silent = true })
 
 -- 设置终端模式下的 <C-q> 关闭终端窗口
 vim.api.nvim_set_keymap("t", "<C-q>", "<C-\\><C-n>:q<CR>", { noremap = true, silent = true })
+
+local ctrlu = require("custom.ctrlu").ctrlu
+vim.keymap.set("i", "<C-a>", ctrlu, { silent = true })
+
