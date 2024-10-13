@@ -168,10 +168,19 @@ function MagicToggleHump(upperCase)
   G.fn.execute('normal! "tP')
 end
 
--- local function run_vim_shortcut(shortcut)
---   local escaped_shortcut = vim.api.nvim_replace_termcodes(shortcut, true, false, true)
---   vim.api.nvim_feedkeys(escaped_shortcut, "n", true)
--- end
+local function run_vim_shortcut(shortcut)
+	local escaped_shortcut = vim.api.nvim_replace_termcodes(shortcut, true, false, true)
+	vim.api.nvim_feedkeys(escaped_shortcut, 'n', true)
+end
+
+-- close win below
+vim.keymap.set("n", "<C-q>", function()
+	require("trouble").close()
+	local wins = vim.api.nvim_tabpage_list_wins(0)
+	if #wins > 1 then
+		run_vim_shortcut([[<C-w>j:q<CR>]])
+	end
+end, { noremap = true, silent = true })
 
 -- 设置 ~ 键映射在两个窗口之间切换
 vim.api.nvim_set_keymap("t", "|", "<C-\\><C-n><C-W>w", { noremap = true, silent = true })
