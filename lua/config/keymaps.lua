@@ -80,8 +80,10 @@ G.map({
   -- { "i", "<m-O>", "<Esc>O", { noremap = true } },
 
   -- windows: sp 上下窗口 sv 左右分屏 sc关闭当前 so关闭其他 s方向切换
-  { "n", "sv", ":vsp<cr><c-w>w", { noremap = true, silent = true } },
-  { "n", "sp", ":sp<cr><c-w>w", { noremap = true, silent = true } },
+  -- { "n", "sv", ":vsp<cr><c-w>w", { noremap = true, silent = true } },
+  -- { "n", "sp", ":sp<cr><c-w>w", { noremap = true, silent = true } },
+  { "n", "sv", ":vsp<cr>", { noremap = true, silent = true } },
+  { "n", "sp", ":sp<cr>", { noremap = true, silent = true } },
   { "n", "sc", ":close<cr>", { noremap = true, silent = true } },
   { "n", "so", ":only<cr>", { noremap = true, silent = true } },
   { "n", "sh", "<c-w>h", { noremap = true, silent = true } },
@@ -90,8 +92,10 @@ G.map({
   { "n", "sj", "<c-w>j", { noremap = true, silent = true } },
   { "n", "<c-Space>", "<c-w>w", { noremap = true, silent = true } },
   { "n", "s=", "<c-w>=", { noremap = true, silent = true } },
-  { "n", "<m-.>", "winnr() <= winnr('$') - winnr() ? '<c-w>10>' : '<c-w>10<'", { noremap = true, expr = true } },
-  { "n", "<m-,>", "winnr() <= winnr('$') - winnr() ? '<c-w>10<' : '<c-w>10>'", { noremap = true, expr = true } },
+  { 'n', "<m-.>", "winnr() <= winnr('$') - winnr() ? '<c-w>5>' : '<c-w>5<'", { noremap = true, expr = true } },
+  { 'n', "<m-,>", "winnr() <= winnr('$') - winnr() ? '<c-w>5<' : '<c-w>5>'", { noremap = true, expr = true } },
+  { 'n', "<m-d>", "winnr() <= winnr('$') - winnr() ? '<c-w>5+' : '<c-w>5-'", { noremap = true, expr = true } },
+  { 'n', "<m-u>", "winnr() <= winnr('$') - winnr() ? '<c-w>5-' : '<c-w>5+'", { noremap = true, expr = true } },
 
   -- Enable terminal mode and allow Esc to exit
   { "t", "<Esc>", "<C-\\><C-n>", { noremap = true } },
@@ -121,16 +125,16 @@ G.map({
 })
 
 -- 光标在$ 0 ^依次跳转
-function MagicMove()
-  local first = 1
-  local head = #G.fn.getline(".") - #G.fn.substitute(G.fn.getline("."), "^\\s*", "", "G") + 1
-  local before = G.fn.col(".")
-  G.fn.execute(before == first and first ~= head and "norm! ^" or "norm! $")
-  local after = G.fn.col(".")
-  if before == after then
-    G.fn.execute("norm! 0")
-  end
-end
+-- function MagicMove()
+--   local first = 1
+--   local head = #G.fn.getline(".") - #G.fn.substitute(G.fn.getline("."), "^\\s*", "", "G") + 1
+--   local before = G.fn.col(".")
+--   G.fn.execute(before == first and first ~= head and "norm! ^" or "norm! $")
+--   local after = G.fn.col(".")
+--   if before == after then
+--     G.fn.execute("norm! 0")
+--   end
+-- end
 
 -- 1 当目录不存在时 先创建目录, 2 当前文件是acwrite时, 用sudo保存
 function MagicSave()
