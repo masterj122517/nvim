@@ -52,6 +52,7 @@ return
       "LuRsT/austere.vim",
       "ricardoraposo/gruvbox-minor.nvim",
       "NTBBloodbath/sweetie.nvim",
+      "blazkowolf/gruber-darker.nvim",
       {
         "maxmx03/fluoromachine.nvim",
         -- config = function()

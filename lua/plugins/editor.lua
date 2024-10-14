@@ -60,11 +60,22 @@ return {
   },
   {
     "lervag/vimtex",
-    lazy = false,     -- we don't want to lazy load VimTeX
+    lazy = false, -- we don't want to lazy load VimTeX
     -- tag = "v2.15", -- uncomment to pin to a specific release
     init = function()
       -- VimTeX configuration goes here, e.g.
       vim.g.vimtex_view_method = "zathura"
-    end
+    end,
+  },
+
+  {
+    "stevearc/oil.nvim",
+    ---@module 'oil'
+    ---@type oil.SetupOpts
+    opts = {},
+    -- Optional dependencies
+    dependencies = { { "echasnovski/mini.icons", opts = {} } },
+    -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+    vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "OpenParent directory"})
   },
 }
