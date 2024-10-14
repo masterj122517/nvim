@@ -16,27 +16,34 @@ return {
         ["<C-o>"] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
 
-        ["<Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            -- You could replace select_next_item() with confirm({ select = true }) to get VS Code autocompletion behavior
-            cmp.select_next_item()
-          elseif luasnip.locally_jumpable(1) then
-            luasnip.jump(1)
-          elseif has_words_before() then
-            cmp.complete()
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_prev_item()
-          elseif luasnip.locally_jumpable(-1) then
-            luasnip.jump(-1)
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
+      --   ["<Tab>"] = cmp.mapping(function(fallback)
+      --     if cmp.visible() then
+      --       -- You could replace select_next_item() with confirm({ select = true }) to get VS Code autocompletion behavior
+      --       cmp.select_next_item()
+      --     elseif luasnip.locally_jumpable(1) then
+      --       luasnip.jump(1)
+      --     elseif has_words_before() then
+      --       cmp.complete()
+      --     else
+      --       fallback()
+      --     end
+      --   end, { "i", "s" }),
+      --   ["<S-Tab>"] = cmp.mapping(function(fallback)
+      --     if cmp.visible() then
+      --       cmp.select_prev_item()
+      --     elseif luasnip.locally_jumpable(-1) then
+      --       luasnip.jump(-1)
+      --     else
+      --       fallback()
+      --     end
+      --   end, { "i", "s" }),
+        ["<C-y>"] = cmp.mapping(
+          cmp.mapping.confirm {
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true,
+          },
+          { "i", "c" }
+        ),
       })
     end,
   },
