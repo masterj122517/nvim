@@ -57,8 +57,8 @@ G.map({
   -- VISUAL SELECT模式 s-tab tab左右缩进
   { "v", "<", "<gv", { noremap = true } },
   { "v", ">", ">gv", { noremap = true } },
-  { "v", "<s-tab>", "<gv", { noremap = true } },
-  { "v", "<tab>", ">gv", { noremap = true } },
+  -- { "v", "<s-tab>", "<gv", { noremap = true } },
+  -- { "v", "<tab>", ">gv", { noremap = true } },
 
   -- 选中全文 选中{ 复制全文
   { "n", "<m-a>", "ggVG", { noremap = true } },
