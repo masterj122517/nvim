@@ -172,17 +172,13 @@ function MagicToggleHump(upperCase)
   G.fn.execute('normal! "tP')
 end
 
-local function run_vim_shortcut(shortcut)
-	local escaped_shortcut = vim.api.nvim_replace_termcodes(shortcut, true, false, true)
-	vim.api.nvim_feedkeys(escaped_shortcut, 'n', true)
-end
-
 -- close win below
 vim.keymap.set("n", "<C-q>", function()
 	require("trouble").close()
 	local wins = vim.api.nvim_tabpage_list_wins(0)
 	if #wins > 1 then
-		run_vim_shortcut([[<C-w>j:q<CR>]])
+		-- 直接调用 vim.cmd 实现关闭窗口的操作
+		vim.cmd([[silent! wincmd j | q]])
 	end
 end, { noremap = true, silent = true })
 
