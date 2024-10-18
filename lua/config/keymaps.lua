@@ -192,3 +192,6 @@ vim.api.nvim_set_keymap("t", "<C-q>", "<C-\\><C-n>:q<CR>", { noremap = true, sil
 local ctrlu = require("custom.ctrlu").ctrlu
 vim.keymap.set("i", "<C-a>", ctrlu, { silent = true })
 
+
+vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+
