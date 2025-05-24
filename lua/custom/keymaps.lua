@@ -34,8 +34,6 @@ vim.keymap.set('v', 'P', 'Pgvy', { noremap = true })
 -- VISUAL SELECT模式 s-tab tab左右缩进
 vim.keymap.set('v', '<', '<gv', { noremap = true })
 vim.keymap.set('v', '>', '>gv', { noremap = true })
-vim.keymap.set('v', '<s-tab>', '<gv', { noremap = true })
-vim.keymap.set('v', '<tab>', '>gv', { noremap = true })
 
 -- 选中全文 选中{ 复制全文
 vim.keymap.set('n', '<m-a>', 'ggVG', { noremap = true })
@@ -174,3 +172,6 @@ function MagicToggleHump(upperCase)
   vim.fn.setreg('t', w)
   vim.fn.execute 'normal! "tP'
 end
+
+require 'hacks.compile'
+require 'hacks.markdown'

@@ -106,6 +106,8 @@ vim.opt.expandtab = true
 vim.opt.backup = false
 -- 禁用交换文件
 vim.opt.swapfile = false
+-- set cmdheight
+vim.opt.cmdheight = 1
 
 -- 设置不同模式下光标形状
 vim.cmd [[
@@ -123,3 +125,12 @@ vim.cmd [[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe 
 
 -- 自动切换工作目录为当前 buffer 所在目录
 vim.api.nvim_create_autocmd('BufEnter', { pattern = '*', command = 'silent! lcd %:p:h' })
+
+-- 精简消息
+vim.opt.shortmess = 'filnxtToOScIF'
+
+-- 设置行号宽度
+vim.opt.numberwidth = 2
+
+-- 补全菜单最多显示10项
+vim.opt.pumheight = 10
