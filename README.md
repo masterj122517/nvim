@@ -30,3 +30,6 @@ Colorscheme
 debugging
 
 So, we will start with *kickstart.nvim*
+
+Well Well Well, I guess that's the finally version
+everything works just really great
