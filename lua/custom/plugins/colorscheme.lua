@@ -18,7 +18,7 @@ return {
           variables = 'NONE',
         },
       }
-      vim.cmd.colorscheme 'everforest'
+      -- vim.cmd.colorscheme 'everforest'
     end,
   },
   { -- You can easily change to a different colorscheme.
@@ -39,6 +39,15 @@ return {
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+      -- vim.cmd.colorscheme 'tokyonight-moon'
+    end,
+  },
+  -- lua/plugins/rose-pine.lua
+  {
+    'rose-pine/neovim',
+    name = 'rose-pine',
+    config = function()
+      vim.cmd 'colorscheme rose-pine'
     end,
   },
 }
