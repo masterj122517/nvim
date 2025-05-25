@@ -21,6 +21,7 @@ return { -- Collection of various small independent plugins/modules
 
     require('mini.tabline').setup { show_icons = true, format = nil, tabpage_section = 'left' }
     require('mini.pairs').setup {}
+
     --  Check out: https://github.com/echasnovski/mini.nvim
   end,
 }

@@ -65,6 +65,10 @@ return {
   dependencies = {
     'rafamadriz/friendly-snippets',
     {
+      'L3MON4D3/LuaSnip',
+      version = 'v2.*',
+    },
+    {
       'saghen/blink.compat',
       optional = true,
       opts = {},
@@ -79,6 +83,7 @@ return {
   opts = {
     snippets = {
       expand = expand_snippet,
+      preset = 'luasnip',
     },
     appearance = {
       use_nvim_cmp_as_default = false,

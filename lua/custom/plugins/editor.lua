@@ -123,4 +123,10 @@ return { -- Useful plugin to show you pending keybinds.
       },
     },
   },
+  {
+    'windwp/nvim-ts-autotag',
+    event = 'InsertEnter',
+    ft = { 'html', 'javascript', 'typescript', 'tsx', 'vue' },
+    opts = {},
+  },
 }
