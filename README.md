@@ -33,3 +33,4 @@ So, we will start with *kickstart.nvim*
 
 Well Well Well, I guess that's the finally version
 everything works just really great
+all in all this is what you will need in the future

@@ -18,7 +18,7 @@ return { -- Autoformat
       -- Disable "format_on_save lsp_fallback" for languages that don't
       -- have a well standardized coding style. You can add additional
       -- languages here or re-enable it for the disabled ones.
-      local disable_filetypes = { c = false, cpp = false }
+      local disable_filetypes = { markdown = true }
       if disable_filetypes[vim.bo[bufnr].filetype] then
         return nil
       else
@@ -32,10 +32,10 @@ return { -- Autoformat
       lua = { 'stylua' },
       c = { 'clang-format' },
       cpp = { 'clang-format' },
-      go = { 'gofmt' }, -- 或 goimports / golines，根据你喜好
+      go = { 'goimports' }, -- 或 goimports / golines，根据你喜好
       rust = { 'rustfmt' },
-      -- Conform can also run multiple formatters sequentially
-      -- python = { "isort", "black" },
+      -- -- Conform can also run multiple formatters sequentially
+      python = { 'isort', 'black' },
       --
       -- You can use 'stop_after_first' to run the first available formatter from the list
       -- javascript = { "prettierd", "prettier", stop_after_first = true },
