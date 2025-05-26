@@ -92,12 +92,12 @@ vim.opt.wrap = false
 vim.opt.autoindent = true
 -- 启用智能缩进
 vim.opt.smartindent = true
--- 设置 tab 宽度为 4
-vim.opt.tabstop = 4
--- 设置软 tab 宽度为 4
-vim.opt.softtabstop = 4
--- 设置缩进宽度为 4
-vim.opt.shiftwidth = 4
+-- 设置 tab 宽度为 2
+vim.opt.tabstop = 2
+-- 设置软 tab 宽度为 2
+vim.opt.softtabstop = 2
+-- 设置缩进宽度为 2
+vim.opt.shiftwidth = 2
 -- 启用 smarttab
 vim.opt.smarttab = true
 -- 将 tab 转为空格
