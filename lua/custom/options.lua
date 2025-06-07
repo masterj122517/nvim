@@ -116,6 +116,7 @@ vim.cmd [[
     let &t_EI .= '\e[1 q'       " 普通模式下使用稳定的块状光标
     let &t_vb = ''              " 禁用视觉响铃（屏幕闪烁）
     let &t_ut = ''              " 防止某些终端背景颜色异常
+    "hi Normal ctermfg=7 ctermbg=NONE cterm=NONE " making colorscheme transparent
 ]]
 
 -- 打开终端时自动进入插入模式
