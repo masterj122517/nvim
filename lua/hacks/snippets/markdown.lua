@@ -1,5 +1,3 @@
--- 文件位置举例: ~/.config/nvim/lua/snippets/markdown.lua
-
 local ls = require 'luasnip'
 local s = ls.snippet
 local t = ls.text_node
@@ -11,19 +9,46 @@ return {
     'blog',
     fmt(
       [[
-    ---
-    title: {}
-    date: {}
-    tags: [{}]
-    ---
+---
+title: {}
+date: {}
+tags: [{}]
+---
 
-    {}
-    ]],
+{}
+]],
       {
         i(1, ''),
-        i(2, os.date '%Y-%m-%d'),
+        i(2, os.date '%y-%m-%d'),
         i(3, '标签1, 标签2'),
         i(0),
+      }
+    )
+  ),
+
+  s(
+    'rec',
+    fmt(
+      [[
+Date: {}
+
+Start Feelings: {}
+
+Things to do: {}
+
+While Doing feelings: {}
+
+After feelings: {}
+
+Review: {}
+]],
+      {
+        i(1, os.date '%y-%m-%d'),
+        i(2, ''),
+        i(3, ''),
+        i(4, ''),
+        i(5, ''),
+        i(6, ''),
       }
     )
   ),
