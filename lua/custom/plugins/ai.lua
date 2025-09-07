@@ -3,8 +3,8 @@ return {
   event = 'VeryLazy',
   version = false,
   opts = {
-    provider = 'copilot', -- ✅ 改成 copilot
-    auto_suggestions_provider = 'copilot', -- ✅ 可选：自动建议也使用 copilot
+    provider = 'copilot',
+    auto_suggestions_provider = 'copilot',
   },
   build = 'make',
   dependencies = {
@@ -18,7 +18,7 @@ return {
     'ibhagwan/fzf-lua',
     'nvim-tree/nvim-web-devicons',
     {
-      'zbirenbaum/copilot.lua', -- ✅ Copilot 插件
+      'zbirenbaum/copilot.lua',
       cmd = 'Copilot',
       build = ':Copilot auth',
       config = function()
