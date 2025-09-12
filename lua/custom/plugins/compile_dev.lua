@@ -1,0 +1,13 @@
+return {}
+-- return {
+--   dir = '~/programming/compile.nvim/',
+--   config = function()
+--     require('compile').setup()
+--   end,
+-- }
+-- return {
+--   dir = '~/programming/present.nvim',
+--   config = function()
+--     require 'present'
+--   end,
+-- }
