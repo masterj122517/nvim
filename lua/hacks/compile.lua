@@ -28,7 +28,51 @@ local compileRun = function()
   local ft = vim.bo.filetype
   local current_file_dir = vim.fn.expand '%:p:h'
   local project_root = find_project_root(current_file_dir)
+
   if ft == 'cpp' or ft == 'c' then
+    local dap_status, dap = pcall(require, 'dap')
+    local dapui_status, dapui = pcall(require, 'dapui')
+    if dap_status then
+      -- dap 可用，使用 dap 调试
+      if project_root then
+        vim.cmd('!make -C ' .. project_root) -- 构建项目
+        local executable = find_first_executable(project_root)
+        if executable then
+          if dapui_status then
+            dapui.open()
+          end
+          dap.run {
+            type = 'codelldb', -- 你的 adapter 名称
+            request = 'launch',
+            name = 'Debug Project',
+            program = executable,
+            cwd = project_root,
+            stopOnEntry = false,
+            runInTerminal = true,
+          }
+          return
+        end
+      else
+        -- 单文件
+        local exe = vim.fn.expand '%:p:r'
+        vim.fn.system('g++ -g ' .. vim.fn.expand '%' .. ' -o ' .. exe)
+        if dapui_status then
+          dapui.open()
+        end
+        dap.run {
+          type = 'codelldb',
+          request = 'launch',
+          name = 'Debug File',
+          program = exe,
+          cwd = vim.fn.getcwd(),
+          stopOnEntry = false,
+          runInTerminal = true,
+        }
+        return
+      end
+    end
+
+    -- 如果 dap 不可用，保持原逻辑
     if project_root then
       split()
       vim.cmd('term cd ' .. project_root .. ' && make && exit')
@@ -37,7 +81,7 @@ local compileRun = function()
       local executable = find_first_executable(project_root)
       if executable then
         split()
-        vim.cmd('term ' .. executable .. ' && make -s clean  && exit')
+        vim.cmd('term ' .. executable .. ' && make -s clean && exit')
       end
     else
       split()
