@@ -1,4 +1,4 @@
-I've been using neovim for almost 4 year i guess, it's really a big part in my developer's life  
+I've been using neovim from 2020 i guess, it's really a big part in my developer's life  
 however, i have made a lot of configurations during the time  
 At first, i was following *The CW*'s configuration, within few days i feel not satisfied
 so i started my own configuration(using vimplug i guess back the day)  

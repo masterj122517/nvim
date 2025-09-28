@@ -58,4 +58,19 @@ return {
       vim.cmd 'colorscheme rose-pine'
     end,
   },
+  {
+    'blazkowolf/gruber-darker.nvim',
+    config = function()
+      require('gruber-darker').setup {
+        'blazkowolf/gruber-darker.nvim',
+        opts = {
+          bold = false,
+          italic = {
+            strings = false,
+          },
+        },
+      }
+      -- vim.cmd 'colorscheme gruber-darker'
+    end,
+  },
 }

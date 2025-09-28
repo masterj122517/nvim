@@ -118,7 +118,6 @@ vim.cmd [[
     let &t_ut = ''              " 防止某些终端背景颜色异常
     "hi Normal ctermfg=7 ctermbg=NONE cterm=NONE " making colorscheme transparent
 ]]
-
 -- 打开终端时自动进入插入模式
 vim.cmd [[autocmd TermOpen term://* startinsert]]
 
