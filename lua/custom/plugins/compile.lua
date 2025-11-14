@@ -12,8 +12,11 @@ return {
     -- { "m00qek/baleia.nvim", tag = "v1.3.0" },
   },
   config = function()
+    vim.keymap.set('n', '<LEADER>mm', ':Compile<CR>', { desc = 'Run Compile Mode' })
+    vim.keymap.set('n', '<LEADER>mM', ':Recompile<CR>', { desc = 'Run Recompile Mode' })
     ---@type CompileModeOpts
     vim.g.compile_mode = {
+      input_word_completion = true,
       -- to add ANSI escape code support, add:
       -- baleia_setup = true,
 

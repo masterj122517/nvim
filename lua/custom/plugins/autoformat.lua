@@ -4,7 +4,7 @@ return { -- Autoformat
   cmd = { 'ConformInfo' },
   keys = {
     {
-      '<leader>f',
+      '<leader>cf',
       function()
         require('conform').format { async = true, lsp_format = 'fallback' }
       end,
@@ -32,10 +32,10 @@ return { -- Autoformat
       lua = { 'stylua' },
       c = { 'clang-format' },
       cpp = { 'clang-format' },
-      go = { 'goimports' }, -- 或 goimports / golines，根据你喜好
+      go = { 'goimports' },
       rust = { 'rustfmt' },
       -- -- Conform can also run multiple formatters sequentially
-      python = { 'isort', 'black' },
+      python = { 'black' },
       --
       -- You can use 'stop_after_first' to run the first available formatter from the list
       -- javascript = { "prettierd", "prettier", stop_after_first = true },

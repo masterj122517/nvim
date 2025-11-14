@@ -119,8 +119,7 @@ local compileRun = function()
     split()
     vim.cmd 'term javac % && java %:r && rm %:r.class'
   elseif ft == 'haskell' then
-    split()
-    vim.cmd 'term stack run %'
+    vim.cmd('Compile ghc ' .. vim.fn.expand '%:t')
   end
 end
 
