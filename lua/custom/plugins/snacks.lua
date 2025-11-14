@@ -511,6 +511,13 @@ return {
         }
       end,
     },
+    {
+      '<leader>st',
+      desc = 'Find TODO COMMENTS',
+      function()
+        vim.cmd [[TodoTelescope]]
+      end,
+    },
   },
   init = function()
     vim.api.nvim_create_autocmd('User', {
