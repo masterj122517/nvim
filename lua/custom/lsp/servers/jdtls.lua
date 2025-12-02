@@ -2,7 +2,7 @@ local M = {}
 
 function M.setup()
   local home = os.getenv 'HOME'
-  local workspace_dir = home .. '/.local/share/jdtls-workspace/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t') -- 每个项目独立 workspace
+  local workspace_dir = home .. '/.local/share/jdtls-workspace/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 
   vim.lsp.config('jdtls', {
     cmd = {
@@ -18,7 +18,6 @@ function M.setup()
       workspace_dir,
     },
 
-    -- 用来识别项目根的标记
     root_markers = {
       'pom.xml',
       'build.gradle',
@@ -27,12 +26,19 @@ function M.setup()
       '.git',
     },
 
-    -- 基础设置即可
     settings = {
-      java = {},
+      java = {
+        format = {
+          enabled = true,
+          settings = {
+            -- google-java-format XML 文件路径
+            url = vim.fn.expand '~/.local/share/nvim/mason/packages/google-java-format/google-java-format_darwin-arm64',
+            profile = 'GoogleStyle',
+          },
+        },
+      },
     },
 
-    -- 启动时绑定你的 on_attach & capabilities
     on_attach = require('custom.lsp').on_attach,
     capabilities = require('custom.lsp').capabilities,
   })

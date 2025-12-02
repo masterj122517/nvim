@@ -18,7 +18,7 @@ return {
           variables = 'NONE',
         },
       }
-      -- vim.cmd.colorscheme 'everforest'
+      vim.cmd.colorscheme 'everforest'
     end,
   },
   { -- You can easily change to a different colorscheme.
@@ -55,7 +55,7 @@ return {
           italic = true,
         },
       }
-      vim.cmd 'colorscheme rose-pine'
+      -- vim.cmd 'colorscheme rose-pine'
     end,
   },
   {
