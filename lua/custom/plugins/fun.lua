@@ -1,4 +1,6 @@
 return {
-  'eandrju/cellular-automaton.nvim',
-  Event = 'VeryLazy',
+  {
+    'eandrju/cellular-automaton.nvim',
+    Event = 'VeryLazy',
+  },
 }

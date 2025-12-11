@@ -73,4 +73,7 @@ return {
       -- vim.cmd 'colorscheme gruber-darker'
     end,
   },
+  {
+    'theniceboy/nvim-deus',
+  },
 }

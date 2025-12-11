@@ -117,7 +117,7 @@ local compileRun = function()
     vim.cmd 'term dotnet run %'
   elseif ft == 'java' then
     split()
-    vim.cmd 'term javac % && java %:r && rm %:r.class'
+    vim.cmd 'term make run'
   elseif ft == 'haskell' then
     vim.cmd('Compile ghc ' .. vim.fn.expand '%:t')
   end
