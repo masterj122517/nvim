@@ -2,7 +2,7 @@ local M = {}
 
 -- 检查 LSP 是否支持 documentHighlight
 local function supports_document_highlight(client)
-  return client.supports_method 'textDocument/documentHighlight'
+  return client:supports_method 'textDocument/documentHighlight'
 end
 
 function M.setup(client, bufnr)

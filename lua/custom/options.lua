@@ -116,7 +116,6 @@ vim.cmd [[
     let &t_EI .= '\e[1 q'       " 普通模式下使用稳定的块状光标
     let &t_vb = ''              " 禁用视觉响铃（屏幕闪烁）
     let &t_ut = ''              " 防止某些终端背景颜色异常
-    "hi Normal ctermfg=7 ctermbg=NONE cterm=NONE " making colorscheme transparent
 ]]
 -- 打开终端时自动进入插入模式
 vim.cmd [[autocmd TermOpen term://* startinsert]]
@@ -135,3 +134,6 @@ vim.opt.numberwidth = 2
 
 -- 补全菜单最多显示10项
 vim.opt.pumheight = 10
+
+-- no deprecated warings now
+vim.g.deprecated_warnings = false

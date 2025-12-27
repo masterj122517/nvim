@@ -1,3 +1,23 @@
+local function start_colorscheme_manager()
+  local themes = { 'everforest', 'tokyonight', 'rose-pine-main', 'gruber-darker', 'colorbuddy', 'gruvbuddy' }
+  math.randomseed(os.time())
+  local current_index = math.random(#themes)
+  local uv = vim.loop or vim.uv
+  local timer = uv.new_timer()
+  local interval = 1 * 60 * 60 * 1000
+
+  timer:start(
+    0,
+    interval,
+    vim.schedule_wrap(function()
+      local theme = themes[current_index]
+      -- 注意：此处拼写已修正为 colorscheme
+      pcall(vim.cmd.colorscheme, theme)
+      current_index = current_index % #themes + 1
+    end)
+  )
+end
+
 return {
   {
     'neanias/everforest-nvim',
@@ -7,7 +27,7 @@ return {
     config = function()
       require('everforest').setup {
         background = 'hard', -- soft, medium, hard
-        transparent_background_level = 0,
+        transparent_background_level = 1,
         dim_inactive = false,
         show_eob = false,
         styles = {
@@ -34,6 +54,8 @@ return {
         styles = {
           comments = { italic = false }, -- Disable italics in comments
         },
+
+        transparent = true, -- Enable this to disable setting the background color
       }
 
       -- Load the colorscheme here.
@@ -55,7 +77,7 @@ return {
           italic = true,
         },
       }
-      vim.cmd 'colorscheme rose-pine'
+      -- vim.cmd 'colorscheme rose-pine'
     end,
   },
   {
@@ -74,11 +96,16 @@ return {
     end,
   },
   {
-    'theniceboy/nvim-deus',
-  },
-  -- Lua
-  {
     'tjdevries/colorbuddy.nvim',
     priority = 1000,
+  },
+  {
+    dir = vim.fn.stdpath 'config', -- 随便指向一个存在的目录
+    priority = 0, -- 确保在主题插件之后启动
+    lazy = false, -- 必须立即加载
+    config = function()
+      -- 庄园的警钟开始鸣响，Sir
+      start_colorscheme_manager()
+    end,
   },
 }
