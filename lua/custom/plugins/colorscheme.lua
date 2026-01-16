@@ -105,7 +105,8 @@ return {
     lazy = false, -- 必须立即加载
     config = function()
       -- 庄园的警钟开始鸣响，Sir
-      start_colorscheme_manager()
+      -- start_colorscheme_manager()
+      vim.cmd 'colorscheme rose-pine-main'
     end,
   },
 }
