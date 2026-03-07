@@ -10,18 +10,26 @@ return {
     fmt(
       [[
 ---
-title: {}
+title: "{}"
+description: "{}"
 date: {}
+image: "{}"
+category: "{}"
 tags: [{}]
+featured: {}
 ---
 
 {}
 ]],
       {
-        i(1, ''),
-        i(2, os.date '%y-%m-%d'),
-        i(3, '标签1, 标签2'),
-        i(0),
+        i(1, 'Title'), -- title
+        i(2, 'Description'), -- description
+        i(3, os.date '%Y-%m-%d'), -- date (自动获取当天日期)
+        i(4, '/images/cover.png'), -- image
+        i(5, 'Tech'), -- category
+        i(6, '"Tag1", "Tag2"'), -- tags (注意：如果您想保持 YAML 格式，输入时需带引号)
+        i(7, 'true'), -- featured
+        i(0), -- 正文位置
       }
     )
   ),

@@ -27,6 +27,15 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.lsp.inlay_hint.enable(not enabled, { bufnr = event.buf })
       end, { buffer = event.buf, desc = 'Toggle Inlay Hints' })
     end
+
+    -- diagnostic
+    vim.diagnostic.config {
+      virtual_text = {
+        spacing = 4,
+        prefix = '●', -- 或者用 '■', '󰋔'
+      },
+      severity_sort = true,
+    }
   end,
 })
 
