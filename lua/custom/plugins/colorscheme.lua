@@ -99,6 +99,7 @@ return {
     'tjdevries/colorbuddy.nvim',
     priority = 1000,
   },
+
   {
     dir = vim.fn.stdpath 'config', -- 随便指向一个存在的目录
     priority = 0, -- 确保在主题插件之后启动
