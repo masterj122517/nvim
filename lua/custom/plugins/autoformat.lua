@@ -1,4 +1,4 @@
-return { -- Autoformat
+return {
   'stevearc/conform.nvim',
   event = { 'BufWritePre' },
   cmd = { 'ConformInfo' },
@@ -9,15 +9,31 @@ return { -- Autoformat
         require('conform').format { async = true, lsp_format = 'fallback' }
       end,
       mode = '',
-      desc = '[F]ormat buffer',
+      desc = '[C]ode [F]ormat',
+    },
+    {
+      '<leader>uf', -- 您要求的快捷键 [U]nset [F]ormat
+      function()
+        if vim.g.disable_autoformat then
+          vim.g.disable_autoformat = false
+          print 'Autoformat re-enabled'
+        else
+          vim.g.disable_autoformat = true
+          print 'Autoformat disabled'
+        end
+      end,
+      mode = 'n',
+      desc = 'Toggle autoformat on save',
     },
   },
   opts = {
     notify_on_error = false,
     format_on_save = function(bufnr)
-      -- Disable "format_on_save lsp_fallback" for languages that don't
-      -- have a well standardized coding style. You can add additional
-      -- languages here or re-enable it for the disabled ones.
+      -- 增加这一行判断：如果全局禁用了，则直接返回
+      if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+        return
+      end
+
       local disable_filetypes = { markdown = true }
       if disable_filetypes[vim.bo[bufnr].filetype] then
         return nil
@@ -34,11 +50,7 @@ return { -- Autoformat
       cpp = { 'clang-format' },
       go = { 'goimports' },
       rust = { 'rustfmt' },
-      -- -- Conform can also run multiple formatters sequentially
       python = { 'black' },
-      --
-      -- You can use 'stop_after_first' to run the first available formatter from the list
-      -- javascript = { "prettierd", "prettier", stop_after_first = true },
     },
   },
 }
