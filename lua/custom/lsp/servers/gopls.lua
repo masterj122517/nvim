@@ -14,7 +14,7 @@ function M.setup()
       gopls = {
         completeUnimported = true, -- 写代码时补全包名即自动加 import
         usePlaceholders = true, -- 自动补全函数参数
-        staticcheck = true, -- 开启强力静态分析，比默认的强很多。
+        staticcheck = false, -- 减少后台分析开销
         --检查未使用的函数参数。
         analyses = {
           unusedparams = true,

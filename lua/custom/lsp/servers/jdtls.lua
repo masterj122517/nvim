@@ -7,6 +7,11 @@ function M.setup()
   vim.lsp.config('jdtls', {
     cmd = {
       'java',
+      '-Xms256m',
+      '-Xmx2g',
+      '-XX:MaxMetaspaceSize=512m',
+      '-XX:+UseG1GC',
+      '-XX:+UseStringDeduplication',
       '-Declipse.application=org.eclipse.jdt.ls.core.id1',
       '-Dosgi.bundles.defaultStartLevel=4',
       '-Declipse.product=org.eclipse.jdt.ls.core.product',
@@ -35,6 +40,27 @@ function M.setup()
             url = vim.fn.expand '~/.local/share/nvim/mason/packages/google-java-format/google-java-format_darwin-arm64',
             profile = 'GoogleStyle',
           },
+        },
+        completion = {
+          favoriteStaticMembers = {
+            'org.junit.Assert.*',
+            'org.junit.Assume.*',
+            'org.junit.jupiter.api.Assertions.*',
+            'org.junit.jupiter.api.Assumptions.*',
+            'org.junit.jupiter.api.DynamicContainer.*',
+            'org.junit.jupiter.api.DynamicTest.*',
+            'java.util.Objects.requireNonNull',
+            'java.util.Objects.requireNonNullElse',
+          },
+          importOrder = {
+            'java',
+            'javax',
+            'org',
+            'com',
+          },
+        },
+        contentProvider = {
+          preferred = 'fernflower',
         },
       },
     },

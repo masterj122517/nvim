@@ -41,8 +41,8 @@ function M.setup()
         },
 
         diagnostics = {
-          enabled = true,
-          experimental = true,
+          enable = true,
+          experimental = false,
         },
       },
     },

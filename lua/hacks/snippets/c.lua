@@ -19,5 +19,5 @@ return {
     )
   ),
 
-  s('pf', fmt([[printf("{}\n");]], { i(1, 'hello') })),
+  s('pf', fmt([[printf("{}\n");]], { i(1, 'world') })),
 }

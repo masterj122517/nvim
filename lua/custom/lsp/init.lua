@@ -30,6 +30,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     -- diagnostic
     vim.diagnostic.config {
+      update_in_insert = false,
       virtual_text = {
         spacing = 4,
         prefix = '●', -- 或者用 '■', '󰋔'

@@ -79,7 +79,7 @@ return {
       dependencies = { 'nvim-lua/plenary.nvim' },
     },
   },
-  event = 'InsertEnter',
+  event = { 'InsertEnter', 'CmdlineEnter' },
   opts = {
     snippets = {
       expand = expand_snippet,

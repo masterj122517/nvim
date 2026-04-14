@@ -177,41 +177,42 @@ return { -- Useful plugin to show you pending keybinds.
     },
   },
   {
-    'ThePrimeagen/harpoon',
-    branch = 'harpoon2',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    config = function()
-      local harpoon = require 'harpoon'
-
-      -- REQUIRED
-      harpoon:setup()
-      -- REQUIRED
-
-      vim.keymap.set('n', '<C-t>', function()
-        harpoon:list():add()
-      end)
-      vim.keymap.set('n', '<C-e>', function()
-        harpoon.ui:toggle_quick_menu(harpoon:list())
-      end)
-
-      vim.keymap.set('n', '<leader>1', function()
-        harpoon:list():select(1)
-      end)
-      vim.keymap.set('n', '<leader>2', function()
-        harpoon:list():select(2)
-      end)
-      vim.keymap.set('n', '<leader>3', function()
-        harpoon:list():select(3)
-      end)
-      vim.keymap.set('n', '<leader>4', function()
-        harpoon:list():select(4)
-      end)
-    end,
-  },
-  {
     'folke/ts-comments.nvim',
     opts = {},
     event = 'VeryLazy',
     enabled = vim.fn.has 'nvim-0.10.0' == 1,
+  },
+
+  {
+    'MagicDuck/grug-far.nvim',
+    -- Note (lazy loading): grug-far.lua defers all it's requires so it's lazy by default
+    -- additional lazy config to defer loading is not really needed...
+    config = function()
+      -- optional setup call to override plugin options
+      -- alternatively you can set options with vim.g.grug_far = { ... }
+      require('grug-far').setup {
+        -- 1. Normal Mode: Replace word under cursor
+        vim.keymap.set('n', '<C-g>', function()
+          local grug = require 'grug-far'
+          local ext = vim.fn.expand '%:e'
+          grug.open {
+            prefills = {
+              search = vim.fn.expand '<cword>',
+              filesFilter = ext ~= '' and ('*.' .. ext) or nil,
+            },
+          }
+        end, { desc = 'Grug-far: Replace current word' }),
+
+        -- 2. Visual Mode: Replace selected text
+        vim.keymap.set('v', '<C-g>', function()
+          local grug = require 'grug-far'
+          grug.with_visual_selection {
+            prefills = {
+              filesFilter = vim.fn.expand '%:e' ~= '' and ('*.' .. vim.fn.expand '%:e') or nil,
+            },
+          }
+        end, { desc = 'Grug-far: Replace selection' }),
+      }
+    end,
   },
 }

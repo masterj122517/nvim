@@ -46,7 +46,7 @@ vim.o.smartcase = true
 vim.o.signcolumn = 'yes'
 
 -- Decrease update time
-vim.o.updatetime = 250
+vim.o.updatetime = 300
 
 -- Decrease mapped sequence wait time
 vim.o.timeoutlen = 300
@@ -72,6 +72,12 @@ vim.o.inccommand = 'split'
 
 -- Show which line your cursor is on
 vim.o.cursorline = true
+
+-- LSP/diagnostic 性能相关
+vim.diagnostic.config {
+  update_in_insert = false,
+  severity_sort = true,
+}
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.o.scrolloff = 10
