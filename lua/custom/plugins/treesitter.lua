@@ -7,6 +7,7 @@ return {
       enable = true,
       additional_vim_regex_highlighting = false,
     },
-    indent = { enable = true },
+    -- treesitter 缩进在大文件上比较吃性能，这里关闭
+    indent = { enable = false },
   },
 }

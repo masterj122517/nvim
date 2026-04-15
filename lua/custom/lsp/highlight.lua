@@ -13,15 +13,15 @@ function M.setup(client, bufnr)
   -- 创建 highlight 组
   local group = vim.api.nvim_create_augroup('lsp-highlight-' .. bufnr, { clear = true })
 
-  -- 光标停留时高亮引用
-  vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+  -- 光标停留时高亮引用（仅普通模式，避免插入模式卡顿）
+  vim.api.nvim_create_autocmd({ 'CursorHold' }, {
     group = group,
     buffer = bufnr,
     callback = vim.lsp.buf.document_highlight,
   })
 
   -- 光标移动时清除引用
-  vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+  vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
     group = group,
     buffer = bufnr,
     callback = vim.lsp.buf.clear_references,

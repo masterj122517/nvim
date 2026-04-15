@@ -99,7 +99,8 @@ return {
         },
       },
       documentation = {
-        auto_show = true,
+        -- 文档浮窗按需打开，减少每次输入时的额外计算
+        auto_show = false,
         auto_show_delay_ms = 200,
       },
       ghost_text = {

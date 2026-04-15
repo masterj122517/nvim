@@ -2,6 +2,7 @@ return {
   {
     'lewis6991/gitsigns.nvim',
     opts = {
+      max_file_length = 10000,
       signs = {
         add = { text = '┃' }, -- 或者 '▎'、'│'、'▍'
         change = { text = '▎' }, -- 或者 '┃'、'│'、'▍'

@@ -1,10 +1,11 @@
 return {
   {
     'mfussenegger/nvim-lint',
-    events = { 'BufWritePost', 'BufReadPost', 'InsertLeave' },
+    events = { 'BufWritePost' },
     opts = {
       -- Event to trigger linters
-      events = { 'BufWritePost', 'BufReadPost', 'InsertLeave' },
+      -- 只在保存后执行，避免 InsertLeave/BufReadPost 频繁触发
+      events = { 'BufWritePost' },
       linters_by_ft = {
         fish = { 'fish' },
         -- Use the "*" filetype to run linters on all filetypes.

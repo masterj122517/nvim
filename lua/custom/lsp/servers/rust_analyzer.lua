@@ -20,9 +20,10 @@ function M.setup()
             enable = true,
           },
         },
-        --checkOnSave.command = "clippy"
+        -- 使用 rust-analyzer 的 check（比 clippy 快），并且只在需要时可以手动触发
         checkOnSave = {
-          command = 'clippy',
+          enable = false,
+          command = 'check',
           allFeatures = true,
         },
         --让 import 自动组织得更整齐，不会乱。

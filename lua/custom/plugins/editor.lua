@@ -153,7 +153,8 @@ return { -- Useful plugin to show you pending keybinds.
   {
     'NvChad/nvim-colorizer.lua',
     opts = {
-      filetypes = { '*' },
+      -- 只在样式相关文件中启用，避免在大代码文件里增加重绘压力
+      filetypes = { 'css', 'scss', 'sass', 'html', 'javascript', 'typescript', 'tsx', 'vue' },
       user_default_options = {
         RGB = true, -- #RGB hex codes
         RRGGBB = true, -- #RRGGBB hex codes

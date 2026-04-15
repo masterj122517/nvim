@@ -6,6 +6,8 @@ return {
   {
     'lewis6991/gitsigns.nvim',
     opts = {
+      -- 超过一定行数就不要 attach，避免在超大文件上 diff 变慢
+      max_file_length = 10000,
       on_attach = function(bufnr)
         local gitsigns = require 'gitsigns'
 

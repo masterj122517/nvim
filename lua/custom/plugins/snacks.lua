@@ -15,9 +15,9 @@ return {
     },
     picker = { enabled = true },
     quickfile = { enabled = true },
-    scope = { enabled = true },
-    scroll = { enabled = true },
-    statuscolumn = { enabled = true },
+    scope = { enabled = false }, -- 关闭 scope 高亮，减少频繁重绘
+    scroll = { enabled = false }, -- 默认滚动足够，用不到特殊滚动效果
+    statuscolumn = { enabled = false }, -- 每列渲染较重，这里关掉
     words = { enabled = true },
     styles = {
       notification = {
