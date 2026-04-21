@@ -51,6 +51,7 @@ local servers = {
   'lua-language-server',
   'rust-analyzer',
   'jdtls',
+  'haskell-language-server',
 }
 
 function M.setup()
