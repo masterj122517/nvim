@@ -1,7 +1,7 @@
 return {
   {
     'eandrju/cellular-automaton.nvim',
-    Event = 'VeryLazy',
+    event = 'VeryLazy',
   },
   {
     'nvzone/typr',

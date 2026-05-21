@@ -8,7 +8,6 @@ function M.setup()
 
     root_markers = { 'Cargo.toml', 'rust-project.json' },
 
-    on_attach = require('custom.lsp').on_attach,
     capabilities = require('custom.lsp').capabilities,
 
     settings = {

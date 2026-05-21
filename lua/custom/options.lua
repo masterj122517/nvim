@@ -135,6 +135,8 @@ vim.api.nvim_create_autocmd('BufEnter', { pattern = '*', command = 'silent! lcd 
 -- 精简消息
 vim.opt.shortmess = 'filnxtToOScIF'
 
+vim.opt.formatoptions:remove { 't', 'c', 'o' }
+
 -- 设置行号宽度
 vim.opt.numberwidth = 2
 

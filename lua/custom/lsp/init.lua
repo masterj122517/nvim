@@ -41,7 +41,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 -- capabilities
-M.capabilities = vim.lsp.protocol.make_client_capabilities()
+M.capabilities = vim.tbl_deep_extend('force',
+  vim.lsp.protocol.make_client_capabilities(),
+  require('blink.cmp').get_lsp_capabilities()
+)
 
 -- Mason 自动安装
 local servers = {

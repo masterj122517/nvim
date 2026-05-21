@@ -32,7 +32,6 @@ function M.setup()
       },
     },
 
-    on_attach = require('custom.lsp').on_attach,
     capabilities = require('custom.lsp').capabilities,
   })
 
