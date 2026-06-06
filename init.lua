@@ -1,5 +1,4 @@
-require("G")
-require("keymap")
-require("profile")
-require("md-snippets")
-require("utils.compile_run")
+require 'custom.options'
+require 'custom.keymaps'
+require	'custom.autocmd'
+
