@@ -175,3 +175,8 @@ end
 
 require 'hacks.compile'
 require 'hacks.markdown'
+
+-- some trick setups
+-- Duplicate a line and comment out the first line
+vim.keymap.set("n", "yc", "yyp<cmd>normal! kgccj<CR>", { desc = "Duplicate and comment original" })
+
