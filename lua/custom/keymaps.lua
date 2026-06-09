@@ -202,3 +202,11 @@ require 'hacks.markdown'
 vim.keymap.set('n', 'yc', 'yygccp', { remap = true, desc = '[D]uplicate a line and comment out the first line' })
 
 vim.keymap.set('v', 'gC', 'ygvgc`>p', { remap = true, desc = '[C]opy to a comment above' })
+
+vim.keymap.set("n", "<C-s>", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+-- make it always center
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+
+vim.keymap.set("n", "G", "Gzz")
