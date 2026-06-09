@@ -7,8 +7,11 @@ vim.o.termguicolors = true
 vim.env.NVIM_TUI_ENABLE_TRUE_COLOR = 1
 -- 设置 Python3 host 程序路径
 vim.g.python3_host_prog = os.getenv 'PYTHON'
--- advance command menu
+--
+-- 命令行补全时显示候选菜单
 vim.opt.wildmenu = true
+-- 让 :find 可以递归搜索当前目录下所有子目录
+vim.opt.path:append("**")
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
