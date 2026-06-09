@@ -21,6 +21,14 @@ vim.keymap.set('i', '<c-h>', 'col(".") == col("$") ? \'<esc>"_db"_xa\' : \'<esc>
 -- cmap
 vim.keymap.set('c', '<c-a>', '<home>', { noremap = true })
 vim.keymap.set('c', '<c-e>', '<end>', { noremap = true })
+vim.keymap.set('c', '<C-k>', function()
+  local cmdline = vim.fn.getcmdline()
+  local pos = vim.fn.getcmdpos() - 1 -- 0-indexed
+  vim.fn.setcmdline(cmdline:sub(1, pos))
+end, { noremap = true, desc = 'Kill to end of cmdline' })
+vim.keymap.set('c', '<C-b>', '<Left>', { noremap = true })
+vim.keymap.set('c', '<C-f>', '<Right>', { noremap = true })
+vim.keymap.set('c', '<C-d>', '<Del>', { noremap = true })
 
 -- only change text
 vim.keymap.set('v', '<BS>', '"_d', { noremap = true })
@@ -34,18 +42,23 @@ vim.keymap.set('v', 'P', 'Pgvy', { noremap = true })
 -- VISUAL SELECT模式 s-tab tab左右缩进
 vim.keymap.set('v', '<', '<gv', { noremap = true })
 vim.keymap.set('v', '>', '>gv', { noremap = true })
+vim.keymap.set('v', '<C-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true, desc = 'Move selection down' })
+vim.keymap.set('v', '<C-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true, desc = 'Move selection up' })
 
 -- 选中全文 选中{ 复制全文
 vim.keymap.set('n', '<m-a>', 'ggVG', { noremap = true })
 -- emacs风格快捷键
 vim.keymap.set('i', '<c-a>', '<Esc>I', { noremap = true })
 vim.keymap.set('i', '<c-e>', '<Esc>A', { noremap = true })
+vim.keymap.set('i', '<C-k>', function()
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local line = vim.api.nvim_get_current_line()
+  vim.api.nvim_set_current_line(line:sub(1, col))
+end, { noremap = true, desc = 'Kill to end of line' })
 
 -- buffers
 vim.keymap.set('n', '<S-h>', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
 vim.keymap.set('n', '<S-l>', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
-vim.keymap.set('n', 'tml', ':BufferLineMoveNext<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', 'tmh', ':BufferLineMovePrev<CR>', { noremap = true, silent = true })
 -- 删除当前 buffer（保持窗口不关闭）
 vim.keymap.set('n', '<leader>bd', function()
   local bufnr = vim.api.nvim_get_current_buf()
@@ -69,6 +82,24 @@ vim.keymap.set('n', 'te', ':tabedit<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'tE', ':tab split<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'th', ':-tabnext<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'tl', ':+tabnext<CR>', { noremap = true, silent = true })
+-- 关闭当前 tab（不关 buffer）
+vim.keymap.set('n', 'tc', ':tabclose<CR>', { noremap = true, silent = true })
+
+-- 只保留当前 tab，关掉其他所有
+vim.keymap.set('n', 'to', ':tabonly<CR>', { noremap = true, silent = true })
+
+-- 跳到第 n 个 tab，1-9
+for i = 1, 9 do
+  vim.keymap.set('n', 't' .. i, i .. 'gt', { noremap = true, silent = true })
+end
+-- 跳到最后一个 tab
+vim.keymap.set('n', 'tL', ':tablast<CR>', { noremap = true, silent = true })
+-- 跳到第一个 tab
+vim.keymap.set('n', 'tH', ':tabfirst<CR>', { noremap = true, silent = true })
+
+-- 移动当前 tab 位置
+vim.keymap.set('n', 'tmh', ':-tabmove<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'tml', ':+tabmove<CR>', { noremap = true, silent = true })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
@@ -103,10 +134,6 @@ vim.keymap.set('n', '<m-,>', "winnr() <= winnr('$') - winnr() ? '<c-w>5<' : '<c-
 vim.keymap.set('n', '<m-d>', "winnr() <= winnr('$') - winnr() ? '<c-w>5+' : '<c-w>5-'", { noremap = true, expr = true })
 vim.keymap.set('n', '<m-u>', "winnr() <= winnr('$') - winnr() ? '<c-w>5-' : '<c-w>5+'", { noremap = true, expr = true })
 
--- save and quit
-vim.keymap.set('n', 'Q', ':q!<cr>', { noremap = true, silent = true })
-vim.keymap.set('n', 'S', ':call v:lua.MagicSave()<cr>', { noremap = true, silent = true })
-
 -- tt 打开一个10行大小的终端
 vim.keymap.set('n', 'tt', ':below 10sp | term<cr>', { noremap = true, silent = true })
 
@@ -114,14 +141,13 @@ vim.keymap.set('n', 'tt', ':below 10sp | term<cr>', { noremap = true, silent = t
 vim.keymap.set('n', '\\w', "&wrap == 1 ? ':set nowrap<cr>' : ':set wrap<cr>'", { noremap = true, expr = true })
 
 -- space 行首行尾跳转
-vim.keymap.set('n', '0', ':call v:lua.MagicMove()<cr>', { noremap = true, silent = true })
-vim.keymap.set('v', '0', ':call v:lua.MagicMove()<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', '0', '<cmd>call v:lua.MagicMove()<cr>', { noremap = true, silent = true })
+vim.keymap.set('v', '0', '<cmd>call v:lua.MagicMove("v")<cr>', { noremap = true, silent = true })
 -- 驼峰转换
 vim.keymap.set('v', 'T', ':call v:lua.MagicToggleHump(v:true)<CR>', { noremap = true, silent = true })
 vim.keymap.set('v', 't', ':call v:lua.MagicToggleHump(v:false)<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('t', '|', '<C-\\><C-n><C-W>w', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '|', '<C-w>w', { noremap = true, silent = true })
-
 -- 设置终端模式下的 <C-q> 关闭终端窗口
 vim.api.nvim_set_keymap('t', '<C-q>', '<C-\\><C-n>:q<CR>', { noremap = true, silent = true })
 
@@ -134,18 +160,6 @@ function MagicMove()
   local after = vim.fn.col '.'
   if before == after then
     vim.fn.execute 'norm! 0'
-  end
-end
-
--- 1 当目录不存在时 先创建目录, 2 当前文件是acwrite时, 用sudo保存
-function MagicSave()
-  if vim.fn.empty(vim.fn.glob(vim.fn.expand '%:p:h')) then
-    vim.fn.system('mkdir -p ' .. vim.fn.expand '%:p:h')
-  end
-  if vim.o.buftype == 'acwrite' then
-    vim.fn.execute 'w !sudo tee > /dev/null %'
-  else
-    vim.fn.execute 'w'
   end
 end
 
@@ -175,3 +189,10 @@ end
 
 require 'hacks.compile'
 require 'hacks.markdown'
+
+-- some tricks
+
+-- Duplicate a line and comment out the first line
+vim.keymap.set('n', 'yc', 'yygccp', { remap = true, desc = '[D]uplicate a line and comment out the first line' })
+
+vim.keymap.set('v', 'gC', 'ygvgc`>p', { remap = true, desc = '[C]opy to a comment above' })

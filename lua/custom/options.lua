@@ -130,7 +130,7 @@ vim.cmd [[autocmd TermOpen term://* startinsert]]
 vim.cmd [[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif]]
 
 -- 自动切换工作目录为当前 buffer 所在目录
-vim.api.nvim_create_autocmd('BufEnter', { pattern = '*', command = 'silent! lcd %:p:h' })
+-- vim.api.nvim_create_autocmd('BufEnter', { pattern = '*', command = 'silent! lcd %:p:h' })
 
 -- 精简消息
 vim.opt.shortmess = 'filnxtToOScIF'
