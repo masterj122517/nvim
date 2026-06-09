@@ -76,6 +76,12 @@ vim.keymap.set('n', '<leader>bo', function()
 end, { desc = 'Delete Other Buffers' })
 -- 删除当前 buffer 并关闭窗口
 vim.keymap.set('n', '<leader>bD', '<cmd>bd<cr>', { desc = 'Delete Buffer and Window' })
+-- create a scrath buffer
+vim.keymap.set('n', '<leader>bs', function()
+  local buf = vim.api.nvim_create_buf(true, true)
+  vim.api.nvim_set_current_buf(buf)
+  vim.bo[buf].filetype = 'markdown'
+end, { desc = 'New scratch buffer' })
 
 -- tabs
 vim.keymap.set('n', 'te', ':tabedit<CR>', { noremap = true, silent = true })
