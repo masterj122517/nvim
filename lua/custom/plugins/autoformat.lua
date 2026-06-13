@@ -29,11 +29,13 @@ return {
   opts = {
     notify_on_error = false,
     format_on_save = function(bufnr)
-      -- 增加这一行判断：如果全局禁用了，则直接返回
       if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
         return
       end
-
+      -- 超过 1000 行跳过
+      if vim.api.nvim_buf_line_count(bufnr) > 1000 then
+        return
+      end
       local disable_filetypes = { markdown = true }
       if disable_filetypes[vim.bo[bufnr].filetype] then
         return nil
