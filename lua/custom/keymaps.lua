@@ -203,7 +203,7 @@ vim.keymap.set('n', 'yc', 'yygccp', { remap = true, desc = '[D]uplicate a line a
 
 vim.keymap.set('v', 'gC', 'ygvgc`>p', { remap = true, desc = '[C]opy to a comment above' })
 
-vim.keymap.set("n", "<C-s>", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("n", "<C-g>", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 -- make it always center
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
