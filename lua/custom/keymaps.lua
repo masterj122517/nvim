@@ -215,3 +215,37 @@ vim.keymap.set("n", "G", "Gzz")
 vim.keymap.set("n", "-", ":Explore<CR>")
 
 vim.keymap.set('n', '<C-f>', ':find ')
+
+
+local magic_insertpair = function(char) -- 自动配对括号和引号
+    local pair_close = { ['('] = ')', ['['] = ']', ['{'] = '}' }
+    local close_set = { [')'] = true, [']'] = true, ['}'] = true, ['"'] = true, ["'"] = true, ['`'] = true }
+    local quote_set = { ['"'] = true, ["'"] = true, ['`'] = true }
+    local col = vim.fn.col('.')
+    local after = vim.api.nvim_get_current_line():sub(col, col)
+    local should_pair = after == '' or after == ';' or close_set[after]
+
+    if pair_close[char] then
+        if should_pair then return char .. pair_close[char] .. '<Left>' end
+        return char
+    end
+
+    if after == char then return '<Right>' end
+    if quote_set[char] and should_pair then return char .. char .. '<Left>' end
+    return char
+end
+
+local function magic_delpair() -- 删除成对的括号和引号
+    local line, col = vim.api.nvim_get_current_line(), vim.fn.col('.')
+    if col > 1 and vim.tbl_contains({ ')', ']', '}', '"', "'", '`' }, line:sub(col, col))
+        and vim.tbl_contains({ '(', '[', '{', '"', "'", '`' }, line:sub(col - 1, col - 1)) then
+        return '<Del><BS>'
+    end
+    return '<BS>'
+end
+
+for _, c in ipairs({ '(', '[', '{', ')', ']', '}', '"', "'", '`' }) do
+    vim.keymap.set('i', c, function() return magic_insertpair(c) end, { expr = true, noremap = true })
+end
+vim.keymap.set('i', '<BS>', magic_delpair, { expr = true, noremap = true })
+
