@@ -214,3 +214,4 @@ vim.keymap.set("n", "G", "Gzz")
 -- open Explore like oil.nvim 
 vim.keymap.set("n", "-", ":Explore<CR>")
 
+vim.keymap.set('n', '<C-f>', ':find ')
