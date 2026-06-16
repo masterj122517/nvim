@@ -145,7 +145,7 @@ vim.keymap.set('n', '<m-d>', "winnr() <= winnr('$') - winnr() ? '<c-w>5+' : '<c-
 vim.keymap.set('n', '<m-u>', "winnr() <= winnr('$') - winnr() ? '<c-w>5-' : '<c-w>5+'", { noremap = true, expr = true })
 
 -- tt 打开一个10行大小的终端
-vim.keymap.set('n', '<C-/>', ':below 10sp | term<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', '<c-_>', ':below 10sp | term<cr>', { noremap = true, silent = true })
 
 -- 切换是否wrap
 vim.keymap.set('n', '\\w', "&wrap == 1 ? ':set nowrap<cr>' : ':set wrap<cr>'", { noremap = true, expr = true })
