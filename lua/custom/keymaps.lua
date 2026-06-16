@@ -98,6 +98,10 @@ vim.keymap.set('n', 'to', ':tabonly<CR>', { noremap = true, silent = true })
 for i = 1, 9 do
   vim.keymap.set('n', 't' .. i, i .. 'gt', { noremap = true, silent = true })
 end
+
+-- quick jump between the tags using tt
+vim.keymap.set('n', 'tt', '<cmd>tabnext #<cr>')
+
 -- 跳到最后一个 tab
 vim.keymap.set('n', 'tL', ':tablast<CR>', { noremap = true, silent = true })
 -- 跳到第一个 tab
@@ -141,7 +145,7 @@ vim.keymap.set('n', '<m-d>', "winnr() <= winnr('$') - winnr() ? '<c-w>5+' : '<c-
 vim.keymap.set('n', '<m-u>', "winnr() <= winnr('$') - winnr() ? '<c-w>5-' : '<c-w>5+'", { noremap = true, expr = true })
 
 -- tt 打开一个10行大小的终端
-vim.keymap.set('n', 'tt', ':below 10sp | term<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-/>', ':below 10sp | term<cr>', { noremap = true, silent = true })
 
 -- 切换是否wrap
 vim.keymap.set('n', '\\w', "&wrap == 1 ? ':set nowrap<cr>' : ':set wrap<cr>'", { noremap = true, expr = true })
@@ -248,4 +252,11 @@ for _, c in ipairs({ '(', '[', '{', ')', ']', '}', '"', "'", '`' }) do
     vim.keymap.set('i', c, function() return magic_insertpair(c) end, { expr = true, noremap = true })
 end
 vim.keymap.set('i', '<BS>', magic_delpair, { expr = true, noremap = true })
+
+vim.keymap.set('n', '<leader>/', function()
+  local query = vim.fn.input('grep: ')
+  if query ~= '' then
+    vim.cmd('vimgrep /' .. query .. '/gj **/* | copen')
+  end
+end)
 
