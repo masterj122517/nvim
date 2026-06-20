@@ -5,3 +5,4 @@ nvim
 cache/
 lazy-lock.json
 spell/
+nvim-pack-lock.json
