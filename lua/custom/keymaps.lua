@@ -144,8 +144,48 @@ vim.keymap.set('n', '<m-,>', "winnr() <= winnr('$') - winnr() ? '<c-w>5<' : '<c-
 vim.keymap.set('n', '<m-d>', "winnr() <= winnr('$') - winnr() ? '<c-w>5+' : '<c-w>5-'", { noremap = true, expr = true })
 vim.keymap.set('n', '<m-u>', "winnr() <= winnr('$') - winnr() ? '<c-w>5-' : '<c-w>5+'", { noremap = true, expr = true })
 
--- tt 打开一个10行大小的终端
-vim.keymap.set('n', '<c-_>', ':below 10sp | term<cr>', { noremap = true, silent = true })
+local toggle_term = {
+	buf = nil,
+	win = nil,
+}
+
+vim.keymap.set({ "n", "t" }, "<c-_>", function()
+	-- 1. 如果终端窗口当前可见，且当前就在该窗口中，或者只是想把它隐藏掉
+	if toggle_term.win and vim.api.nvim_win_is_valid(toggle_term.win) then
+		local curr_win = vim.api.nvim_get_current_win()
+		-- 如果在终端窗口内按快捷键，隐藏它
+		if curr_win == toggle_term.win then
+			vim.api.nvim_win_hide(toggle_term.win)
+			toggle_term.win = nil
+			return
+		else
+			-- 如果终端开着但焦点在别处，直接把焦点移过去 (类似 snacks.terminal.focus)
+			vim.api.nvim_set_current_win(toggle_term.win)
+			vim.cmd("startinsert")
+			return
+		end
+	end
+
+	-- 2. 确保向下弹出 10 行的窗口
+	vim.cmd("belowright 10sp")
+	local new_win = vim.api.nvim_get_current_win()
+
+	-- 3. 检查 buffer 是否存在且有效
+	if toggle_term.buf and vim.api.nvim_buf_is_valid(toggle_term.buf) then
+		-- 复用已有的 buffer
+		vim.api.nvim_win_set_buf(new_win, toggle_term.buf)
+	else
+		-- 创建全新的终端并记录 buffer id
+		vim.cmd("terminal")
+		toggle_term.buf = vim.api.nvim_get_current_buf()
+		-- 隐藏杂乱的终端参数设定
+		vim.bo[toggle_term.buf].filetype = "vanilla_terminal"
+	end
+
+	-- 4. 记录当前绑定的 window id
+	toggle_term.win = new_win
+	vim.cmd("startinsert")
+end, { silent = true })
 
 -- 切换是否wrap
 vim.keymap.set('n', '\\w', "&wrap == 1 ? ':set nowrap<cr>' : ':set wrap<cr>'", { noremap = true, expr = true })
