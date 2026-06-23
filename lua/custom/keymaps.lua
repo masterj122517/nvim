@@ -220,6 +220,8 @@ vim.keymap.set("n", "-", ":Explore<CR>")
 
 vim.keymap.set('n', '<C-f>', ':find ')
 
+vim.keymap.set("n", "<leader>,", ":buffers<CR>:buffer<Space>")
+
 
 local magic_insertpair = function(char) -- 自动配对括号和引号
     local pair_close = { ['('] = ')', ['['] = ']', ['{'] = '}' }
