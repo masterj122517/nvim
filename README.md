@@ -14,3 +14,5 @@ In that case, I even have to using a day to just install lazy (or maybe i could 
 I should be fun and make me peace.
 
 Day0: Just plain neovim which means i don't have to slove problems. Kinda like cheating but whatever :) 
+
+Day1: I decided to add options 
