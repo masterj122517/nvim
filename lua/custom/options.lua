@@ -147,3 +147,6 @@ vim.opt.pumheight = 10
 
 -- no deprecated warings now
 vim.g.deprecated_warnings = false
+
+-- in theory, default colorscheme is a option so am i allow to use it? I believe i can  
+vim.cmd [[colorscheme unokai]]

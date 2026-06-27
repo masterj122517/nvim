@@ -11,8 +11,14 @@ In that case, I even have to using a day to just install lazy (or maybe i could 
 
 3. We have to use the configuration to code solve some problems, from simple leetcode problem to a real project, just do it no matter what, make this challenge more fun
 
+4. You have only one chance to setup each day(Just One chance) 
+
 I should be fun and make me peace.
 
 Day0: Just plain neovim which means i don't have to slove problems. Kinda like cheating but whatever :) 
 
-Day1: I decided to add options 
+Day1: I decided to add options(Im superised that they add catppuccin into the default theme which is good)
+
+Day2: Finally my keymaps, baiscally you can't code without them. 
+
+Day3: Add autocmds(pretty much the same as my original minmal config)
