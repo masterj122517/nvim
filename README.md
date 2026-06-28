@@ -22,3 +22,5 @@ Day1: I decided to add options(Im superised that they add catppuccin into the de
 Day2: Finally my keymaps, baiscally you can't code without them. 
 
 Day3: Add autocmds(pretty much the same as my original minmal config)
+
+Day4: I need plugins but lazy.nvim is a plugins itself, in that case, I decided to use vim.pack, And i decided to install telescope.nvim  

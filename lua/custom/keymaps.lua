@@ -260,9 +260,9 @@ vim.keymap.set("n", "G", "Gzz")
 -- open Explore like oil.nvim 
 vim.keymap.set("n", "-", ":Explore<CR>")
 
-vim.keymap.set('n', '<C-f>', ':find ')
+-- vim.keymap.set('n', '<C-f>', ':find ')
 
-vim.keymap.set("n", "<leader>,", ":buffers<CR>:buffer<Space>")
+-- vim.keymap.set("n", "<leader>,", ":buffers<CR>:buffer<Space>")
 
 
 local magic_insertpair = function(char)
@@ -305,13 +305,13 @@ end
 vim.keymap.set('i', '<BS>', magic_delpair, { expr = true, noremap = true })
 
 -- 修复 grep 包含特殊字符崩溃及转义问题
-vim.keymap.set('n', '<leader>/', function()
-    local query = vim.fn.input('grep: ')
-    if query ~= '' then
-        -- 使用 vim.fn.escape 转义 / 以防破坏 vimgrep 语法
-        local escaped = vim.fn.escape(query, '/')
-        -- 加上 pcall 防止匹配不到文件时直接报错中断
-        pcall(vim.cmd, 'vimgrep /' .. escaped .. '/gj **/*')
-        vim.cmd('copen')
-    end
-end)
+--vim.keymap.set('n', '<leader>/', function()
+--    local query = vim.fn.input('grep: ')
+--    if query ~= '' then
+--        -- 使用 vim.fn.escape 转义 / 以防破坏 vimgrep 语法
+--        local escaped = vim.fn.escape(query, '/')
+--        -- 加上 pcall 防止匹配不到文件时直接报错中断
+--        pcall(vim.cmd, 'vimgrep /' .. escaped .. '/gj **/*')
+--        vim.cmd('copen')
+--    end
+--end)
