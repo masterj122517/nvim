@@ -264,4 +264,8 @@ return { -- Useful plugin to show you pending keybinds.
       end)
     end,
   },
+  {
+    'esmuellert/codediff.nvim',
+    cmd = 'CodeDiff',
+  },
 }
