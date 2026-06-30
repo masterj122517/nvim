@@ -257,9 +257,6 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 
 vim.keymap.set("n", "G", "Gzz")
 
--- open Explore like oil.nvim 
-vim.keymap.set("n", "-", ":Explore<CR>")
-
 -- vim.keymap.set('n', '<C-f>', ':find ')
 
 -- vim.keymap.set("n", "<leader>,", ":buffers<CR>:buffer<Space>")
