@@ -15,7 +15,7 @@ In that case, I even have to using a day to just install lazy (or maybe i could 
 
 I should be fun and make me peace.
 
-Day0: Just plain neovim which means i don't have to slove problems. Kinda like cheating but whatever :) 
+Day0: Just plain neovim which means i don't have to solve problems. Kinda like cheating but whatever :) 
 
 Day1: I decided to add options(Im superised that they add catppuccin into the default theme which is good)
 
@@ -28,3 +28,15 @@ Day4: I need plugins but lazy.nvim is a plugins itself, in that case, I decided 
 Day5: enable lsp.
 
 Day6: Oil came to the game.
+
+Day7: markdown preview stuff
+
+Day8: Let's do mini 
+
+Day9: Finally, surround (i should put this in the front tier QAQ) 
+
+Day10: conform(the formatter) 
+
+Day11: some autocmd that i copy from other people's config just act like a cmp plugin and treesitters
+
+

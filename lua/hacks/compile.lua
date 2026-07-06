@@ -49,7 +49,7 @@ local compileRun = function()
       end
     end
   elseif ft == 'markdown' then
-    vim.cmd ':MarkdownPreviewToggle'
+    vim.cmd ':MarkdownPreview'
   elseif ft == 'typst' then
     vim.cmd ':TypstPreview'
   elseif ft == 'javascript' then
@@ -74,7 +74,7 @@ local compileRun = function()
     vim.cmd 'term dotnet run %'
   elseif ft == 'java' then
     split()
-    vim.cmd 'term make run'
+    vim.cmd 'term javac %  && java %< && rm %<.class'
   elseif ft == 'haskell' then
     vim.cmd('Compile ghc ' .. vim.fn.expand '%:t')
   end
