@@ -255,6 +255,24 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 
 vim.keymap.set("n", "G", "Gzz")
 
+
+vim.keymap.set('n', 'n', 'nzzzv', { desc = 'Next search result and center' })
+
+vim.keymap.set('n', 'N', 'Nzzzv', { desc = 'Prev search result and center' })
+
+vim.keymap.set('n', '/', 'ms/')
+vim.keymap.set('n', '?', 'ms?')
+
+vim.keymap.set('n', '`', function()
+  local char = vim.fn.getcharstr()
+  return '`' .. char .. 'zz'
+end, { expr = true, desc = 'Jump to mark precise and center' })
+
+vim.keymap.set('n', "'", function()
+  local char = vim.fn.getcharstr()
+  return "'" .. char .. 'zz'
+end, { expr = true, desc = 'Jump to mark line and center' })
+
 -- open Explore like oil.nvim 
 vim.keymap.set("n", "-", ":Explore<CR>")
 
