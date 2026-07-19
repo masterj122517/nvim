@@ -41,20 +41,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 -- capabilities
-M.capabilities = vim.tbl_deep_extend('force',
-  vim.lsp.protocol.make_client_capabilities(),
-  require('blink.cmp').get_lsp_capabilities()
-)
+M.capabilities = vim.tbl_deep_extend('force', vim.lsp.protocol.make_client_capabilities(), require('blink.cmp').get_lsp_capabilities())
 
 -- Mason 自动安装
 local servers = {
   'clangd',
   'gopls',
-  'pyright',
+  -- 'pyright',
   'lua-language-server',
   'rust-analyzer',
   'jdtls',
-  'haskell-language-server',
+  -- 'haskell-language-server',
 }
 
 function M.setup()

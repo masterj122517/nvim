@@ -211,4 +211,23 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz')
 
 vim.keymap.set('n', '<C-d>', '<C-d>zz')
 
+vim.keymap.set('n', 'n', 'nzzzv', { desc = 'Next search result and center' })
+
+vim.keymap.set('n', 'N', 'Nzzzv', { desc = 'Prev search result and center' })
+
 vim.keymap.set('n', 'G', 'Gzz')
+
+vim.keymap.set('n', '/', 'ms/')
+vim.keymap.set('n', '?', 'ms?')
+
+-- 精确跳转到标记（行+列）并居中
+vim.keymap.set('n', '`', function()
+  local char = vim.fn.getcharstr()
+  return '`' .. char .. 'zz'
+end, { expr = true, desc = 'Jump to mark precise and center' })
+
+-- 跳转到标记所在行并居中
+vim.keymap.set('n', "'", function()
+  local char = vim.fn.getcharstr()
+  return "'" .. char .. 'zz'
+end, { expr = true, desc = 'Jump to mark line and center' })
