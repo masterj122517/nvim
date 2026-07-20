@@ -231,3 +231,50 @@ vim.keymap.set('n', "'", function()
   local char = vim.fn.getcharstr()
   return "'" .. char .. 'zz'
 end, { expr = true, desc = 'Jump to mark line and center' })
+
+local toggle_term = {
+  win = nil,
+  buf = nil,
+}
+
+local function toggle_my_terminal()
+  -- 1. If the terminal window is visible, hide it or focus it depending on current focus
+  if toggle_term.win and vim.api.nvim_win_is_valid(toggle_term.win) then
+    local curr_win = vim.api.nvim_get_current_win()
+    -- If inside the terminal window, hide it
+    if curr_win == toggle_term.win then
+      vim.api.nvim_win_hide(toggle_term.win)
+      toggle_term.win = nil
+      return
+    else
+      -- If open but unfocused, move focus to it (similar to snacks.terminal.focus)
+      vim.api.nvim_set_current_win(toggle_term.win)
+      vim.cmd 'startinsert'
+      return
+    end
+  end
+
+  -- 2. Split a new window downwards with a fixed height of 10 lines
+  vim.cmd 'belowright 10sp'
+  local new_win = vim.api.nvim_get_current_win()
+
+  -- 3. Check if the terminal buffer exists and is valid
+  if toggle_term.buf and vim.api.nvim_buf_is_valid(toggle_term.buf) then
+    -- Reuse existing buffer
+    vim.api.nvim_win_set_buf(new_win, toggle_term.buf)
+  else
+    -- Create a brand new terminal and store its buffer ID
+    vim.cmd 'terminal'
+    toggle_term.buf = vim.api.nvim_get_current_buf()
+    -- Set custom filetype to avoid default terminal options pollution
+    vim.bo[toggle_term.buf].filetype = 'vanilla_terminal'
+  end
+
+  -- 4. Record the current bound window ID and enter insert mode
+  toggle_term.win = new_win
+  vim.cmd 'startinsert'
+end
+
+-- Bind both keys to handle different terminal tracking definitions
+vim.keymap.set({ 'n', 't' }, '<c-/>', toggle_my_terminal, { silent = true })
+vim.keymap.set({ 'n', 't' }, '<c-_>', toggle_my_terminal, { silent = true })
