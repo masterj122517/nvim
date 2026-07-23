@@ -39,4 +39,7 @@ Day10: conform(the formatter)
 
 Day11: some autocmd that i copy from other people's config just act like a cmp plugin and treesitters
 
+Since I'm going to off for like 3 days (it's just add 3 plugins into it)
+Day12 - Day14: 
+
 
