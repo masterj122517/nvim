@@ -32,7 +32,7 @@ function M.setup()
       },
     },
 
-    capabilities = require('custom.lsp').capabilities,
+    capabilities = require('custom.lsp').capabilities(),
   })
 
   vim.lsp.enable 'gopls'

@@ -1,6 +1,11 @@
 return {
   'ej-shafran/compile-mode.nvim',
   version = '^5.0.0',
+  cmd = { 'Compile', 'Recompile' },
+  keys = {
+    { '<leader>mm', '<cmd>Compile<cr>', desc = 'Run Compile Mode' },
+    { '<leader>mM', '<cmd>Recompile<cr>', desc = 'Run Recompile Mode' },
+  },
   -- you can just use the latest version:
   -- branch = "latest",
   -- or the most up-to-date updates:
@@ -12,8 +17,6 @@ return {
     -- { "m00qek/baleia.nvim", tag = "v1.3.0" },
   },
   config = function()
-    vim.keymap.set('n', '<LEADER>mm', ':Compile<CR>', { desc = 'Run Compile Mode' })
-    vim.keymap.set('n', '<LEADER>mM', ':Recompile<CR>', { desc = 'Run Recompile Mode' })
     ---@type CompileModeOpts
     vim.g.compile_mode = {
       input_word_completion = true,

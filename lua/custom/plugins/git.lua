@@ -1,6 +1,7 @@
 return {
   {
     'lewis6991/gitsigns.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
     opts = {
       max_file_length = 10000,
       signs = {
@@ -68,7 +69,7 @@ return {
     },
     cmd = 'Neogit',
     keys = {
-      { '<leader>gg', '<cmd>Neogit<cr>', desc = 'Show Neogit UI' },
+      { '<leader>gG', '<cmd>Neogit<cr>', desc = 'Show Neogit UI' },
     },
   },
 }

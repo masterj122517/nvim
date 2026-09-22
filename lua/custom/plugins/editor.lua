@@ -53,23 +53,24 @@ return { -- Useful plugin to show you pending keybinds.
   },
   {
     'folke/todo-comments.nvim',
-    event = 'VeryLazy',
     dependencies = { 'nvim-lua/plenary.nvim' },
     opts = { signs = false },
-
-    vim.keymap.set('n', ']t', function()
-      require('todo-comments').jump_next()
-    end, { desc = 'Next todo comment' }),
-
-    vim.keymap.set('n', '[t', function()
-      require('todo-comments').jump_prev()
-    end, { desc = 'Previous todo comment' }),
-
-    -- You can also specify a list of valid jump keywords
-
-    -- vim.keymap.set('n', ']t', function()
-    --   require('todo-comments').jump_next { keywords = { 'ERROR', 'WARNING' } }
-    -- end, { desc = 'Next error/warning todo comment' }),
+    keys = {
+      {
+        ']t',
+        function()
+          require('todo-comments').jump_next()
+        end,
+        desc = 'Next todo comment',
+      },
+      {
+        '[t',
+        function()
+          require('todo-comments').jump_prev()
+        end,
+        desc = 'Previous todo comment',
+      },
+    },
   },
 
   {
@@ -87,13 +88,11 @@ return { -- Useful plugin to show you pending keybinds.
 
   {
     'stevearc/oil.nvim',
-    ---@module 'oil'
-    ---@type oil.SetupOpts
     opts = {},
-    -- Optional dependencies
     dependencies = { { 'echasnovski/mini.icons', opts = {} } },
-    -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
-    vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'OpenParent directory' }),
+    keys = {
+      { '-', '<cmd>Oil<cr>', desc = 'Open parent directory' },
+    },
   },
 
   {
@@ -152,6 +151,7 @@ return { -- Useful plugin to show you pending keybinds.
   },
   {
     'NvChad/nvim-colorizer.lua',
+    event = { 'BufReadPre', 'BufNewFile' },
     opts = {
       -- 只在样式相关文件中启用，避免在大代码文件里增加重绘压力
       filetypes = { 'css', 'scss', 'sass', 'html', 'javascript', 'typescript', 'tsx', 'vue' },
@@ -186,35 +186,36 @@ return { -- Useful plugin to show you pending keybinds.
 
   {
     'MagicDuck/grug-far.nvim',
-    -- Note (lazy loading): grug-far.lua defers all it's requires so it's lazy by default
-    -- additional lazy config to defer loading is not really needed...
-    config = function()
-      -- optional setup call to override plugin options
-      -- alternatively you can set options with vim.g.grug_far = { ... }
-      require('grug-far').setup {
-        -- 1. Normal Mode: Replace word under cursor
-        vim.keymap.set('n', '<C-g>', function()
-          local grug = require 'grug-far'
-          local ext = vim.fn.expand '%:e'
-          grug.open {
+    opts = {},
+    keys = {
+      {
+        '<C-g>',
+        function()
+          local extension = vim.fn.expand '%:e'
+          require('grug-far').open {
             prefills = {
               search = vim.fn.expand '<cword>',
-              filesFilter = ext ~= '' and ('*.' .. ext) or nil,
+              filesFilter = extension ~= '' and ('*.' .. extension) or nil,
             },
           }
-        end, { desc = 'Grug-far: Replace current word' }),
-
-        -- 2. Visual Mode: Replace selected text
-        vim.keymap.set('v', '<C-g>', function()
-          local grug = require 'grug-far'
-          grug.with_visual_selection {
+        end,
+        mode = 'n',
+        desc = 'Replace current word',
+      },
+      {
+        '<C-g>',
+        function()
+          local extension = vim.fn.expand '%:e'
+          require('grug-far').with_visual_selection {
             prefills = {
-              filesFilter = vim.fn.expand '%:e' ~= '' and ('*.' .. vim.fn.expand '%:e') or nil,
+              filesFilter = extension ~= '' and ('*.' .. extension) or nil,
             },
           }
-        end, { desc = 'Grug-far: Replace selection' }),
-      }
-    end,
+        end,
+        mode = 'x',
+        desc = 'Replace selection',
+      },
+    },
   },
 
   {
@@ -225,8 +226,8 @@ return { -- Useful plugin to show you pending keybinds.
         default = {
           augend.integer.alias.decimal,
           augend.integer.alias.hex,
-          augend.constant.alias.bool, -- true/false
-          augend.constant.new { -- 自定义
+          augend.constant.alias.bool,
+          augend.constant.new {
             elements = { 'and', 'or' },
             word = true,
             cyclic = true,
@@ -238,31 +239,65 @@ return { -- Useful plugin to show you pending keybinds.
           },
         },
       }
-      vim.keymap.set('n', '<C-a>', function()
-        require('dial.map').manipulate('increment', 'normal')
-      end)
-      vim.keymap.set('n', '<C-x>', function()
-        require('dial.map').manipulate('decrement', 'normal')
-      end)
-      vim.keymap.set('n', 'g<C-a>', function()
-        require('dial.map').manipulate('increment', 'gnormal')
-      end)
-      vim.keymap.set('n', 'g<C-x>', function()
-        require('dial.map').manipulate('decrement', 'gnormal')
-      end)
-      vim.keymap.set('x', '<C-a>', function()
-        require('dial.map').manipulate('increment', 'visual')
-      end)
-      vim.keymap.set('x', '<C-x>', function()
-        require('dial.map').manipulate('decrement', 'visual')
-      end)
-      vim.keymap.set('x', 'g<C-a>', function()
-        require('dial.map').manipulate('increment', 'gvisual')
-      end)
-      vim.keymap.set('x', 'g<C-x>', function()
-        require('dial.map').manipulate('decrement', 'gvisual')
-      end)
     end,
+    keys = {
+      {
+        '<C-a>',
+        function()
+          require('dial.map').manipulate('increment', 'normal')
+        end,
+        mode = 'n',
+      },
+      {
+        '<C-x>',
+        function()
+          require('dial.map').manipulate('decrement', 'normal')
+        end,
+        mode = 'n',
+      },
+      {
+        'g<C-a>',
+        function()
+          require('dial.map').manipulate('increment', 'gnormal')
+        end,
+        mode = 'n',
+      },
+      {
+        'g<C-x>',
+        function()
+          require('dial.map').manipulate('decrement', 'gnormal')
+        end,
+        mode = 'n',
+      },
+      {
+        '<C-a>',
+        function()
+          require('dial.map').manipulate('increment', 'visual')
+        end,
+        mode = 'x',
+      },
+      {
+        '<C-x>',
+        function()
+          require('dial.map').manipulate('decrement', 'visual')
+        end,
+        mode = 'x',
+      },
+      {
+        'g<C-a>',
+        function()
+          require('dial.map').manipulate('increment', 'gvisual')
+        end,
+        mode = 'x',
+      },
+      {
+        'g<C-x>',
+        function()
+          require('dial.map').manipulate('decrement', 'gvisual')
+        end,
+        mode = 'x',
+      },
+    },
   },
   {
     'esmuellert/codediff.nvim',

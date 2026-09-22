@@ -1,6 +1,8 @@
 return {
   'zk-org/zk-nvim',
   name = 'zk',
+  ft = 'markdown',
+  cmd = { 'ZkIndex', 'ZkNew', 'ZkNotes', 'ZkTags' },
   opts = {
     -- Can be "telescope", "fzf", "fzf_lua", "minipick", "snacks_picker",
     -- or select" (`vim.ui.select`).

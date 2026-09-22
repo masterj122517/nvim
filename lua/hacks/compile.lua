@@ -1,10 +1,12 @@
+local M = {}
+
 local split = function()
   vim.cmd 'set splitbelow'
   vim.cmd 'sp'
   vim.cmd 'res -5'
 end
 
-local compileRun = function()
+function M.run()
   local function find_project_root(path)
     if vim.fn.filereadable(path .. '/Makefile') == 1 then
       return path
@@ -80,4 +82,4 @@ local compileRun = function()
   end
 end
 
-vim.keymap.set('n', 'com', compileRun, { silent = true })
+return M

@@ -2,6 +2,20 @@ return {
   {
     'jake-stewart/multicursor.nvim',
     branch = '1.0',
+    keys = {
+      { '<Up>', mode = { 'n', 'x' } },
+      { '<Down>', mode = { 'n', 'x' } },
+      { '<leader><Up>', mode = { 'n', 'x' } },
+      { '<leader><Down>', mode = { 'n', 'x' } },
+      { '<C-n>', mode = { 'n', 'x' } },
+      { '<C-s>', mode = { 'n', 'x' } },
+      { '<C-S-n>', mode = { 'n', 'x' } },
+      { '<C-S-s>', mode = { 'n', 'x' } },
+      { '<C-LeftMouse>', mode = 'n' },
+      { '<C-LeftDrag>', mode = 'n' },
+      { '<C-LeftRelease>', mode = 'n' },
+      { '<C-q>', mode = { 'n', 'x' } },
+    },
     config = function()
       local mc = require 'multicursor-nvim'
       mc.setup()

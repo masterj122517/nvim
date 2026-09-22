@@ -1,7 +1,7 @@
 return {
   {
     'mfussenegger/nvim-lint',
-    events = { 'BufWritePost' },
+    event = { 'BufWritePost' },
     opts = {
       -- Event to trigger linters
       -- 只在保存后执行，避免 InsertLeave/BufReadPost 频繁触发
@@ -80,7 +80,7 @@ return {
         names = vim.tbl_filter(function(name)
           local linter = lint.linters[name]
           if not linter then
-            LazyVim.warn('Linter not found: ' .. name, { title = 'nvim-lint' })
+            vim.notify('Linter not found: ' .. name, vim.log.levels.WARN, { title = 'nvim-lint' })
           end
           return linter and not (type(linter) == 'table' and linter.condition and not linter.condition(ctx))
         end, names)

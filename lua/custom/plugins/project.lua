@@ -1,24 +1,44 @@
+local function load_project_config()
+  local path = vim.fs.joinpath(vim.fn.getcwd(), '.vim.lua')
+  if vim.fn.filereadable(path) ~= 1 then
+    return
+  end
+
+  local contents = vim.secure.read(path)
+  if type(contents) ~= 'string' then
+    return
+  end
+
+  local chunk, load_error = load(contents, '@' .. path, 't', _G)
+  if not chunk then
+    vim.notify(('Failed to load %s: %s'):format(path, load_error), vim.log.levels.ERROR)
+    return
+  end
+
+  local ok, runtime_error = pcall(chunk)
+  if not ok then
+    vim.notify(('Failed to execute %s: %s'):format(path, runtime_error), vim.log.levels.ERROR)
+  end
+end
+
 return {
-  {
-    'airblade/vim-rooter',
-    init = function()
-      vim.g.rooter_patterns = {
-        '__vim_project_root', -- 手动标记
-        'pom.xml', -- Maven 项目
-        'build.gradle', -- Gradle 项目
-        'settings.gradle', -- Gradle 多模块
-        'src/', -- 没有构建工具时用 src 目录当根
-        '.git/', -- Git 仓库
-      }
-      vim.g.rooter_silent_chdir = true
-      -- set an autocmd
-      vim.api.nvim_create_autocmd('VimEnter', {
-        pattern = '*',
-        callback = function()
-          -- source .vim.lua at project root
-          vim.cmd [[silent! source .vim.lua]]
-        end,
-      })
-    end,
-  },
+  'airblade/vim-rooter',
+  init = function()
+    vim.g.rooter_patterns = {
+      '__vim_project_root',
+      'pom.xml',
+      'build.gradle',
+      'settings.gradle',
+      'src/',
+      '.git/',
+    }
+    vim.g.rooter_silent_chdir = true
+    vim.g.rooter_cd_cmd = 'lcd'
+
+    vim.api.nvim_create_autocmd('User', {
+      pattern = 'RooterChDir',
+      group = vim.api.nvim_create_augroup('masterjVim_project_config', { clear = true }),
+      callback = load_project_config,
+    })
+  end,
 }

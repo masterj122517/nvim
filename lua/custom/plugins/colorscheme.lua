@@ -2,7 +2,7 @@ return {
   {
     'neanias/everforest-nvim',
     version = false,
-    lazy = false,
+    lazy = true,
     priority = 1000,
     config = function()
       require('everforest').setup {
@@ -27,6 +27,7 @@ return {
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'folke/tokyonight.nvim',
+    lazy = true,
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
       ---@diagnostic disable-next-line: missing-fields
@@ -48,6 +49,7 @@ return {
   {
     'rose-pine/neovim',
     name = 'rose-pine',
+    lazy = true,
     config = function()
       require('rose-pine').setup {
         disable_background = true,
@@ -62,6 +64,7 @@ return {
   },
   {
     'blazkowolf/gruber-darker.nvim',
+    lazy = true,
     config = function()
       require('gruber-darker').setup {
         'blazkowolf/gruber-darker.nvim',
@@ -77,23 +80,15 @@ return {
   },
   {
     'tjdevries/colorbuddy.nvim',
+    lazy = true,
     priority = 1000,
   },
 
   {
-    dir = vim.fn.stdpath 'config', -- 随便指向一个存在的目录
-    priority = 0, -- 确保在主题插件之后启动
-    lazy = false, -- 必须立即加载
-    config = function()
-      -- 庄园的警钟开始鸣响，Sir
-      -- start_colorscheme_manager()
-      --vim.cmd 'colorscheme rose-pine-main'
-    end,
-  },
-  {
     'catppuccin/nvim',
     name = 'catppuccin',
     priority = 1000,
+    lazy = false,
 
     config = function()
       require('catppuccin').setup {
@@ -155,7 +150,7 @@ return {
         default_integrations = true,
         auto_integrations = false,
         integrations = {
-          cmp = true,
+          blink_cmp = true,
           gitsigns = true,
           nvimtree = true,
           notify = false,

@@ -1,8 +1,6 @@
 -- gj/gk when no count
 vim.keymap.set({ 'n', 'x' }, 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, desc = 'Down', silent = true })
-vim.keymap.set({ 'n', 'x' }, '<Down>', "v:count == 0 ? 'gj' : 'j'", { expr = true, desc = 'Down', silent = true })
 vim.keymap.set({ 'n', 'x' }, 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, desc = 'Up', silent = true })
-vim.keymap.set({ 'n', 'x' }, '<Up>', "v:count == 0 ? 'gk' : 'k'", { expr = true, desc = 'Up', silent = true })
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 vim.keymap.set('n', 's', '<nop>')
@@ -61,12 +59,6 @@ end, { noremap = true, desc = 'Kill to end of line' })
 -- buffers
 vim.keymap.set('n', '<S-h>', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
 vim.keymap.set('n', '<S-l>', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
--- 删除当前 buffer（保持窗口不关闭）
-vim.keymap.set('n', '<leader>bd', function()
-  local bufnr = vim.api.nvim_get_current_buf()
-  vim.cmd 'bnext' -- 切换到下一个 buffer，避免窗口留空
-  vim.cmd('bdelete ' .. bufnr)
-end, { desc = 'Delete Buffer' })
 -- 删除除当前以外的所有 buffer
 vim.keymap.set('n', '<leader>bo', function()
   local current = vim.api.nvim_get_current_buf()
@@ -196,8 +188,9 @@ function MagicToggleHump(upperCase)
   vim.fn.execute 'normal! "tP'
 end
 
-require 'hacks.compile'
-require 'hacks.markdown'
+vim.keymap.set('n', 'com', function()
+  require('hacks.compile').run()
+end, { silent = true })
 
 -- some tricks
 

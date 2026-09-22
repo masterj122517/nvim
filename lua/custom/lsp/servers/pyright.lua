@@ -16,7 +16,7 @@ function M.setup()
       },
     },
 
-    capabilities = require('custom.lsp').capabilities,
+    capabilities = require('custom.lsp').capabilities(),
   })
 
   -- Enable the server

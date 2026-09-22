@@ -125,14 +125,6 @@ vim.cmd [[
     let &t_vb = ''              " 禁用视觉响铃（屏幕闪烁）
     let &t_ut = ''              " 防止某些终端背景颜色异常
 ]]
--- 打开终端时自动进入插入模式
-vim.cmd [[autocmd TermOpen term://* startinsert]]
-
--- 打开文件时恢复上次光标位置
-vim.cmd [[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif]]
-
--- 自动切换工作目录为当前 buffer 所在目录
-vim.api.nvim_create_autocmd('BufEnter', { pattern = '*', command = 'silent! lcd %:p:h' })
 
 -- 精简消息
 vim.opt.shortmess = 'filnxtToOScIF'

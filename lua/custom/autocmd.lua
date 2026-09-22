@@ -4,6 +4,12 @@ local function augroup(name)
   return vim.api.nvim_create_augroup('masterjVim_' .. name, { clear = true })
 end
 
+vim.api.nvim_create_autocmd('TermOpen', {
+  group = augroup 'terminal',
+  pattern = 'term://*',
+  command = 'startinsert',
+})
+
 -- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
   group = augroup 'checktime',

@@ -8,7 +8,7 @@ function M.setup()
 
     root_markers = { 'Cargo.toml', 'rust-project.json' },
 
-    capabilities = require('custom.lsp').capabilities,
+    capabilities = require('custom.lsp').capabilities(),
 
     settings = {
       ['rust-analyzer'] = {
