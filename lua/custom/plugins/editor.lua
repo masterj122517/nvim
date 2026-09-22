@@ -88,7 +88,10 @@ return { -- Useful plugin to show you pending keybinds.
 
   {
     'stevearc/oil.nvim',
-    opts = {},
+    lazy = false,
+    opts = {
+      default_file_explorer = true,
+    },
     dependencies = { { 'echasnovski/mini.icons', opts = {} } },
     keys = {
       { '-', '<cmd>Oil<cr>', desc = 'Open parent directory' },
