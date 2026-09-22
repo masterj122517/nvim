@@ -26,21 +26,28 @@ local p = {
   green = '#82D2B2',
 }
 
+-- Set this global before loading the colorscheme; opaque is the default.
+local transparent = vim.g.kataware_transparent == true
+local editor_bg = transparent and 'NONE' or p.void
+local surface_bg = transparent and 'NONE' or p.surface
+local surface_high_bg = transparent and 'NONE' or p.surface_high
+local night_bg = transparent and 'NONE' or p.night
+
 local groups = {
   -- Editor surfaces
-  Normal = { fg = p.fg, bg = p.void },
-  NormalNC = { fg = p.dim, bg = p.void },
-  NormalFloat = { fg = p.fg, bg = p.surface },
-  FloatBorder = { fg = p.border, bg = p.surface },
-  FloatTitle = { fg = p.comet, bg = p.surface, bold = true },
+  Normal = { fg = p.fg, bg = editor_bg },
+  NormalNC = { fg = p.dim, bg = editor_bg },
+  NormalFloat = { fg = p.fg, bg = surface_bg },
+  FloatBorder = { fg = p.border, bg = surface_bg },
+  FloatTitle = { fg = p.comet, bg = surface_bg, bold = true },
   ColorColumn = { bg = p.night },
   Cursor = { fg = p.void, bg = p.starlight },
   CursorColumn = { bg = p.night },
   CursorLine = { bg = p.night },
   CursorLineNr = { fg = p.gold, bg = p.night, bold = true },
   LineNr = { fg = p.border },
-  SignColumn = { fg = p.muted, bg = p.void },
-  FoldColumn = { fg = p.muted, bg = p.void },
+  SignColumn = { fg = p.muted, bg = editor_bg },
+  FoldColumn = { fg = p.muted, bg = editor_bg },
   Folded = { fg = p.dim, bg = p.night },
   WinSeparator = { fg = p.border },
   VertSplit = { fg = p.border },
@@ -68,13 +75,13 @@ local groups = {
   StatusLine = { fg = p.fg, bg = p.surface },
   StatusLineNC = { fg = p.muted, bg = p.night },
   TabLine = { fg = p.muted, bg = p.night },
-  TabLineFill = { bg = p.void },
+  TabLineFill = { bg = editor_bg },
   TabLineSel = { fg = p.void, bg = p.comet, bold = true },
-  WinBar = { fg = p.dim, bg = p.void },
-  WinBarNC = { fg = p.muted, bg = p.void },
-  Pmenu = { fg = p.dim, bg = p.surface },
+  WinBar = { fg = p.dim, bg = editor_bg },
+  WinBarNC = { fg = p.muted, bg = editor_bg },
+  Pmenu = { fg = p.dim, bg = surface_bg },
   PmenuSel = { fg = p.starlight, bg = p.surface_high, bold = true },
-  PmenuSbar = { bg = p.night },
+  PmenuSbar = { bg = night_bg },
   PmenuThumb = { bg = p.border },
   PmenuMatch = { fg = p.comet, bold = true },
   PmenuMatchSel = { fg = p.comet, bg = p.surface_high, bold = true },
@@ -154,20 +161,20 @@ local groups = {
   -- Completion and pickers
   ComplHint = { fg = p.dim, italic = true },
   ComplHintMore = { fg = p.comet, bold = true },
-  BlinkCmpMenu = { fg = p.dim, bg = p.surface },
-  BlinkCmpMenuBorder = { fg = p.border, bg = p.surface },
+  BlinkCmpMenu = { fg = p.dim, bg = surface_bg },
+  BlinkCmpMenuBorder = { fg = p.border, bg = surface_bg },
   BlinkCmpMenuSelection = { fg = p.starlight, bg = p.surface_high, bold = true },
   BlinkCmpLabel = { fg = p.dim },
   BlinkCmpLabelMatch = { fg = p.comet, bold = true },
   BlinkCmpLabelDeprecated = { fg = p.muted, strikethrough = true },
   BlinkCmpKind = { fg = p.violet },
   BlinkCmpSource = { fg = p.muted, italic = true },
-  BlinkCmpDoc = { fg = p.dim, bg = p.surface },
-  BlinkCmpDocBorder = { fg = p.border, bg = p.surface },
-  TelescopeNormal = { fg = p.dim, bg = p.surface },
-  TelescopeBorder = { fg = p.border, bg = p.surface },
-  TelescopePromptNormal = { fg = p.fg, bg = p.surface_high },
-  TelescopePromptBorder = { fg = p.violet, bg = p.surface_high },
+  BlinkCmpDoc = { fg = p.dim, bg = surface_bg },
+  BlinkCmpDocBorder = { fg = p.border, bg = surface_bg },
+  TelescopeNormal = { fg = p.dim, bg = surface_bg },
+  TelescopeBorder = { fg = p.border, bg = surface_bg },
+  TelescopePromptNormal = { fg = p.fg, bg = surface_high_bg },
+  TelescopePromptBorder = { fg = p.violet, bg = surface_high_bg },
   TelescopePromptTitle = { fg = p.void, bg = p.violet, bold = true },
   TelescopePreviewTitle = { fg = p.void, bg = p.blue, bold = true },
   TelescopeResultsTitle = { fg = p.void, bg = p.comet, bold = true },
@@ -189,7 +196,7 @@ local groups = {
   WhichKeyGroup = { fg = p.violet },
   WhichKeyDesc = { fg = p.dim },
   WhichKeySeparator = { fg = p.border },
-  WhichKeyBorder = { fg = p.border, bg = p.surface },
+  WhichKeyBorder = { fg = p.border, bg = surface_bg },
   LazyButton = { fg = p.dim, bg = p.surface_high },
   LazyButtonActive = { fg = p.void, bg = p.comet, bold = true },
   LazyH1 = { fg = p.void, bg = p.violet, bold = true },
@@ -218,7 +225,7 @@ local groups = {
   MiniTablineModifiedCurrent = { fg = p.red, bg = p.comet, bold = true },
   MiniTablineModifiedVisible = { fg = p.gold, bg = p.surface },
   MiniTablineModifiedHidden = { fg = p.gold, bg = p.night },
-  MiniTablineFill = { bg = p.void },
+  MiniTablineFill = { bg = editor_bg },
 }
 
 for group, spec in pairs(groups) do

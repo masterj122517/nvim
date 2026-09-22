@@ -5,6 +5,7 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
+      vim.g.kataware_transparent = true
       vim.cmd.colorscheme 'kataware'
     end,
   },
