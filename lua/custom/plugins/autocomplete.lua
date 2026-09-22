@@ -44,6 +44,8 @@ return {
     },
     keymap = {
       preset = 'none',
+      ['<C-n>'] = { 'select_next', 'show' },
+      ['<C-p>'] = { 'select_prev', 'show' },
       ['<C-y>'] = { 'select_and_accept', 'fallback' },
       ['<C-o>'] = { 'show', 'show_documentation', 'hide_documentation' },
       ['<C-e>'] = { 'hide', 'fallback' },
