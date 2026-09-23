@@ -125,13 +125,6 @@ return {
       desc = 'Buffers',
     },
     {
-      '<leader>/',
-      function()
-        Snacks.picker.grep()
-      end,
-      desc = 'Grep',
-    },
-    {
       '<leader>:',
       function()
         Snacks.picker.command_history()
@@ -152,13 +145,6 @@ return {
         Snacks.picker.files { cwd = vim.fn.stdpath 'config' }
       end,
       desc = 'Find Config File',
-    },
-    {
-      '<leader>ff',
-      function()
-        Snacks.picker.files()
-      end,
-      desc = 'Find Files',
     },
     {
       '<leader>fg',
@@ -238,21 +224,6 @@ return {
         Snacks.picker.grep_buffers()
       end,
       desc = 'Grep Open Buffers',
-    },
-    {
-      '<leader>sg',
-      function()
-        Snacks.picker.grep()
-      end,
-      desc = 'Grep',
-    },
-    {
-      '<leader>sw',
-      function()
-        Snacks.picker.grep_word()
-      end,
-      desc = 'Visual selection or word',
-      mode = { 'n', 'x' },
     },
     -- search
     {
