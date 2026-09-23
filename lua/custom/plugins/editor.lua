@@ -305,5 +305,39 @@ return { -- Useful plugin to show you pending keybinds.
   {
     'esmuellert/codediff.nvim',
     cmd = 'CodeDiff',
+    keys = {
+      { '<leader>gD', '<cmd>CodeDiff<cr>', desc = 'Open CodeDiff workspace' },
+    },
+    opts = {
+      diff = {
+        layout = 'side-by-side',
+        hide_merge_artifacts = true,
+        cycle_hunks_across_files = true,
+        highlight_added_deleted_files = true,
+        gutter_signs = {
+          insert_text = '＋',
+          delete_text = '－',
+          highlight_numbers = true,
+          changed_priority = 100,
+        },
+        compute_moves = true,
+        compact = false,
+        compact_context_lines = 3,
+        compact_sync_folds = true,
+      },
+      explorer = {
+        view_mode = 'tree',
+        flatten_dirs = true,
+        indent_markers = true,
+        line_stats = {
+          enabled = true,
+          count_untracked = true,
+          max_untracked_bytes = 1024 * 1024,
+        },
+      },
+      history = {
+        view_mode = 'tree',
+      },
+    },
   },
 }
