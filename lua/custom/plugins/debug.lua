@@ -23,6 +23,7 @@ return {
 
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
+    'mxsdev/nvim-dap-vscode-js',
   },
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
@@ -103,6 +104,7 @@ return {
         -- Update this to ensure that you have the debuggers for the langs you want
         'delve',
         'codelldb',
+        'js',
       },
     }
 
@@ -152,6 +154,44 @@ return {
         detached = vim.fn.has 'win32' == 0,
       },
     }
+
+    require('dap-vscode-js').setup {
+      debugger_cmd = { 'js-debug-adapter' },
+      adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal' },
+    }
+
+    local javascript_configurations = {
+      {
+        type = 'pwa-node',
+        request = 'launch',
+        name = 'JavaScript: Launch current file',
+        program = '${file}',
+        cwd = '${workspaceFolder}',
+        sourceMaps = true,
+        console = 'integratedTerminal',
+      },
+      {
+        type = 'pwa-node',
+        request = 'attach',
+        name = 'JavaScript: Attach to process',
+        processId = require('dap.utils').pick_process,
+        cwd = '${workspaceFolder}',
+        sourceMaps = true,
+      },
+      {
+        type = 'pwa-chrome',
+        request = 'launch',
+        name = 'Browser: Launch Chrome',
+        url = function()
+          return vim.fn.input('URL: ', 'http://localhost:3000')
+        end,
+        webRoot = '${workspaceFolder}',
+        sourceMaps = true,
+      },
+    }
+    for _, language in ipairs { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' } do
+      dap.configurations[language] = javascript_configurations
+    end
     dap.configurations.python = {
       {
         type = 'python',

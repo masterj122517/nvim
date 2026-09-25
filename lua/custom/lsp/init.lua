@@ -92,7 +92,26 @@ local servers = {
   'rust-analyzer',
   'jdtls',
   'copilot-language-server',
-  -- 'haskell-language-server',
+  -- Web
+  'angular-language-server',
+  'astro-language-server',
+  'biome',
+  'css-lsp',
+  'cssmodules-language-server',
+  'deno',
+  'emmet-language-server',
+  'eslint-lsp',
+  'graphql-language-service-cli',
+  'html-lsp',
+  'json-lsp',
+  'mdx-analyzer',
+  'prisma-language-server',
+  'stylelint-language-server',
+  'svelte-language-server',
+  'tailwindcss-language-server',
+  'vtsls',
+  'vue-language-server',
+  'yaml-language-server',
 }
 
 function M.setup()
@@ -102,6 +121,8 @@ function M.setup()
       'stylua',
       'clang-format',
       'google-java-format',
+      'prettierd',
+      'js-debug-adapter',
     }),
     run_on_start = true,
     start_delay = 3000,
@@ -112,6 +133,7 @@ function M.setup()
     capabilities = M.capabilities(),
   })
   vim.lsp.enable 'copilot'
+  require('custom.lsp.servers.web').setup()
 
   require('custom.lsp.servers.lua_ls').setup()
   require('custom.lsp.servers.clangd').setup()

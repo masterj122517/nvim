@@ -33,6 +33,7 @@ return {
     snippets = { preset = 'luasnip' },
     appearance = { nerd_font_variant = 'mono' },
     completion = {
+      trigger = { show_in_snippet = false },
       accept = { auto_brackets = { enabled = true } },
       documentation = {
         auto_show = false,
@@ -51,12 +52,12 @@ return {
       ['<C-e>'] = { 'hide', 'fallback' },
       ['<CR>'] = { 'accept', 'fallback' },
       ['<Tab>'] = {
+        'snippet_forward',
         function(cmp)
           if cmp.is_visible() then
             return cmp.select_and_accept()
           end
         end,
-        'snippet_forward',
         sidekick_next_edit,
         native_inline_completion,
         'fallback',

@@ -17,6 +17,8 @@ return {
     dependencies = {
       'williamboman/mason.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
+      'yioneko/nvim-vtsls',
+      'b0o/schemastore.nvim',
     },
     config = function()
       require('custom.lsp').setup()

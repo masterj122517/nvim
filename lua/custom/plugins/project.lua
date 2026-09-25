@@ -26,11 +26,21 @@ return {
   init = function()
     vim.g.rooter_patterns = {
       '__vim_project_root',
+      'pnpm-workspace.yaml',
+      'pnpm-lock.yaml',
+      'bun.lock',
+      'bun.lockb',
+      'yarn.lock',
+      'package-lock.json',
+      'deno.json',
+      'deno.jsonc',
+      'angular.json',
       'pom.xml',
       'build.gradle',
       'settings.gradle',
-      'src/',
       '.git/',
+      'package.json',
+      'src/',
     }
     vim.g.rooter_silent_chdir = true
     vim.g.rooter_cd_cmd = 'lcd'

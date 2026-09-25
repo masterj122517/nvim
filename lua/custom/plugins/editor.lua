@@ -45,8 +45,11 @@ return { -- Useful plugin to show you pending keybinds.
 
       -- Document existing key chains
       spec = {
+        { '<leader>c', group = '[C]ode' },
+        { '<leader>d', group = '[D]ebug' },
+        { '<leader>n', group = '[N]ode packages' },
         { '<leader>s', group = '[S]earch' },
-        { '<leader>t', group = '[T]oggle' },
+        { '<leader>t', group = '[T]est / Toggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       },
     },
@@ -141,7 +144,7 @@ return { -- Useful plugin to show you pending keybinds.
   {
     'windwp/nvim-ts-autotag',
     event = 'InsertEnter',
-    ft = { 'html', 'javascript', 'typescript', 'tsx', 'vue' },
+    ft = { 'astro', 'html', 'javascript', 'javascriptreact', 'svelte', 'typescript', 'typescriptreact', 'vue' },
     opts = {},
   },
   {
@@ -157,7 +160,7 @@ return { -- Useful plugin to show you pending keybinds.
     event = { 'BufReadPre', 'BufNewFile' },
     opts = {
       -- 只在样式相关文件中启用，避免在大代码文件里增加重绘压力
-      filetypes = { 'css', 'scss', 'sass', 'html', 'javascript', 'typescript', 'tsx', 'vue' },
+      filetypes = { 'astro', 'css', 'html', 'javascript', 'javascriptreact', 'sass', 'scss', 'svelte', 'typescript', 'typescriptreact', 'vue' },
       user_default_options = {
         RGB = true, -- #RGB hex codes
         RRGGBB = true, -- #RRGGBB hex codes
