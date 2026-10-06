@@ -40,8 +40,11 @@ all in all this is what you will need in the future
 Completion uses Blink's `enter` preset with explicit selection. Copilot is a menu
 source provided by `blink-copilot`, reusing the existing Copilot LSP server and login.
 Custom templates remain in `lua/hacks/snippets/`.
-Copilot candidates are sorted before other sources; each group retains Blink's
-normal fuzzy ranking.
+Candidates use Blink's default fuzzy ranking, including match quality, completion
+history, nearby words, and built-in source weights, as in LazyVim's Blink extra.
+The path source detects path contexts and retains its built-in score boost.
+Copilot has no forced first-place comparator or extra score boost, so a relevant
+path or LSP candidate can rank ahead of AI suggestions.
 
 | Insert-mode key | Action |
 | --- | --- |

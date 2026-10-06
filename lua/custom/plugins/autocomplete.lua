@@ -26,18 +26,6 @@ return {
     },
   },
   opts = {
-    fuzzy = {
-      sorts = {
-        function(a, b)
-          local a_ai, b_ai = a.source_id == 'copilot', b.source_id == 'copilot'
-          if a_ai ~= b_ai then
-            return a_ai
-          end
-        end,
-        'score',
-        'sort_text',
-      },
-    },
     snippets = { preset = 'luasnip' },
     appearance = { nerd_font_variant = 'mono' },
     completion = {
