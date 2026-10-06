@@ -34,3 +34,42 @@ So, we will start with *kickstart.nvim*
 Well Well Well, I guess that's the finally version
 everything works just really great
 all in all this is what you will need in the future
+
+## Completion and AI suggestions
+
+Completion uses Blink's `enter` preset with explicit selection. Copilot is a menu
+source provided by `blink-copilot`, reusing the existing Copilot LSP server and login.
+Custom templates remain in `lua/hacks/snippets/`.
+Copilot candidates are sorted before other sources; each group retains Blink's
+normal fuzzy ranking.
+
+| Insert-mode key | Action |
+| --- | --- |
+| `Enter` / `Ctrl-y` | Accept the explicitly selected completion candidate. Enter with no selection inserts a newline. |
+| `Ctrl-n` / `Ctrl-p`, arrows | Select candidates without inserting them into the buffer. |
+| `Ctrl-o` | Open completion or toggle its documentation. |
+| `Ctrl-e` | Cancel completion and clear the ghost preview. |
+| `Tab` / `Ctrl-i` | Jump forward within a snippet; otherwise ordinary Tab. Never accept AI or apply NES in insert mode. |
+| `Shift-Tab` | Jump to the previous snippet placeholder. |
+
+The menu includes LSP, paths, snippets, buffer words, and candidates labelled
+`Copilot`; prose filetypes retain dictionary completion. Nothing is preselected
+or preview-inserted. Only an explicitly selected Copilot candidate shows ghost
+text, and only while the menu is open. Selecting another source, closing the
+menu, or continuing to type clears the AI preview. Confirmation inserts the
+selected candidate. Copilot's independent native inline UI and suggestion
+cycling mappings are disabled.
+
+Snippets such as `todo` are selected and expanded through the menu.
+Documentation opens automatically after 200 ms for a selected candidate.
+
+Command-line completion uses Blink's `cmdline` preset. `Tab` completes commands;
+the menu opens automatically for `:` but not for search. Left/right arrows retain
+their ordinary command-line cursor movement.
+
+`Ctrl-h` and `Ctrl-l` no longer control snippets. The original insert-mode
+`Ctrl-h` delete-word mapping is preserved. Visual editing mappings remain
+Visual-only so they do not intercept typing in snippet Select mode.
+
+Sidekick CLI mappings and normal-mode `Tab` for next edit suggestions are unchanged.
+`Alt-l` and `Ctrl-s` are not assigned to this completion workflow.

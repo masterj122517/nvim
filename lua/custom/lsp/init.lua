@@ -6,10 +6,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local client = vim.lsp.get_client_by_id(event.data.client_id)
     local bufnr = event.buf
 
-    if client and client.name == 'copilot' and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion, bufnr) then
-      vim.lsp.inline_completion.enable(true, { bufnr = bufnr })
-    end
-
     -- keymaps
     local ok_m, err_m = pcall(require('custom.lsp.keymaps').setup, bufnr)
     if not ok_m then

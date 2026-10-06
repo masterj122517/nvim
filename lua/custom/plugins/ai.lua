@@ -3,9 +3,6 @@ return {
     'folke/sidekick.nvim',
     event = 'VeryLazy',
     cmd = 'Sidekick',
-    init = function()
-      vim.g.ai_cmp = false
-    end,
     opts = {
       cli = {
         picker = 'snacks',
@@ -112,22 +109,6 @@ return {
           nes.enable(not nes.enabled)
         end,
         desc = 'Toggle next edit suggestions',
-      },
-      {
-        '<M-]>',
-        function()
-          vim.lsp.inline_completion.select { count = 1 }
-        end,
-        mode = { 'i', 'n' },
-        desc = 'Next inline suggestion',
-      },
-      {
-        '<M-[>',
-        function()
-          vim.lsp.inline_completion.select { count = -1 }
-        end,
-        mode = { 'i', 'n' },
-        desc = 'Previous inline suggestion',
       },
     },
   },

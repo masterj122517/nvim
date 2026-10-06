@@ -6,9 +6,9 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', 's', '<nop>')
 vim.keymap.set('n', 'S', '<nop>')
 vim.keymap.set('n', ';', ':', {})
-vim.keymap.set('v', ';', ':', {})
+vim.keymap.set('x', ';', ':', {})
 vim.keymap.set('n', ':', 'q:', {})
-vim.keymap.set('v', ':', 'q:', {})
+vim.keymap.set('x', ':', 'q:', {})
 vim.keymap.set('n', '+', '<C-a>', { noremap = true })
 vim.keymap.set('n', '_', '<C-x>', { noremap = true })
 vim.keymap.set('n', ',', '@q', { noremap = true })
@@ -31,19 +31,20 @@ vim.keymap.set('c', '<C-f>', '<Right>', { noremap = true })
 vim.keymap.set('c', '<C-d>', '<Del>', { noremap = true })
 
 -- only change text
-vim.keymap.set('v', '<BS>', '"_d', { noremap = true })
+-- Use Visual-only mappings; Select mode is reserved for snippet input.
+vim.keymap.set('x', '<BS>', '"_d', { noremap = true })
 vim.keymap.set('n', 'x', '"_x', { noremap = true })
-vim.keymap.set('v', 'x', '"_x', { noremap = true })
+vim.keymap.set('x', 'x', '"_x', { noremap = true })
 vim.keymap.set('n', 'Y', 'y$', { noremap = true })
-vim.keymap.set('v', 'c', '"_c', { noremap = true })
-vim.keymap.set('v', 'p', 'pgvy', { noremap = true })
-vim.keymap.set('v', 'P', 'Pgvy', { noremap = true })
+vim.keymap.set('x', 'c', '"_c', { noremap = true })
+vim.keymap.set('x', 'p', 'pgvy', { noremap = true })
+vim.keymap.set('x', 'P', 'Pgvy', { noremap = true })
 
--- VISUAL SELECT模式 s-tab tab左右缩进
-vim.keymap.set('v', '<', '<gv', { noremap = true })
-vim.keymap.set('v', '>', '>gv', { noremap = true })
-vim.keymap.set('v', '<C-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true, desc = 'Move selection down' })
-vim.keymap.set('v', '<C-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true, desc = 'Move selection up' })
+-- VISUAL模式左右缩进和移动选区
+vim.keymap.set('x', '<', '<gv', { noremap = true })
+vim.keymap.set('x', '>', '>gv', { noremap = true })
+vim.keymap.set('x', '<C-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true, desc = 'Move selection down' })
+vim.keymap.set('x', '<C-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true, desc = 'Move selection up' })
 
 -- 选中全文 选中{ 复制全文
 vim.keymap.set('n', '<m-a>', 'ggVG', { noremap = true })
@@ -143,10 +144,10 @@ vim.keymap.set('n', '\\w', "&wrap == 1 ? ':set nowrap<cr>' : ':set wrap<cr>'", {
 
 -- space 行首行尾跳转
 vim.keymap.set('n', '0', '<cmd>call v:lua.MagicMove()<cr>', { noremap = true, silent = true })
-vim.keymap.set('v', '0', '<cmd>call v:lua.MagicMove("v")<cr>', { noremap = true, silent = true })
+vim.keymap.set('x', '0', '<cmd>call v:lua.MagicMove("v")<cr>', { noremap = true, silent = true })
 -- 驼峰转换
-vim.keymap.set('v', 'T', ':call v:lua.MagicToggleHump(v:true)<CR>', { noremap = true, silent = true })
-vim.keymap.set('v', 't', ':call v:lua.MagicToggleHump(v:false)<CR>', { noremap = true, silent = true })
+vim.keymap.set('x', 'T', ':call v:lua.MagicToggleHump(v:true)<CR>', { noremap = true, silent = true })
+vim.keymap.set('x', 't', ':call v:lua.MagicToggleHump(v:false)<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('t', '|', '<C-\\><C-n><C-W>w', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '|', '<C-w>w', { noremap = true, silent = true })
 -- 设置终端模式下的 <C-q> 关闭终端窗口
