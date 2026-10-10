@@ -94,11 +94,23 @@ return { -- Useful plugin to show you pending keybinds.
     lazy = false,
     opts = {
       default_file_explorer = true,
+      win_options = {
+        signcolumn = 'yes:2',
+      },
     },
     dependencies = { { 'echasnovski/mini.icons', opts = {} } },
     keys = {
       { '-', '<cmd>Oil<cr>', desc = 'Open parent directory' },
     },
+  },
+  {
+    'refractalize/oil-git-status.nvim',
+
+    dependencies = {
+      'stevearc/oil.nvim',
+    },
+
+    config = true,
   },
 
   {
