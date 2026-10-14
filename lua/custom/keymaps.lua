@@ -7,8 +7,6 @@ vim.keymap.set('n', 's', '<nop>')
 vim.keymap.set('n', 'S', '<nop>')
 vim.keymap.set('n', ';', ':', {})
 vim.keymap.set('x', ';', ':', {})
-vim.keymap.set('n', ':', 'q:', {})
-vim.keymap.set('x', ':', 'q:', {})
 vim.keymap.set('n', '+', '<C-a>', { noremap = true })
 vim.keymap.set('n', '_', '<C-x>', { noremap = true })
 vim.keymap.set('n', ',', '@q', { noremap = true })
@@ -45,6 +43,43 @@ vim.keymap.set('x', '<', '<gv', { noremap = true })
 vim.keymap.set('x', '>', '>gv', { noremap = true })
 vim.keymap.set('x', '<C-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true, desc = 'Move selection down' })
 vim.keymap.set('x', '<C-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true, desc = 'Move selection up' })
+
+-- Native multicursor niceblock, adapted from justinmk/config's keymaps.
+local multicursor_ns = vim.api.nvim_create_namespace 'nvim.multicursor'
+local multicursor_group = vim.api.nvim_create_augroup('custom.multicursor', { clear = true })
+
+local function multicursor_insert(key)
+  local mode = vim.fn.mode()
+  if mode ~= 'v' and mode ~= 'V' then
+    return key
+  end
+
+  local buf = vim.api.nvim_get_current_buf()
+  vim.api.nvim_create_autocmd('InsertLeave', {
+    group = multicursor_group,
+    buffer = buf,
+    once = true,
+    callback = function()
+      vim.schedule(function()
+        vim.api.nvim_buf_clear_namespace(buf, multicursor_ns, 0, -1)
+      end)
+    end,
+  })
+  return 'Q' .. key
+end
+
+vim.keymap.set('x', 'I', function()
+  return multicursor_insert 'I'
+end, { expr = true, desc = 'Native multicursor insert at line starts' })
+vim.keymap.set('x', 'A', function()
+  return multicursor_insert 'A'
+end, { expr = true, desc = 'Native multicursor append at line ends' })
+
+-- Keep Ctrl-l for window navigation; use leader Ctrl-l to clear native cursors.
+vim.keymap.set('n', '<leader><C-l>', function()
+  vim.api.nvim_buf_clear_namespace(0, multicursor_ns, 0, -1)
+  vim.cmd.redraw()
+end, { desc = 'Clear native multicursors' })
 
 -- 选中全文 选中{ 复制全文
 vim.keymap.set('n', '<m-a>', 'ggVG', { noremap = true })

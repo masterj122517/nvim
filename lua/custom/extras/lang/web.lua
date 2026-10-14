@@ -75,13 +75,106 @@ local function run_package_script()
 end
 
 return {
+  { import = 'custom.extras.lang.typescript' },
   {
-    'yioneko/nvim-vtsls',
-    lazy = true,
+    'neovim/nvim-lspconfig',
+    dependencies = { 'b0o/schemastore.nvim' },
+    opts = function(_, opts)
+      local executable = vim.uv.fs_realpath(vim.fn.exepath 'vue-language-server')
+      local vue_language_server = executable and vim.fs.dirname(vim.fs.dirname(executable))
+      local schemastore = require 'schemastore'
+
+      return vim.tbl_deep_extend('force', opts, {
+        servers = {
+          vtsls = {
+            filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
+            settings = {
+              vtsls = {
+                tsserver = {
+                  globalPlugins = vue_language_server and {
+                    {
+                      name = '@vue/typescript-plugin',
+                      location = vue_language_server,
+                      languages = { 'vue' },
+                      configNamespace = 'typescript',
+                    },
+                  } or {},
+                },
+              },
+            },
+          },
+          vue_ls = {},
+          html = {},
+          cssls = {},
+          cssmodules_ls = {},
+          stylelint_lsp = {},
+          tailwindcss = {
+            settings = {
+              tailwindCSS = {
+                experimental = {
+                  classRegex = {
+                    { 'cva\\(([^)]*)\\)', '["\'`]([^"\'`]*).*?["\'`]' },
+                    { 'cn\\(([^)]*)\\)', '["\'`]([^"\'`]*).*?["\'`]' },
+                    { 'clsx\\(([^)]*)\\)', '["\'`]([^"\'`]*).*?["\'`]' },
+                  },
+                },
+              },
+            },
+          },
+          emmet_language_server = {
+            init_options = {
+              showAbbreviationSuggestions = true,
+              showExpandedAbbreviation = 'always',
+              showSuggestionsAsSnippets = true,
+            },
+          },
+          jsonls = {
+            settings = {
+              json = {
+                schemas = schemastore.json.schemas(),
+                validate = { enable = true },
+              },
+            },
+          },
+          yamlls = {
+            settings = {
+              yaml = {
+                schemaStore = { enable = false, url = '' },
+                schemas = schemastore.yaml.schemas(),
+              },
+            },
+          },
+          angularls = {},
+          astro = {},
+          graphql = {},
+          mdx_analyzer = {},
+          prismals = {},
+          svelte = {},
+        },
+        filetype_options = {
+          html = { tabstop = 2, softtabstop = 2, shiftwidth = 2, expandtab = true },
+          css = { tabstop = 2, softtabstop = 2, shiftwidth = 2, expandtab = true },
+        },
+      })
+    end,
   },
   {
-    'b0o/schemastore.nvim',
-    lazy = true,
+    'stevearc/conform.nvim',
+    opts = {
+      formatters_by_ft = {
+        vue = { 'biome', 'prettierd', stop_after_first = true },
+        svelte = { 'biome', 'prettierd', stop_after_first = true },
+        astro = { 'biome', 'prettierd', stop_after_first = true },
+        html = { 'prettierd' },
+        css = { 'biome', 'prettierd', stop_after_first = true },
+        scss = { 'prettierd' },
+        less = { 'prettierd' },
+        json = { 'biome', 'prettierd', stop_after_first = true },
+        jsonc = { 'biome', 'prettierd', stop_after_first = true },
+        yaml = { 'prettierd' },
+        graphql = { 'prettierd' },
+      },
+    },
   },
   {
     'vuki656/package-info.nvim',

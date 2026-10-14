@@ -79,64 +79,47 @@ function M.capabilities(overrides)
   return vim.tbl_deep_extend('force', vim.lsp.protocol.make_client_capabilities(), completion, overrides or {})
 end
 
--- Mason 自动安装
-local servers = {
-  'clangd',
-  'gopls',
-  -- 'pyright',
-  'lua-language-server',
-  'rust-analyzer',
-  'jdtls',
-  'copilot-language-server',
-  -- Web
-  'angular-language-server',
-  'astro-language-server',
-  'biome',
-  'css-lsp',
-  'cssmodules-language-server',
-  'deno',
-  'emmet-language-server',
-  'eslint-lsp',
-  'graphql-language-service-cli',
-  'html-lsp',
-  'json-lsp',
-  'mdx-analyzer',
-  'prisma-language-server',
-  'stylelint-language-server',
-  'svelte-language-server',
-  'tailwindcss-language-server',
-  'vtsls',
-  'vue-language-server',
-  'yaml-language-server',
-}
+local function apply_filetype_options(bufnr, options)
+  local defaults = options[vim.bo[bufnr].filetype]
+  if not defaults then
+    return
+  end
+  for name, value in pairs(defaults) do
+    if name == 'formatoptions_remove' then
+      vim.bo[bufnr].formatoptions = vim.bo[bufnr].formatoptions:gsub('[' .. value .. ']', '')
+    else
+      vim.bo[bufnr][name] = value
+    end
+  end
+end
 
-function M.setup()
-  require('mason').setup()
-  require('mason-tool-installer').setup {
-    ensure_installed = vim.list_extend(vim.deepcopy(servers), {
-      'stylua',
-      'clang-format',
-      'google-java-format',
-      'prettierd',
-      'js-debug-adapter',
-    }),
-    run_on_start = true,
-    start_delay = 3000,
-    debounce_hours = 24,
-  }
-
-  vim.lsp.config('copilot', {
-    capabilities = M.capabilities(),
+---@param opts table
+function M.setup(opts)
+  local filetype_options = opts.filetype_options or {}
+  vim.api.nvim_create_autocmd('FileType', {
+    group = vim.api.nvim_create_augroup('custom_language_options', { clear = true }),
+    callback = function(event)
+      apply_filetype_options(event.buf, filetype_options)
+    end,
   })
-  vim.lsp.enable 'copilot'
-  require('custom.lsp.servers.web').setup()
+  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_loaded(bufnr) then
+      apply_filetype_options(bufnr, filetype_options)
+    end
+  end
 
-  require('custom.lsp.servers.lua_ls').setup()
-  require('custom.lsp.servers.clangd').setup()
-  require('custom.lsp.servers.gopls').setup()
-  require('custom.lsp.servers.rust_analyzer').setup()
-  require('custom.lsp.servers.pyright').setup()
-  require('custom.lsp.servers.jdtls').setup()
+  for name, config in pairs(opts.servers or {}) do
+    if config ~= false then
+      vim.lsp.config(name, config)
+      local resolved = vim.lsp.config[name]
+      vim.lsp.config(name, { capabilities = M.capabilities(resolved.capabilities) })
+      local cmd = resolved.cmd
+      -- Mason only adds manually installed executables to PATH; never install here.
+      if type(cmd) == 'function' or (type(cmd) == 'table' and vim.fn.executable(cmd[1]) == 1) then
+        vim.lsp.enable(name)
+      end
+    end
+  end
 end
 
 return M
