@@ -44,7 +44,7 @@ vim.keymap.set('x', '>', '>gv', { noremap = true })
 vim.keymap.set('x', '<C-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true, desc = 'Move selection down' })
 vim.keymap.set('x', '<C-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true, desc = 'Move selection up' })
 
--- Native multicursor niceblock, adapted from justinmk/config's keymaps.
+-- v/V use QI/QA and clear cursors on InsertLeave; Ctrl-v keeps native I/A.
 local multicursor_ns = vim.api.nvim_create_namespace 'nvim.multicursor'
 local multicursor_group = vim.api.nvim_create_augroup('custom.multicursor', { clear = true })
 
