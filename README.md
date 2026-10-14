@@ -145,8 +145,11 @@ root; see the [OLS configuration reference](https://github.com/DanielGavin/ols#c
 
 ## Completion and AI suggestions
 
-Completion uses Blink's `enter` preset with explicit selection. Copilot is a menu
-source provided by `blink-copilot`, reusing the existing Copilot LSP server and login.
+Completion uses Blink's `enter` preset with explicit selection. Copilot completion
+is disabled by default. In normal mode, `<leader>ac` toggles it for the current
+Neovim session; restarting Neovim resets it to disabled. When enabled, Copilot is
+a menu source provided by `blink-copilot`, reusing the existing Copilot LSP server
+and login. Other completion sources and Sidekick next edit suggestions are unaffected.
 Custom templates remain in `lua/hacks/snippets/`.
 Candidates use Blink's default fuzzy ranking, including match quality, completion
 history, nearby words, and built-in source weights, as in LazyVim's Blink extra.
@@ -163,8 +166,8 @@ path or LSP candidate can rank ahead of AI suggestions.
 | `Tab` / `Ctrl-i` | Jump forward within a snippet; otherwise ordinary Tab. Never accept AI or apply NES in insert mode. |
 | `Shift-Tab` | Jump to the previous snippet placeholder. |
 
-The menu includes LSP, paths, snippets, buffer words, and candidates labelled
-`Copilot`; prose filetypes retain dictionary completion. Nothing is preselected
+The menu includes LSP, paths, snippets, buffer words, and, when enabled, candidates
+labelled `Copilot`; prose filetypes retain dictionary completion. Nothing is preselected
 or preview-inserted. Only an explicitly selected Copilot candidate shows ghost
 text, and only while the menu is open. Selecting another source, closing the
 menu, or continuing to type clears the AI preview. Confirmation inserts the

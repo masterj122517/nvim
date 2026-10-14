@@ -41,3 +41,9 @@ require('lazy').setup({
     },
   },
 })
+
+if vim.g.neovide then
+  -- neovide config
+
+  vim.o.guifont = 'Iosevka Custom:h14'
+end

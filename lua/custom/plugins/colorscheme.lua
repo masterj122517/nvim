@@ -1,6 +1,7 @@
 return {
   {
     dir = vim.fn.stdpath 'config',
+    -- dir = '~/programming/kataware.nvim/',
     name = 'kataware',
     lazy = false,
     priority = 1000,

@@ -1,7 +1,20 @@
+local copilot_enabled = false
+
 return {
   'saghen/blink.cmp',
   version = '1.*',
   event = { 'InsertEnter', 'CmdlineEnter' },
+  keys = {
+    {
+      '<leader>ac',
+      function()
+        copilot_enabled = not copilot_enabled
+        require('blink.cmp').hide()
+        vim.notify('Copilot completion ' .. (copilot_enabled and 'enabled' or 'disabled'))
+      end,
+      desc = 'Toggle Copilot completion',
+    },
+  },
   dependencies = {
     'fang2hou/blink-copilot',
     'rafamadriz/friendly-snippets',
@@ -58,7 +71,12 @@ return {
       ['<Tab>'] = { 'snippet_forward', 'fallback' },
     },
     sources = {
-      default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
+      default = function()
+        if copilot_enabled then
+          return { 'lsp', 'path', 'snippets', 'buffer', 'copilot' }
+        end
+        return { 'lsp', 'path', 'snippets', 'buffer' }
+      end,
       per_filetype = {
         markdown = { inherit_defaults = true, 'dictionary' },
         org = { inherit_defaults = true, 'dictionary' },
