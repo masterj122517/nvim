@@ -46,4 +46,11 @@ if vim.g.neovide then
   -- neovide config
 
   vim.o.guifont = 'Iosevka Custom:h14'
+  vim.g.neovide_opacity = 0.8
+  vim.g.neovide_normal_opacity = 0.8
+  vim.g.neovide_position_animation_length = 0.15
+
+  vim.g.neovide_hide_mouse_when_typing = true
+
+  vim.g.neovide_input_macos_option_key_is_meta = 'only_left'
 end
