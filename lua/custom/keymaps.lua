@@ -320,3 +320,41 @@ vim.keymap.set('n', '<leader>/', function()
   end
 end)
 
+-- v/V use QI/QA and clear cursors on InsertLeave; Ctrl-v keeps native I/A.
+local multicursor_ns = vim.api.nvim_create_namespace 'nvim.multicursor'
+local multicursor_group = vim.api.nvim_create_augroup('custom.multicursor', { clear = true })
+
+local function multicursor_insert(key)
+  local mode = vim.fn.mode()
+  if mode ~= 'v' and mode ~= 'V' then
+    return key
+  end
+
+  local buf = vim.api.nvim_get_current_buf()
+  vim.api.nvim_create_autocmd('InsertLeave', {
+    group = multicursor_group,
+    buffer = buf,
+    once = true,
+    callback = function()
+      vim.schedule(function()
+        vim.api.nvim_buf_clear_namespace(buf, multicursor_ns, 0, -1)
+      end)
+    end,
+  })
+  return 'Q' .. key
+end
+
+vim.keymap.set('x', 'I', function()
+  return multicursor_insert 'I'
+end, { expr = true, desc = 'Native multicursor insert at line starts' })
+vim.keymap.set('x', 'A', function()
+  return multicursor_insert 'A'
+end, { expr = true, desc = 'Native multicursor append at line ends' })
+
+-- Keep Ctrl-l for window navigation; use leader Ctrl-l to clear native cursors.
+vim.keymap.set('n', '<leader><C-l>', function()
+  vim.api.nvim_buf_clear_namespace(0, multicursor_ns, 0, -1)
+  vim.cmd.redraw()
+end, { desc = 'Clear native multicursors' })
+
+
