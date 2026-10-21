@@ -10,12 +10,16 @@ return {
       function()
         copilot_enabled = not copilot_enabled
         require('blink.cmp').hide()
-        vim.notify('Copilot completion ' .. (copilot_enabled and 'enabled' or 'disabled'))
+        require('sidekick.nes').enable(copilot_enabled)
+        vim.lsp.enable('copilot', copilot_enabled)
+        vim.notify('Copilot completion and next edit suggestions ' .. (copilot_enabled and 'enabled' or 'disabled'))
       end,
-      desc = 'Toggle Copilot completion',
+      desc = 'Toggle Copilot completion and next edit suggestions',
     },
   },
   dependencies = {
+    'neovim/nvim-lspconfig',
+    'folke/sidekick.nvim',
     'fang2hou/blink-copilot',
     'rafamadriz/friendly-snippets',
     {

@@ -192,6 +192,8 @@ local groups = {
   SnacksIndentScope = { fg = p.violet },
 
   -- Common plugin chrome
+  MultiCursorCursor = { fg = p.void, bg = p.muted },
+  MultiCursorDisabledCursor = { fg = p.dim, bg = p.border },
   WhichKey = { fg = p.comet },
   WhichKeyGroup = { fg = p.violet },
   WhichKeyDesc = { fg = p.dim },

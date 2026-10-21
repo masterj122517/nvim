@@ -4,7 +4,7 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = { 'mason-org/mason.nvim' },
     opts = {
-      servers = { copilot = {} },
+      servers = { copilot = false },
       filetype_options = {},
     },
     config = function(_, opts)

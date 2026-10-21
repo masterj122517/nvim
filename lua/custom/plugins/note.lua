@@ -25,6 +25,7 @@ return {
           vim.keymap.set('v', '<leader>zn', ":'<,'>ZkNewFromTitleSelection<CR>", opts)
 
           vim.keymap.set('n', '<leader>zb', '<Cmd>ZkBacklinks<CR>', opts)
+          vim.keymap.set('n', '<leader>zi', '<Cmd>ZkInsertLink<CR>', opts)
         end,
       },
 

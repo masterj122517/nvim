@@ -145,11 +145,13 @@ root; see the [OLS configuration reference](https://github.com/DanielGavin/ols#c
 
 ## Completion and AI suggestions
 
-Completion uses Blink's `enter` preset with explicit selection. Copilot completion
-is disabled by default. In normal mode, `<leader>ac` toggles it for the current
-Neovim session; restarting Neovim resets it to disabled. When enabled, Copilot is
-a menu source provided by `blink-copilot`, reusing the existing Copilot LSP server
-and login. Other completion sources and Sidekick next edit suggestions are unaffected.
+Completion uses Blink's `enter` preset with explicit selection. Copilot completion,
+Sidekick next edit suggestions (NES), and the Copilot LSP service are disabled by
+default. In normal mode, `<leader>ac` toggles all three for the current Neovim
+session; restarting Neovim resets them to disabled. Disabling also clears current
+suggestions and stops the Copilot service. When enabled, Copilot is a menu source
+provided by `blink-copilot`, using the Copilot LSP server and existing login.
+Other completion sources and Sidekick CLI mappings are unaffected.
 Custom templates remain in `lua/hacks/snippets/`.
 Candidates use Blink's default fuzzy ranking, including match quality, completion
 history, nearby words, and built-in source weights, as in LazyVim's Blink extra.
@@ -185,5 +187,5 @@ their ordinary command-line cursor movement.
 `Ctrl-h` delete-word mapping is preserved. Visual editing mappings remain
 Visual-only so they do not intercept typing in snippet Select mode.
 
-Sidekick CLI mappings and normal-mode `Tab` for next edit suggestions are unchanged.
+Normal-mode `Tab` jumps to or applies next edit suggestions when NES is enabled.
 `Alt-l` and `Ctrl-s` are not assigned to this completion workflow.

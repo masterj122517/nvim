@@ -4,6 +4,7 @@ return {
     event = 'VeryLazy',
     cmd = 'Sidekick',
     opts = {
+      nes = { enabled = false },
       cli = {
         picker = 'snacks',
         watch = true,
