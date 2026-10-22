@@ -3,16 +3,9 @@ return {
     'neovim/nvim-lspconfig',
     opts = {
       servers = {
-        pyright = {
-          settings = {
-            python = {
-              analysis = {
-                autoSearchPaths = true,
-                diagnosticMode = 'openFilesOnly',
-                useLibraryCodeForTypes = true,
-              },
-            },
-          },
+        ruff = {
+          cmd = { 'ruff', 'server' },
+          root_markers = { 'pyproject.toml', 'ruff.toml', '.ruff.toml', '.git' },
         },
       },
     },
@@ -21,7 +14,7 @@ return {
     'stevearc/conform.nvim',
     opts = {
       formatters_by_ft = {
-        python = { 'black' },
+        python = { 'ruff_format' },
       },
     },
   },
