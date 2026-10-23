@@ -5,11 +5,34 @@ return {
       servers = {
         ruff = {
           cmd = { 'ruff', 'server' },
-          root_markers = { 'pyproject.toml', 'ruff.toml', '.ruff.toml', '.git' },
+        },
+
+        pyright = {
+          settings = {
+            pyright = {
+              -- 导入排序交给 Ruff
+              disableOrganizeImports = true,
+            },
+            python = {
+              analysis = {
+                -- 关闭 Pyright 的类型诊断
+                typeCheckingMode = 'off',
+
+                -- 关闭 Pyright 的其他诊断
+                diagnosticMode = 'openFilesOnly',
+                diagnosticSeverityOverrides = {
+                  reportUnusedVariable = 'none',
+                  reportUnusedImport = 'none',
+                  reportUnusedFunction = 'none',
+                },
+              },
+            },
+          },
         },
       },
     },
   },
+
   {
     'stevearc/conform.nvim',
     opts = {
