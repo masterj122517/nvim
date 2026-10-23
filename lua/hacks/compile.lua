@@ -79,6 +79,9 @@ function M.run()
     vim.cmd 'term make run'
   elseif ft == 'haskell' then
     vim.cmd('Compile ghc ' .. vim.fn.expand '%:t')
+  elseif ft == 'odin' then
+    split()
+    vim.cmd 'term odin run -file %'
   end
 end
 
