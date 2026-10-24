@@ -43,5 +43,16 @@ return {
       mode = { 'n', 'x' },
       desc = 'Search current word / selection',
     },
+
+    {
+      'gf',
+      function()
+        require('fff').open_file_under_cursor(function()
+          vim.api.nvim_command 'wincmd k'
+        end)
+      end,
+      mode = { 'n', 'x' },
+      desc = 'Open file under Curosr',
+    },
   },
 }
