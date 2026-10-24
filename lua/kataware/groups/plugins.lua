@@ -1,0 +1,83 @@
+local M = {}
+
+function M.get(p)
+  return {
+    -- Gitsigns
+    GitSignsAdd = { fg = p.green },
+    GitSignsChange = { fg = p.blue },
+    GitSignsDelete = { fg = p.red },
+
+    -- Completion and pickers
+    ComplHint = { fg = p.dim, italic = true },
+    ComplHintMore = { fg = p.comet, bold = true },
+    BlinkCmpMenu = { fg = p.dim, bg = p.bg_float },
+    BlinkCmpMenuBorder = { fg = p.border, bg = p.bg_float },
+    BlinkCmpMenuSelection = { fg = p.starlight, bg = p.surface_high, bold = true },
+    BlinkCmpLabel = { fg = p.dim },
+    BlinkCmpLabelMatch = { fg = p.comet, bold = true },
+    BlinkCmpLabelDeprecated = { fg = p.muted, strikethrough = true },
+    BlinkCmpKind = { fg = p.violet },
+    BlinkCmpSource = { fg = p.muted, italic = true },
+    BlinkCmpDoc = { fg = p.dim, bg = p.bg_float },
+    BlinkCmpDocBorder = { fg = p.border, bg = p.bg_float },
+    TelescopeNormal = { fg = p.dim, bg = p.bg_float },
+    TelescopeBorder = { fg = p.border, bg = p.bg_float },
+    TelescopePromptNormal = { fg = p.fg, bg = p.bg_float_high },
+    TelescopePromptBorder = { fg = p.violet, bg = p.bg_float_high },
+    TelescopePromptTitle = { fg = p.void, bg = p.violet, bold = true },
+    TelescopePreviewTitle = { fg = p.void, bg = p.blue, bold = true },
+    TelescopeResultsTitle = { fg = p.void, bg = p.comet, bold = true },
+    TelescopeSelection = { fg = p.starlight, bg = p.surface_high },
+    TelescopeMatching = { fg = p.comet, bold = true },
+    SnacksPickerMatch = { fg = p.comet, bold = true },
+    SnacksPickerBorder = { fg = p.border },
+    SnacksPickerTitle = { fg = p.violet, bold = true },
+    SnacksDashboardHeader = { fg = p.violet },
+    SnacksDashboardKey = { fg = p.comet, bold = true },
+    SnacksDashboardDesc = { fg = p.dim },
+    SnacksDashboardIcon = { fg = p.blue },
+    SnacksDashboardFooter = { fg = p.muted, italic = true },
+    SnacksIndent = { fg = p.border },
+    SnacksIndentScope = { fg = p.violet },
+
+    -- Common plugin chrome
+    MultiCursorCursor = { fg = p.void, bg = p.muted },
+    MultiCursorDisabledCursor = { fg = p.dim, bg = p.border },
+    WhichKey = { fg = p.comet },
+    WhichKeyGroup = { fg = p.violet },
+    WhichKeyDesc = { fg = p.dim },
+    WhichKeySeparator = { fg = p.border },
+    WhichKeyBorder = { fg = p.border, bg = p.bg_float },
+    LazyButton = { fg = p.dim, bg = p.surface_high },
+    LazyButtonActive = { fg = p.void, bg = p.comet, bold = true },
+    LazyH1 = { fg = p.void, bg = p.violet, bold = true },
+    OilDir = { fg = p.comet },
+    OilDirIcon = { fg = p.blue },
+    OilLink = { fg = p.violet },
+    TodoFgTODO = { fg = p.blue },
+    TodoFgNOTE = { fg = p.comet },
+    TodoFgWARN = { fg = p.gold },
+    TodoFgFIX = { fg = p.red },
+
+    -- mini.nvim
+    MiniStatuslineModeNormal = { fg = p.void, bg = p.blue, bold = true },
+    MiniStatuslineModeInsert = { fg = p.void, bg = p.green, bold = true },
+    MiniStatuslineModeVisual = { fg = p.void, bg = p.violet, bold = true },
+    MiniStatuslineModeReplace = { fg = p.void, bg = p.pink, bold = true },
+    MiniStatuslineModeCommand = { fg = p.void, bg = p.gold, bold = true },
+    MiniStatuslineModeOther = { fg = p.void, bg = p.comet, bold = true },
+    MiniStatuslineDevinfo = { fg = p.dim, bg = p.surface_high },
+    MiniStatuslineFilename = { fg = p.fg, bg = p.surface },
+    MiniStatuslineFileinfo = { fg = p.dim, bg = p.surface_high },
+    MiniStatuslineInactive = { fg = p.muted, bg = p.night },
+    MiniTablineCurrent = { fg = p.void, bg = p.comet, bold = true },
+    MiniTablineVisible = { fg = p.dim, bg = p.surface },
+    MiniTablineHidden = { fg = p.muted, bg = p.night },
+    MiniTablineModifiedCurrent = { fg = p.red, bg = p.comet, bold = true },
+    MiniTablineModifiedVisible = { fg = p.gold, bg = p.surface },
+    MiniTablineModifiedHidden = { fg = p.gold, bg = p.night },
+    MiniTablineFill = { bg = p.bg },
+  }
+end
+
+return M
