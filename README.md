@@ -189,3 +189,16 @@ Visual-only so they do not intercept typing in snippet Select mode.
 
 Normal-mode `Tab` jumps to or applies next edit suggestions when NES is enabled.
 `Alt-l` and `Ctrl-s` are not assigned to this completion workflow.
+
+## Kataware
+
+Kataware is vendored in `colors/kataware.lua` and `lua/kataware/`; updating the
+theme requires both paths. No theme plugin download is required.
+
+The palette remains Kataware's indigo/spectral scheme. Ordinary and relative
+line numbers use muted blue-gray; the current line number is bold gold.
+Configure the theme in `lua/custom/plugins/colorscheme.lua`. Its existing
+`vim.g.kataware_transparent = true` setting remains supported.
+Alternatively, call `require('kataware').setup { transparent = true }` before
+loading the colorscheme; explicit setup options take precedence over the global.
+
