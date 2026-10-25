@@ -316,9 +316,18 @@ vim.keymap.set('i', '<BS>', magic_delpair, { expr = true, noremap = true })
 vim.keymap.set('n', '<leader>/', function()
   local query = vim.fn.input('grep: ')
   if query ~= '' then
-    vim.cmd('vimgrep /' .. query .. '/gj **/* | copen')
+    vim.cmd('vimgrep /\\c' .. vim.fn.escape(query, '/') .. '/gj **/*')
+    vim.cmd('copen')
   end
 end)
+
+vim.keymap.set('n', '<leader>sb', function()
+  local query = vim.fn.input('grep buffer: ')
+  if query ~= '' then
+    vim.cmd('vimgrep /\\c' .. vim.fn.escape(query, '/') .. '/gj %')
+    vim.cmd('copen')
+  end
+end, { desc = 'Grep current buffer' })
 
 -- v/V use QI/QA and clear cursors on InsertLeave; Ctrl-v keeps native I/A.
 local multicursor_ns = vim.api.nvim_create_namespace 'nvim.multicursor'
