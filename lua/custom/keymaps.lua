@@ -84,8 +84,8 @@ vim.keymap.set('n', '<leader>bs', function()
 end, { desc = 'New scratch buffer' })
 
 -- tabs
-vim.keymap.set('n', 'te', ':tabedit<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', 'tE', ':tab split<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'tE', ':tabedit<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'te', ':tab split<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'th', ':-tabnext<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'tl', ':+tabnext<CR>', { noremap = true, silent = true })
 -- 关闭当前 tab（不关 buffer）
