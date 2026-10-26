@@ -14,7 +14,8 @@ vim.keymap.set('n', '\\', ':nohlsearch<CR>', { noremap = true, silent = true })
 
 -- quick delete
 vim.keymap.set('n', '<bs>', '"_ciw', { noremap = true })
-vim.keymap.set('i', '<c-h>', 'col(".") == col("$") ? \'<esc>"_db"_xa\' : \'<esc>"_db"_xi\'', { noremap = true, expr = true })
+vim.keymap.set('i', '<c-h>', 'col(".") == col("$") ? \'<esc>"_db"_xa\' : \'<esc>"_db"_xi\'',
+  { noremap = true, expr = true })
 
 -- cmap
 vim.keymap.set('c', '<c-a>', '<home>', { noremap = true })
@@ -114,8 +115,8 @@ vim.keymap.set('n', '<leader>bs', function()
 end, { desc = 'New scratch buffer' })
 
 -- tabs
-vim.keymap.set('n', 'te', ':tabedit<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', 'tE', ':tab split<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'tE', ':tabedit<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'te', ':tab split<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'th', ':-tabnext<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'tl', ':+tabnext<CR>', { noremap = true, silent = true })
 -- 关闭当前 tab（不关 buffer）
