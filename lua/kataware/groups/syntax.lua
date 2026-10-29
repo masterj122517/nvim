@@ -100,6 +100,11 @@ function M.get(p)
     ['@lsp.type.type'] = 'Type',
     ['@lsp.type.typeParameter'] = 'Type',
     ['@lsp.type.variable'] = 'Identifier',
+
+    -- Keep LuaLS from replacing more specific Tree-sitter captures.
+    ['@lsp.type.variable.lua'] = {},
+    ['@lsp.type.property.lua'] = {},
+    ['@lsp.typemod.function.defaultLibrary.lua'] = '@function.builtin.lua',
   }
 end
 

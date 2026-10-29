@@ -99,6 +99,19 @@ for every language. Install syntax support explicitly when needed:
 :TSInstall odin zig rust javascript typescript tsx
 ```
 
+Highlighting uses the `nvim-treesitter` **main** branch and Neovim's native API.
+One synchronous `FileType` callback starts Tree-sitter only when a parser and
+highlight queries are available, and skips buffers already highlighted.
+Neovim disables Vim syntax for Tree-sitter buffers; its normal syntax handling
+remains the fallback for other filetypes. No delayed startup or full-file
+synchronous parse is added.
+
+Kataware keeps LuaLS variable/property tokens from overriding Tree-sitter's
+more specific captures and matches standard-library function tokens to
+`@function.builtin.lua`. Semantic tokens remain enabled. Additional semantic
+information and Neovim's asynchronous parsing can still update highlighting
+after the first frame.
+
 Existing DAP, AI and document-preview plugins are separate from language extras.
 The debugger's Mason installation settings in `lua/custom/plugins/debug.lua`
 are unchanged.
