@@ -50,5 +50,16 @@ return {
       group = vim.api.nvim_create_augroup('masterjVim_project_config', { clear = true }),
       callback = load_project_config,
     })
+    vim.keymap.set('n', '<leader>pr', '<cmd>RooterToggle<cr>', {
+      desc = 'Toggle automatic project root detection',
+    })
+
+    vim.keymap.set('n', '<leader>pc', '<cmd>Rooter<cr>', {
+      desc = 'Change directory to project root',
+    })
+
+    vim.keymap.set('n', '<leader>pf', '<cmd>lcd %:p:h<cr>', {
+      desc = 'Change directory to current file',
+    })
   end,
 }
