@@ -40,10 +40,10 @@ vim.api.nvim_create_autocmd('BufReadPost', {
   callback = function(event)
     local exclude = { 'gitcommit' }
     local buf = event.buf
-    if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].lazyvim_last_loc then
+    if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].masterjvim_last_loc then
       return
     end
-    vim.b[buf].lazyvim_last_loc = true
+    vim.b[buf].masterjvim_last_loc = true
     local mark = vim.api.nvim_buf_get_mark(buf, '"')
     local lcount = vim.api.nvim_buf_line_count(buf)
     if mark[1] > 0 and mark[1] <= lcount then
@@ -97,15 +97,6 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
--- wrap and check for spell in text filetypes
--- vim.api.nvim_create_autocmd('FileType', {
---   group = augroup 'wrap_spell',
---   pattern = { 'text', 'plaintex', 'typst', 'gitcommit', 'markdown' },
---   callback = function()
---     vim.opt_local.wrap = true
---     vim.opt_local.spell = true
---   end,
--- })
 
 -- Fix conceallevel for json files
 vim.api.nvim_create_autocmd({ 'FileType' }, {
@@ -127,3 +118,28 @@ vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
     vim.fn.mkdir(vim.fn.fnamemodify(file, ':p:h'), 'p')
   end,
 })
+
+
+-- Enter insert mode in terminals
+vim.api.nvim_create_autocmd('TermOpen', {
+  group = augroup('terminal_insert'),
+  pattern = 'term://*',
+  command = 'startinsert',
+})
+
+
+-- wrap and check for spell in text filetypes
+-- vim.api.nvim_create_autocmd('FileType', {
+--   group = augroup 'wrap_spell',
+--   pattern = { 'text', 'plaintex', 'typst', 'gitcommit', 'markdown' },
+--   callback = function()
+--     vim.opt_local.wrap = true
+--     vim.opt_local.spell = true
+--   end,
+-- })
+
+-- Change directory to current file
+-- vim.api.nvim_create_autocmd('BufEnter', {
+  -- group = augroup('auto_chdir'),
+  -- command = 'silent! lcd %:p:h',
+-- })

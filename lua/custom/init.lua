@@ -1,0 +1,5 @@
+require("options")
+require("keymaps")
+require("autocmds")
+require("compile")
+require("markdown")

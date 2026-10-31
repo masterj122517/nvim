@@ -1,6 +1,4 @@
-require 'custom.options'
-require 'custom.keymaps'
-require	'custom.autocmd'
-require 'custom.plugins'
+require 'custom'
 
-vim.cmd [[colorscheme kataware]]
+require('kataware').setup { transparent = true }
+vim.cmd.colorscheme 'kataware'

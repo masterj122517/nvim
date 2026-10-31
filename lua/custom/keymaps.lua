@@ -1,9 +1,99 @@
+-- Navigation
+-- Move by display lines and keep jumps centered
 vim.keymap.set({ 'n', 'x' }, 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, desc = 'Down', silent = true })
 vim.keymap.set({ 'n', 'x' }, '<Down>', "v:count == 0 ? 'gj' : 'j'", { expr = true, desc = 'Down', silent = true })
 vim.keymap.set({ 'n', 'x' }, 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, desc = 'Up', silent = true })
 vim.keymap.set({ 'n', 'x' }, '<Up>', "v:count == 0 ? 'gk' : 'k'", { expr = true, desc = 'Up', silent = true })
+
+vim.keymap.set('n', '0', '<cmd>call v:lua.MagicMove()<cr>', { noremap = true, silent = true })
+vim.keymap.set('v', '0', '<cmd>call v:lua.MagicMove("v")<cr>', { noremap = true, silent = true })
+
+function MagicMove()
+  local first = 1
+  local head = #vim.fn.getline '.' - #vim.fn.substitute(vim.fn.getline '.', '^\\s*', '', 'G') + 1
+  local before = vim.fn.col '.'
+  vim.fn.execute(before == first and first ~= head and 'norm! ^' or 'norm! $')
+  local after = vim.fn.col '.'
+  if before == after then
+    vim.fn.execute 'norm! 0'
+  end
+end
+
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+
+vim.keymap.set("n", "G", "Gzz")
+
+
+-- Search and marks
+-- Clear search highlights and center search or mark jumps
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+vim.keymap.set('n', '\\', ':nohlsearch<CR>', { noremap = true, silent = true })
+
+vim.keymap.set('n', 'n', 'nzzzv', { desc = 'Next search result and center' })
+
+vim.keymap.set('n', 'N', 'Nzzzv', { desc = 'Prev search result and center' })
+
+vim.keymap.set('n', '/', 'ms/')
+vim.keymap.set('n', '?', 'ms?')
+
+vim.keymap.set('n', '`', function()
+  local char = vim.fn.getcharstr()
+  return '`' .. char .. 'zz'
+end, { expr = true, desc = 'Jump to mark precise and center' })
+
+vim.keymap.set('n', "'", function()
+  local char = vim.fn.getcharstr()
+  return "'" .. char .. 'zz'
+end, { expr = true, desc = 'Jump to mark line and center' })
+
+vim.keymap.set("n", "<leader>g", function()
+	vim.ui.input({ prompt = "Grep: " }, function(pattern)
+		if pattern then
+			vim.cmd("silent grep! " .. vim.fn.fnameescape(pattern))
+			vim.cmd("copen")
+		end
+	end)
+end, { silent = true })
+
+local ignore_patterns = {
+	"node_modules",
+	"%.git",
+	"%.cache",
+	"dist",
+	"build",
+	"%.tmp",
+	"%.log",
+}
+
+function _G.native_find(text, _)
+	local files = vim.fn.glob("**/*", true, true)
+	local result = {}
+	for _, f in ipairs(files) do
+		if vim.fn.isdirectory(f) == 0 then
+			local skip = false
+			for _, pat in ipairs(ignore_patterns) do
+				if f:match(pat) then
+					skip = true
+					break
+				end
+			end
+			if not skip then
+				result[#result + 1] = f
+			end
+		end
+	end
+	return vim.fn.matchfuzzy(result, text)
+end
+vim.opt.findfunc = "v:lua.native_find"
+
+vim.keymap.set("n", "<C-f>", ":find ", { silent = false })
+
+
+-- General mappings
+-- Customize default keys and shortcuts
 vim.keymap.set('n', 's', '<nop>')
 vim.keymap.set('n', 'S', '<nop>')
 vim.keymap.set('n', ';', ':', {})
@@ -11,13 +101,42 @@ vim.keymap.set('v', ';', ':', {})
 vim.keymap.set('n', '+', '<C-a>', { noremap = true })
 vim.keymap.set('n', '_', '<C-x>', { noremap = true })
 vim.keymap.set('n', ',', '@q', { noremap = true })
-vim.keymap.set('n', '\\', ':nohlsearch<CR>', { noremap = true, silent = true })
+
+vim.keymap.set('n', '<m-a>', 'ggVG', { noremap = true })
 
 
+-- Editing and clipboard
+-- Edit text without overwriting registers when possible
 vim.keymap.set('n', '<bs>', '"_ciw', { noremap = true })
 vim.keymap.set('i', '<c-h>', 'col(".") == col("$") ? \'<esc>"_db"_xa\' : \'<esc>"_db"_xi\'', { noremap = true, expr = true })
 
+vim.keymap.set('v', '<BS>', '"_d', { noremap = true })
+vim.keymap.set('n', 'x', '"_x', { noremap = true })
+vim.keymap.set('v', 'x', '"_x', { noremap = true })
+vim.keymap.set('n', 'Y', 'y$', { noremap = true })
+vim.keymap.set('v', 'c', '"_c', { noremap = true })
+vim.keymap.set('v', 'p', 'pgvy', { noremap = true })
+vim.keymap.set('v', 'P', 'Pgvy', { noremap = true })
 
+vim.keymap.set('i', '<c-a>', '<Esc>I', { noremap = true })
+vim.keymap.set('i', '<c-e>', '<Esc>A', { noremap = true })
+vim.keymap.set('i', '<C-k>', function()
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local line = vim.api.nvim_get_current_line()
+  vim.api.nvim_set_current_line(line:sub(1, col))
+end, { noremap = true, desc = 'Kill to end of line' })
+
+
+-- Visual selection
+-- Indent and move selected lines
+vim.keymap.set('v', '<', '<gv', { noremap = true })
+vim.keymap.set('v', '>', '>gv', { noremap = true })
+vim.keymap.set('v', '<C-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true, desc = 'Move selection down' })
+vim.keymap.set('v', '<C-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true, desc = 'Move selection up' })
+
+
+-- Command line
+-- Use readline-style command-line editing
 vim.keymap.set('c', '<c-a>', '<home>', { noremap = true })
 vim.keymap.set('c', '<c-e>', '<end>', { noremap = true })
 vim.keymap.set('c', '<C-k>', function()
@@ -30,32 +149,7 @@ vim.keymap.set('c', '<C-f>', '<Right>', { noremap = true })
 vim.keymap.set('c', '<C-d>', '<Del>', { noremap = true })
 
 
-vim.keymap.set('v', '<BS>', '"_d', { noremap = true })
-vim.keymap.set('n', 'x', '"_x', { noremap = true })
-vim.keymap.set('v', 'x', '"_x', { noremap = true })
-vim.keymap.set('n', 'Y', 'y$', { noremap = true })
-vim.keymap.set('v', 'c', '"_c', { noremap = true })
-vim.keymap.set('v', 'p', 'pgvy', { noremap = true })
-vim.keymap.set('v', 'P', 'Pgvy', { noremap = true })
-
-
-vim.keymap.set('v', '<', '<gv', { noremap = true })
-vim.keymap.set('v', '>', '>gv', { noremap = true })
-vim.keymap.set('v', '<C-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true, desc = 'Move selection down' })
-vim.keymap.set('v', '<C-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true, desc = 'Move selection up' })
-
-
-vim.keymap.set('n', '<m-a>', 'ggVG', { noremap = true })
-
-vim.keymap.set('i', '<c-a>', '<Esc>I', { noremap = true })
-vim.keymap.set('i', '<c-e>', '<Esc>A', { noremap = true })
-vim.keymap.set('i', '<C-k>', function()
-  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-  local line = vim.api.nvim_get_current_line()
-  vim.api.nvim_set_current_line(line:sub(1, col))
-end, { noremap = true, desc = 'Kill to end of line' })
-
-
+-- Buffers
 vim.keymap.set('n', '<S-h>', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
 vim.keymap.set('n', '<S-l>', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
 
@@ -83,8 +177,9 @@ vim.keymap.set('n', '<leader>bs', function()
 end, { desc = 'New scratch buffer' })
 
 
-vim.keymap.set('n', 'te', ':tabedit<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', 'tE', ':tab split<CR>', { noremap = true, silent = true })
+-- Tabs
+-- Manage tab pages
+vim.keymap.set('n', 'te', ':tab split<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'th', ':-tabnext<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'tl', ':+tabnext<CR>', { noremap = true, silent = true })
 
@@ -111,10 +206,8 @@ vim.keymap.set('n', 'tmh', ':-tabmove<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'tml', ':+tabmove<CR>', { noremap = true, silent = true })
 
 
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
-
+-- Windows and splits
+-- Navigate and resize splits
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
@@ -135,6 +228,14 @@ vim.keymap.set('n', '<m-.>', "winnr() <= winnr('$') - winnr() ? '<c-w>5>' : '<c-
 vim.keymap.set('n', '<m-,>', "winnr() <= winnr('$') - winnr() ? '<c-w>5<' : '<c-w>5>'", { noremap = true, expr = true })
 vim.keymap.set('n', '<m-d>', "winnr() <= winnr('$') - winnr() ? '<c-w>5+' : '<c-w>5-'", { noremap = true, expr = true })
 vim.keymap.set('n', '<m-u>', "winnr() <= winnr('$') - winnr() ? '<c-w>5-' : '<c-w>5+'", { noremap = true, expr = true })
+
+vim.api.nvim_set_keymap('t', '|', '<C-\\><C-n><C-W>w', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '|', '<C-w>w', { noremap = true, silent = true })
+
+
+-- Terminal
+-- Toggle a terminal split and leave terminal mode
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 local toggle_term = {
   buf = nil,
@@ -179,32 +280,24 @@ vim.keymap.set({ "n", "t" }, "<c-_>", function()
   vim.cmd("startinsert")
 end, { silent = true })
 
-
-vim.keymap.set('n', '\\w', "&wrap == 1 ? ':set nowrap<cr>' : ':set wrap<cr>'", { noremap = true, expr = true })
-
-
-vim.keymap.set('n', '0', '<cmd>call v:lua.MagicMove()<cr>', { noremap = true, silent = true })
-vim.keymap.set('v', '0', '<cmd>call v:lua.MagicMove("v")<cr>', { noremap = true, silent = true })
-
-vim.keymap.set('v', 'T', ':call v:lua.MagicToggleHump(v:true)<CR>', { noremap = true, silent = true })
-vim.keymap.set('v', 't', ':call v:lua.MagicToggleHump(v:false)<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('t', '|', '<C-\\><C-n><C-W>w', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '|', '<C-w>w', { noremap = true, silent = true })
-
 vim.api.nvim_set_keymap('t', '<C-q>', '<C-\\><C-n>:q<CR>', { noremap = true, silent = true })
 
 
-function MagicMove()
-  local first = 1
-  local head = #vim.fn.getline '.' - #vim.fn.substitute(vim.fn.getline '.', '^\\s*', '', 'G') + 1
-  local before = vim.fn.col '.'
-  vim.fn.execute(before == first and first ~= head and 'norm! ^' or 'norm! $')
-  local after = vim.fn.col '.'
-  if before == after then
-    vim.fn.execute 'norm! 0'
-  end
-end
+-- Diagnostics
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, {
+  desc = 'Open diagnostic location list',
+})
 
+vim.keymap.set('n', '<leader>Q', vim.diagnostic.setqflist, {
+  desc = 'Open diagnostic quickfix list',
+})
+
+
+-- Text helpers
+vim.keymap.set('n', '\\w', "&wrap == 1 ? ':set nowrap<cr>' : ':set wrap<cr>'", { noremap = true, expr = true })
+
+vim.keymap.set('v', 'T', ':call v:lua.MagicToggleHump(v:true)<CR>', { noremap = true, silent = true })
+vim.keymap.set('v', 't', ':call v:lua.MagicToggleHump(v:false)<CR>', { noremap = true, silent = true })
 
 function MagicToggleHump(upperCase)
   vim.fn.execute 'normal! gv"tx'
@@ -229,71 +322,9 @@ function MagicToggleHump(upperCase)
   vim.fn.execute 'normal! "tP'
 end
 
-require 'hacks.compile'
-require 'hacks.markdown'
-
 vim.keymap.set('n', 'yc', 'yygccp', { remap = true, desc = '[D]uplicate a line and comment out the first line' })
 
-vim.keymap.set('v', 'gC', 'ygvgc`>p', { remap = true, desc = '[C]opy to a comment above' })
-
-vim.keymap.set("n", "<C-g>", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-
-vim.keymap.set("n", "G", "Gzz")
-
-
-vim.keymap.set('n', 'n', 'nzzzv', { desc = 'Next search result and center' })
-
-vim.keymap.set('n', 'N', 'Nzzzv', { desc = 'Prev search result and center' })
-
-vim.keymap.set('n', '/', 'ms/')
-vim.keymap.set('n', '?', 'ms?')
-
-vim.keymap.set('n', '`', function()
-  local char = vim.fn.getcharstr()
-  return '`' .. char .. 'zz'
-end, { expr = true, desc = 'Jump to mark precise and center' })
-
-vim.keymap.set('n', "'", function()
-  local char = vim.fn.getcharstr()
-  return "'" .. char .. 'zz'
-end, { expr = true, desc = 'Jump to mark line and center' })
-
-local magic_insertpair = function(char) 
-  local pair_close = { ['('] = ')', ['['] = ']', ['{'] = '}' }
-  local close_set = { [')'] = true, [']'] = true, ['}'] = true, ['"'] = true, ["'"] = true, ['`'] = true }
-  local quote_set = { ['"'] = true, ["'"] = true, ['`'] = true }
-  local col = vim.fn.col('.')
-  local after = vim.api.nvim_get_current_line():sub(col, col)
-  local should_pair = after == '' or after == ';' or close_set[after]
-
-  if pair_close[char] then
-    if should_pair then return char .. pair_close[char] .. '<Left>' end
-    return char
-  end
-
-  if after == char then return '<Right>' end
-  if quote_set[char] and should_pair then return char .. char .. '<Left>' end
-  return char
-end
-
-local function magic_delpair() 
-  local line, col = vim.api.nvim_get_current_line(), vim.fn.col('.')
-  if col > 1 and vim.tbl_contains({ ')', ']', '}', '"', "'", '`' }, line:sub(col, col))
-    and vim.tbl_contains({ '(', '[', '{', '"', "'", '`' }, line:sub(col - 1, col - 1)) then
-    return '<Del><BS>'
-  end
-  return '<BS>'
-end
-
-for _, c in ipairs({ '(', '[', '{', ')', ']', '}', '"', "'", '`' }) do
-  vim.keymap.set('i', c, function() return magic_insertpair(c) end, { expr = true, noremap = true })
-end
-vim.keymap.set('i', '<BS>', magic_delpair, { expr = true, noremap = true })
-
+-- Native multicursor
 local multicursor_ns = vim.api.nvim_create_namespace 'nvim.multicursor'
 local multicursor_group = vim.api.nvim_create_augroup('custom.multicursor', { clear = true })
 
