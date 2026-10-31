@@ -12,12 +12,14 @@ function M.setup(bufnr)
   -- local opts = { buffer = bufnr, noremap = true, silent = true }
 
   -- use snacks instead
-  vim.keymap.set('i', '<c-f>', vim.lsp.buf.signature_help, { buffer = bufnr, noremap = true, silent = true, desc = 'signature_help' })
+  vim.keymap.set('i', '<c-f>', vim.lsp.buf.signature_help,
+    { buffer = bufnr, noremap = true, silent = true, desc = 'signature_help' })
 
   -- Workspace management
-  vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, { buffer = bufnr, noremap = true, silent = true, desc = 'Buf Rename' })
+  vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename,
+    { buffer = bufnr, noremap = true, silent = true, desc = 'Buf Rename' })
 
-  vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { buffer = bufnr, noremap = true, silent = true, desc = 'Code Actions' })
+  -- vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { buffer = bufnr, noremap = true, silent = true, desc = 'Code Actions' })
 end
 
 return M

@@ -129,7 +129,17 @@ vim.cmd [[
 -- 精简消息
 vim.opt.shortmess = 'filnxtToOScIF'
 
-vim.opt.formatoptions:remove { 't', 'c', 'o' }
+local formatoptions = vim.api.nvim_create_augroup('FormatOptions', {
+  clear = true,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  group = formatoptions,
+  pattern = '*',
+  callback = function()
+    vim.opt_local.formatoptions:remove({ 't', 'c', 'o' })
+  end,
+})
 
 -- 设置行号宽度
 vim.opt.numberwidth = 2
@@ -140,5 +150,5 @@ vim.opt.pumheight = 10
 -- no deprecated warings now
 vim.g.deprecated_warnings = false
 
-vim.opt.foldenable = false -- 默认关闭折叠
+vim.opt.foldenable = false    -- 默认关闭折叠
 vim.opt.foldmethod = 'manual' -- 将折叠方式设为手动，防止各种插件/LSP自动去计算和生成折叠

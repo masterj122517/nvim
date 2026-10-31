@@ -50,7 +50,7 @@ return { -- Useful plugin to show you pending keybinds.
         { '<leader>n', group = '[N]ode packages' },
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]est / Toggle' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>h', group = 'Git [H]unk',     mode = { 'n', 'v' } },
       },
     },
   },
@@ -174,15 +174,15 @@ return { -- Useful plugin to show you pending keybinds.
       -- 只在样式相关文件中启用，避免在大代码文件里增加重绘压力
       filetypes = { 'astro', 'css', 'html', 'javascript', 'javascriptreact', 'sass', 'scss', 'svelte', 'typescript', 'typescriptreact', 'vue' },
       user_default_options = {
-        RGB = true, -- #RGB hex codes
-        RRGGBB = true, -- #RRGGBB hex codes
-        names = true, -- "Name" codes like Blue or blue
-        RRGGBBAA = false, -- #RRGGBBAA hex codes
-        AARRGGBB = true, -- 0xAARRGGBB hex codes
-        rgb_fn = false, -- CSS rgb() and rgba() functions
-        hsl_fn = false, -- CSS hsl() and hsla() functions
-        css = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-        css_fn = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+        RGB = true,           -- #RGB hex codes
+        RRGGBB = true,        -- #RRGGBB hex codes
+        names = true,         -- "Name" codes like Blue or blue
+        RRGGBBAA = false,     -- #RRGGBBAA hex codes
+        AARRGGBB = true,      -- 0xAARRGGBB hex codes
+        rgb_fn = false,       -- CSS rgb() and rgba() functions
+        hsl_fn = false,       -- CSS hsl() and hsla() functions
+        css = false,          -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+        css_fn = false,       -- Enable all CSS *functions*: rgb_fn, hsl_fn
         -- Available modes for `mode`: foreground, background,  virtualtext
         mode = 'virtualtext', -- Set the display mode.
         -- Available methods are false / true / "normal" / "lsp" / "both"
@@ -355,4 +355,21 @@ return { -- Useful plugin to show you pending keybinds.
       },
     },
   },
+  {
+    "rachartier/tiny-inline-diagnostic.nvim",
+    event = "VeryLazy",
+    priority = 1000,
+    config = function()
+      require("tiny-inline-diagnostic").setup()
+      vim.diagnostic.config({ virtual_text = false }) -- Disable Neovim's default virtual text diagnostics
+    end,
+  },
+
+  {
+    'stevearc/quicker.nvim',
+    ft = "qf",
+    ---@module "quicker"
+    ---@type quicker.SetupOptions
+    opts = {},
+  }
 }

@@ -8,3 +8,4 @@ spell/
 nvim-pack-lock.json
 bench/results/
 __pycache__/
+/lazy-lock.json
