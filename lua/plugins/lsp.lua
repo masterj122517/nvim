@@ -3,7 +3,6 @@ vim.pack.add({
   'https://github.com/neovim/nvim-lspconfig',
   'https://github.com/mason-org/mason.nvim',
   'https://github.com/mason-org/mason-lspconfig.nvim',
-  -- 'https://github.com/b0o/SchemaStore.nvim',
   'https://github.com/rachartier/tiny-code-action.nvim',
 })
 
@@ -37,11 +36,11 @@ require('tiny-code-action').setup({
   backend = 'delta',
 })
 
+-- LSP keymaps
 vim.keymap.set({ 'n', 'x' }, '<leader>ca', function()
   require('tiny-code-action').code_action()
 end, { desc = 'Code action' })
 
--- LSP keymaps
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'Go to definition' })
 vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { desc = 'Go to declaration' })
 vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { desc = 'Go to implementation' })
@@ -49,3 +48,8 @@ vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, { desc = 'Go to type defi
 vim.keymap.set('n', 'gr', vim.lsp.buf.references, { desc = 'Find references' })
 vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover documentation' })
 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = 'Rename symbol' })
+
+-- Signature help
+vim.keymap.set('i', '<C-f>', vim.lsp.buf.signature_help, {
+  desc = 'Signature help',
+})
