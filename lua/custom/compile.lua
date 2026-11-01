@@ -49,9 +49,9 @@ local compileRun = function()
       end
     end
   elseif ft == 'markdown' then
-    vim.cmd ':MarkdownPreviewToggle'
+    vim.cmd ':Markview<CR>'
   elseif ft == 'typst' then
-    vim.cmd ':TypstPreview'
+    vim.cmd ':Markview<CR>'
   elseif ft == 'javascript' then
     split()
     vim.cmd 'term node %'
@@ -81,7 +81,6 @@ local compileRun = function()
     split()
     vim.cmd 'term odin run -file %'
   end
-
 end
 
 vim.keymap.set('n', 'com', compileRun, { silent = true })
