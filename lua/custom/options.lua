@@ -43,7 +43,6 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.inccommand = 'split'
 vim.opt.wildmenu = true
-vim.opt.wildoptions:append { 'fuzzy' }
 vim.opt.path:append '**'
 vim.opt.grepprg = 'rg --vimgrep --no-messages --smart-case'
 vim.opt.grepformat = '%f:%l:%c:%m'
@@ -76,7 +75,7 @@ vim.diagnostic.config {
 }
 
 -- autocomplete
--- Omni, current buffer , other windows buffers, loaded buffers, unloaded buffers   
-vim.o.complete = 'o,.,w,b,u'
-vim.o.autocomplete = true
-vim.opt.completeopt = 'menuone,noselect,fuzzy,popup'
+-- Omni, current buffer , other windows buffers, loaded buffers, unloaded buffers
+-- vim.o.autocomplete = true
+-- vim.o.complete = 'o,.,w,b,u'
+-- vim.opt.completeopt = 'menuone,noselect,fuzzy,popup'

@@ -49,53 +49,12 @@ vim.keymap.set('n', "'", function()
   return "'" .. char .. 'zz'
 end, { expr = true, desc = 'Jump to mark line and center' })
 
-vim.keymap.set("n", "<leader>g", function()
-	vim.ui.input({ prompt = "Grep: " }, function(pattern)
-		if pattern then
-			vim.cmd("silent grep! " .. vim.fn.fnameescape(pattern))
-			vim.cmd("copen")
-		end
-	end)
-end, { silent = true })
-
-local ignore_patterns = {
-	"node_modules",
-	"%.git",
-	"%.cache",
-	"dist",
-	"build",
-	"%.tmp",
-	"%.log",
-}
-
-function _G.native_find(text, _)
-	local files = vim.fn.glob("**/*", true, true)
-	local result = {}
-	for _, f in ipairs(files) do
-		if vim.fn.isdirectory(f) == 0 then
-			local skip = false
-			for _, pat in ipairs(ignore_patterns) do
-				if f:match(pat) then
-					skip = true
-					break
-				end
-			end
-			if not skip then
-				result[#result + 1] = f
-			end
-		end
-	end
-	return vim.fn.matchfuzzy(result, text)
-end
-vim.opt.findfunc = "v:lua.native_find"
-
-vim.keymap.set("n", "<C-f>", ":find ", { silent = false })
-
-
 -- General mappings
 -- Customize default keys and shortcuts
 vim.keymap.set('n', 's', '<nop>')
 vim.keymap.set('n', 'S', '<nop>')
+vim.keymap.set('v', 's', '<nop>')
+vim.keymap.set('v', 'S', '<nop>')
 vim.keymap.set('n', ';', ':', {})
 vim.keymap.set('v', ';', ':', {})
 vim.keymap.set('n', '+', '<C-a>', { noremap = true })
@@ -232,57 +191,7 @@ vim.keymap.set('n', '<m-u>', "winnr() <= winnr('$') - winnr() ? '<c-w>5-' : '<c-
 vim.api.nvim_set_keymap('t', '|', '<C-\\><C-n><C-W>w', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '|', '<C-w>w', { noremap = true, silent = true })
 
-
--- Terminal
--- Toggle a terminal split and leave terminal mode
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
-
-local toggle_term = {
-  buf = nil,
-  win = nil,
-}
-
-vim.keymap.set({ "n", "t" }, "<c-_>", function()
-
-  if toggle_term.win and vim.api.nvim_win_is_valid(toggle_term.win) then
-    local curr_win = vim.api.nvim_get_current_win()
-
-    if curr_win == toggle_term.win then
-      vim.api.nvim_win_hide(toggle_term.win)
-      toggle_term.win = nil
-      return
-    else
-
-      vim.api.nvim_set_current_win(toggle_term.win)
-      vim.cmd("startinsert")
-      return
-    end
-  end
-
-
-  vim.cmd("belowright 10sp")
-  local new_win = vim.api.nvim_get_current_win()
-
-
-  if toggle_term.buf and vim.api.nvim_buf_is_valid(toggle_term.buf) then
-
-    vim.api.nvim_win_set_buf(new_win, toggle_term.buf)
-  else
-
-    vim.cmd("terminal")
-    toggle_term.buf = vim.api.nvim_get_current_buf()
-
-    vim.bo[toggle_term.buf].filetype = "vanilla_terminal"
-  end
-
-
-  toggle_term.win = new_win
-  vim.cmd("startinsert")
-end, { silent = true })
-
 vim.api.nvim_set_keymap('t', '<C-q>', '<C-\\><C-n>:q<CR>', { noremap = true, silent = true })
-
-
 -- Diagnostics
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, {
   desc = 'Open diagnostic location list',
@@ -360,3 +269,18 @@ vim.keymap.set('n', '<leader><C-l>', function()
   vim.api.nvim_buf_clear_namespace(0, multicursor_ns, 0, -1)
   vim.cmd.redraw()
 end, { desc = 'Clear native multicursors' })
+
+-- Completions
+-- vim.keymap.set("i", "<C-o>", function()
+--   vim.lsp.completion.get()
+-- end, { desc = "Trigger LSP completion" })
+-- vim.keymap.set('i', '<CR>', function()
+--   local info = vim.fn.complete_info({ 'selected' })
+--   if vim.fn.pumvisible() == 1 and info.selected >= 0 then
+--     return '<C-y>'
+--   end
+--   return '<C-e><CR>'
+-- end, {
+--   expr = true,
+--   desc = 'Accept completion or insert newline',
+-- })
