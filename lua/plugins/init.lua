@@ -1,3 +1,10 @@
+vim.pack.add({
+  'https://github.com/rachartier/tiny-code-action.nvim',
+  'https://github.com/MeanderingProgrammer/render-markdown.nvim',
+}, {
+  load = function() end,
+})
+
 require("plugins.oil")
 require("plugins.fff")
 require("plugins.completions")
@@ -15,3 +22,4 @@ require("plugins.fidget")
 require("plugins.git")
 require("plugins.markdown")
 require("plugins.snacks")
+require("plugins.present")

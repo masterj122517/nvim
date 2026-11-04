@@ -3,7 +3,6 @@ vim.pack.add({
   'https://github.com/neovim/nvim-lspconfig',
   'https://github.com/mason-org/mason.nvim',
   'https://github.com/mason-org/mason-lspconfig.nvim',
-  'https://github.com/rachartier/tiny-code-action.nvim',
 })
 
 -- Mason
@@ -30,15 +29,21 @@ require('mason-lspconfig').setup({
   },
 })
 
--- Code actions
-require('tiny-code-action').setup({
-  picker = 'buffer',
-  backend = 'delta',
-})
+-- Initialize the picker once, on its first invocation; server attachment stays eager.
+local code_action
 
 -- LSP keymaps
 vim.keymap.set({ 'n', 'x' }, '<leader>ca', function()
-  require('tiny-code-action').code_action()
+  if not code_action then
+    vim.cmd.packadd('tiny-code-action.nvim')
+    local actions = require('tiny-code-action')
+    actions.setup({
+      picker = 'buffer',
+      backend = 'delta',
+    })
+    code_action = actions.code_action
+  end
+  code_action()
 end, { desc = 'Code action' })
 
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'Go to definition' })
