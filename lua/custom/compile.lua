@@ -1,7 +1,3 @@
--- Native compilation: require('custom.compile').build('make').
--- Output is collected until exit; only the latest build updates Quickfix.
--- com saves the current file; <leader>m prompts with the last manual command.
--- C compiles only; Odin/Zig/Python execute exactly the commands listed below.
 local M = {}
 local generation = 0
 local last_command = 'make'
@@ -123,7 +119,7 @@ local function compile_manual()
   local ok, command = pcall(vim.fn.input, {
     prompt = 'Compile: ',
     default = last_command,
-    completion = 'shellcmd',
+    completion = 'shellcmdline', -- Command first, then file/directory arguments.
     cancelreturn = '',
   })
   if not ok or command == '' then
