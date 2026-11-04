@@ -1,3 +1,28 @@
+-- Mini Config Spec
+
+vim.keymap.set("n", "-", ":Explore<CR>", { desc = "Open file explorer" })
+vim.keymap.set("n", "<C-f>", ":find ", { desc = "Find file" })
+vim.keymap.set("n", "<leader>co", ":copen<CR>", {desc = "Open QuickFix List"})
+
+
+-- Completions
+vim.keymap.set("i", "<C-o>", function()
+  vim.lsp.completion.get()
+end, { desc = "Trigger LSP completion" })
+vim.keymap.set('i', '<CR>', function()
+  local info = vim.fn.complete_info({ 'selected' })
+  if vim.fn.pumvisible() == 1 and info.selected >= 0 then
+    return '<C-y>'
+  end
+  return '<C-e><CR>'
+end, {
+  expr = true,
+  desc = 'Accept completion or insert newline',
+})
+
+
+--- General Config Spec
+---------------------------------------------------------
 -- Navigation
 -- Move by display lines and keep jumps centered
 vim.keymap.set({ 'n', 'x' }, 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, desc = 'Down', silent = true })
@@ -248,21 +273,6 @@ vim.keymap.set('n', '<leader><C-l>', function()
   vim.cmd.redraw()
 end, { desc = 'Clear native multicursors' })
 
--- Completions
--- vim.keymap.set("i", "<C-o>", function()
---   vim.lsp.completion.get()
--- end, { desc = "Trigger LSP completion" })
--- vim.keymap.set('i', '<CR>', function()
---   local info = vim.fn.complete_info({ 'selected' })
---   if vim.fn.pumvisible() == 1 and info.selected >= 0 then
---     return '<C-y>'
---   end
---   return '<C-e><CR>'
--- end, {
---   expr = true,
---   desc = 'Accept completion or insert newline',
--- })
---
 vim.keymap.set('c', '/', function()
   local cmdtype = vim.fn.getcmdtype()
   local cmdline = vim.fn.getcmdline()
