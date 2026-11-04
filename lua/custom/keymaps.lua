@@ -516,7 +516,7 @@ func! s:buf_kill(mercy) abort
   endif
 endf
 
-nnoremap <expr><silent> <leader>bc
+nnoremap <expr><silent> <leader>bd
       \ ':<C-u>call <SID>buf_kill('. !v:count .')<CR>'
 ]]
 
