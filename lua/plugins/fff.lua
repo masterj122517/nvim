@@ -31,3 +31,18 @@ vim.pack.add({
 vim.keymap.set('n', '<C-f>', function()
   require('fff').find_files()
 end, { desc = 'Find files' })
+
+vim.filetype.add { extension = { wgsl = "wgsl" } }
+vim.keymap.set("n", "gf", function()
+  require("fff").open_file_under_cursor(function()
+    vim.api.nvim_command "wincmd k"
+  end)
+end, { silent = true })
+
+vim.keymap.set("n", "<leader>/", function() require('fff').live_grep() end, { desc = 'LiFFFe grep' })
+
+vim.keymap.set('n', 'gf', function()
+  require('fff').open_file_under_cursor(function()
+    vim.api.nvim_command 'wincmd k'
+  end)
+end, { silent = true })
