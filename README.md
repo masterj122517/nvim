@@ -4,19 +4,18 @@ but it's still good at least for me.
 
 Just put this into your ~/.config/nvim and everything is good to go.
 
-## Kataware
+## Musubi
 
-Kataware is vendored in `colors/kataware.lua` and `lua/kataware/`; updating the
-theme requires both paths. No theme plugin download is required.
+Musubi is loaded from the local checkout at `~/programming/kataware.nvim`.
+Keep that checkout available; no plugin manager or vendored theme copy is needed.
+Theme changes take effect on the next Neovim startup.
 
-The palette remains Kataware's indigo/spectral scheme. Ordinary and relative
-line numbers use muted blue-gray; the current line number is bold gold.
-Optional settings go before `colorscheme kataware`:
+The startup configuration preserves the warm-parchment background:
 
 ```lua
-require('kataware').setup { transparent = true }
-vim.cmd.colorscheme 'kataware'
+require('kataware').setup { transparent = false }
+vim.cmd.colorscheme 'musubi'
 ```
 
-Without an explicit setup option, `vim.g.kataware_transparent` still controls
-transparency and is read on each colorscheme reload.
+Use `:colorscheme kataware` to switch to the dark companion for the current
+session. New terminal buffers inherit the active theme's ANSI palette.
