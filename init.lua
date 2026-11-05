@@ -7,5 +7,5 @@ require	'hacks.compile'
 require	'hacks.markdown'
 
 require('kataware').setup { transparent = false }
-vim.cmd.colorscheme 'musubi'
+vim.cmd.colorscheme 'kataware'
 
