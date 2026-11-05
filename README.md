@@ -1,5 +1,17 @@
 # Tasteful NeoVim Configuration
 
+## Theme
+
+Musubi is the startup colorscheme. `init.lua` currently enables transparency;
+set `transparent = false` there to use the warm-parchment background. Transparent
+contrast depends on the host terminal background. `init.lua` loads the local
+`~/programming/kataware.nvim` checkout through `runtimepath`; keep it available.
+Theme changes take effect on the next Neovim startup without copying files into
+this configuration.
+
+Use `:colorscheme kataware` to switch to the dark companion for the current
+session. New terminal buffers inherit the active theme's ANSI palette.
+
 ## Plugin loading
 
 Packages use native `vim.pack`; no additional plugin manager is required.
