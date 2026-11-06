@@ -1,9 +1,9 @@
--- Plugins
+-- Package
 vim.pack.add({
   'https://github.com/folke/which-key.nvim',
 })
 
--- Which-key
+-- Key hints
 require('which-key').setup({
   delay = 200,
 

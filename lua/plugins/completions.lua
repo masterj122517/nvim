@@ -1,10 +1,11 @@
--- Plugins
+-- Packages
 vim.pack.add({
   { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("*") },
   'https://github.com/rafamadriz/friendly-snippets',
 })
--- Completion
-require('blink.cmp').setup({
+
+-- Completion menu
+local options = {
   completion = {
     list = {
       selection = { preselect = false, auto_insert = false },
@@ -23,8 +24,7 @@ require('blink.cmp').setup({
 
   -- Keymaps
   keymap = {
-    --  u can do default enter super-tab none
-    -- we just go for enter
+    -- Enter preset
     preset = 'enter',
     ['<C-Space>'] = false,
     ['<C-o>'] = { 'show', 'fallback' },
@@ -33,12 +33,12 @@ require('blink.cmp').setup({
     ['<Tab>'] = { 'snippet_forward', 'fallback' },
   },
 
-  -- Completion sources
+  -- Sources
   sources = {
     default = { 'lsp', 'path', 'snippets', 'buffer' },
   },
 
-  -- Command-line completion
+  -- Command line
   cmdline = {
     keymap = {
       preset = 'cmdline',
@@ -71,4 +71,13 @@ require('blink.cmp').setup({
   signature = {
     enabled = true,
   },
+}
+
+local group = vim.api.nvim_create_augroup('PluginCompletion', { clear = true })
+vim.api.nvim_create_autocmd({ 'InsertEnter', 'CmdlineEnter' }, {
+  group = group,
+  callback = function()
+    vim.api.nvim_clear_autocmds({ group = group })
+    require('blink.cmp').setup(options)
+  end,
 })

@@ -1,9 +1,9 @@
--- Plugin
+-- Package
 vim.pack.add({
   'https://github.com/stevearc/quicker.nvim',
 })
 
--- Quickfix
+-- Quickfix display
 require('quicker').setup({
   highlight = {
     treesitter = true,

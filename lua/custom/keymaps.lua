@@ -1,5 +1,4 @@
--- Navigation
--- Move by display lines and keep jumps centered
+-- Navigation: movement
 vim.keymap.set({ 'n', 'x' }, 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, desc = 'Down', silent = true })
 vim.keymap.set({ 'n', 'x' }, '<Down>', "v:count == 0 ? 'gj' : 'j'", { expr = true, desc = 'Down', silent = true })
 vim.keymap.set({ 'n', 'x' }, 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, desc = 'Up', silent = true })
@@ -25,266 +24,12 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 
 vim.keymap.set("n", "G", "Gzz")
 
-
--- Search and marks
--- Clear search highlights and center search or mark jumps
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
-
-vim.keymap.set('n', '\\', ':nohlsearch<CR>', { noremap = true, silent = true })
-
-vim.keymap.set('n', 'n', 'nzzzv', { desc = 'Next search result and center' })
-
-vim.keymap.set('n', 'N', 'Nzzzv', { desc = 'Prev search result and center' })
-
-vim.keymap.set('n', '/', 'ms/')
-vim.keymap.set('n', '?', 'ms?')
-
-vim.keymap.set('n', '`', function()
-  local char = vim.fn.getcharstr()
-  return '`' .. char .. 'zz'
-end, { expr = true, desc = 'Jump to mark precise and center' })
-
-vim.keymap.set('n', "'", function()
-  local char = vim.fn.getcharstr()
-  return "'" .. char .. 'zz'
-end, { expr = true, desc = 'Jump to mark line and center' })
-
--- General mappings
--- Customize default keys and shortcuts
-vim.keymap.set('n', 's', '<nop>')
-vim.keymap.set('n', 'S', '<nop>')
-vim.keymap.set('v', 's', '<nop>')
-vim.keymap.set('v', 'S', '<nop>')
-vim.keymap.set('n', ';', ':', {})
-vim.keymap.set('v', ';', ':', {})
-vim.keymap.set('n', '+', '<C-a>', { noremap = true })
-vim.keymap.set('n', '_', '<C-x>', { noremap = true })
-vim.keymap.set('n', ',', '@q', { noremap = true })
-
-vim.keymap.set('n', '<m-a>', 'ggVG', { noremap = true })
-
-
--- Editing and clipboard
--- Edit text without overwriting registers when possible
-vim.keymap.set('n', '<bs>', '"_ciw', { noremap = true })
-vim.keymap.set('i', '<c-h>', 'col(".") == col("$") ? \'<esc>"_db"_xa\' : \'<esc>"_db"_xi\'',
-  { noremap = true, expr = true })
-
-vim.keymap.set('v', '<BS>', '"_d', { noremap = true })
-vim.keymap.set('n', 'x', '"_x', { noremap = true })
-vim.keymap.set('v', 'x', '"_x', { noremap = true })
-vim.keymap.set('n', 'Y', 'y$', { noremap = true })
-vim.keymap.set('v', 'c', '"_c', { noremap = true })
-vim.keymap.set('v', 'p', 'pgvy', { noremap = true })
-vim.keymap.set('v', 'P', 'Pgvy', { noremap = true })
-
-vim.keymap.set('i', '<c-a>', '<Esc>I', { noremap = true })
-vim.keymap.set('i', '<c-e>', '<Esc>A', { noremap = true })
-vim.keymap.set('i', '<C-k>', function()
-  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-  local line = vim.api.nvim_get_current_line()
-  vim.api.nvim_set_current_line(line:sub(1, col))
-end, { noremap = true, desc = 'Kill to end of line' })
-
-
--- Visual selection
--- Indent and move selected lines
-vim.keymap.set('v', '<', '<gv', { noremap = true })
-vim.keymap.set('v', '>', '>gv', { noremap = true })
-vim.keymap.set('v', '<C-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true, desc = 'Move selection down' })
-vim.keymap.set('v', '<C-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true, desc = 'Move selection up' })
-
-
--- Command line
--- Use readline-style command-line editing
-vim.keymap.set('c', '<c-a>', '<home>', { noremap = true })
-vim.keymap.set('c', '<c-e>', '<end>', { noremap = true })
-vim.keymap.set('c', '<C-k>', function()
-  local cmdline = vim.fn.getcmdline()
-  local pos = vim.fn.getcmdpos() - 1
-  vim.fn.setcmdline(cmdline:sub(1, pos))
-end, { noremap = true, desc = 'Kill to end of cmdline' })
-vim.keymap.set('c', '<C-b>', '<Left>', { noremap = true })
-vim.keymap.set('c', '<C-f>', '<Right>', { noremap = true })
-vim.keymap.set('c', '<C-d>', '<Del>', { noremap = true })
-
-
--- Buffers
-vim.keymap.set('n', '<S-h>', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
-vim.keymap.set('n', '<S-l>', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
-
--- Tabs
--- Manage tab pages
-vim.keymap.set('n', 'te', ':tab split<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', 'th', ':-tabnext<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', 'tl', ':+tabnext<CR>', { noremap = true, silent = true })
-
-vim.keymap.set('n', 'tc', ':tabclose<CR>', { noremap = true, silent = true })
-
-
-vim.keymap.set('n', 'to', ':tabonly<CR>', { noremap = true, silent = true })
-
-
-for i = 1, 9 do
-  vim.keymap.set('n', 't' .. i, i .. 'gt', { noremap = true, silent = true })
-end
-
-
-vim.keymap.set('n', 'tt', '<cmd>tabnext #<cr>')
-
-
-vim.keymap.set('n', 'tL', ':tablast<CR>', { noremap = true, silent = true })
-
-vim.keymap.set('n', 'tH', ':tabfirst<CR>', { noremap = true, silent = true })
-
-
-vim.keymap.set('n', 'tmh', ':-tabmove<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', 'tml', ':+tabmove<CR>', { noremap = true, silent = true })
-
-
--- Windows and splits
--- Navigate and resize splits
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
-
-vim.keymap.set('n', 'sv', ':vsp<cr>', { noremap = true, silent = true })
-vim.keymap.set('n', 'sp', ':sp<cr>', { noremap = true, silent = true })
-vim.keymap.set('n', 'sc', ':close<cr>', { noremap = true, silent = true })
-vim.keymap.set('n', 'so', ':only<cr>', { noremap = true, silent = true })
-vim.keymap.set('n', 'sh', '<c-w>h', { noremap = true, silent = true })
-vim.keymap.set('n', 'sl', '<c-w>l', { noremap = true, silent = true })
-vim.keymap.set('n', 'sk', '<c-w>k', { noremap = true, silent = true })
-vim.keymap.set('n', 'sj', '<c-w>j', { noremap = true, silent = true })
-
-vim.keymap.set('n', 's=', '<c-w>=', { noremap = true, silent = true })
-vim.keymap.set('n', '<m-.>', "winnr() <= winnr('$') - winnr() ? '<c-w>5>' : '<c-w>5<'", { noremap = true, expr = true })
-vim.keymap.set('n', '<m-,>', "winnr() <= winnr('$') - winnr() ? '<c-w>5<' : '<c-w>5>'", { noremap = true, expr = true })
-vim.keymap.set('n', '<m-d>', "winnr() <= winnr('$') - winnr() ? '<c-w>5+' : '<c-w>5-'", { noremap = true, expr = true })
-vim.keymap.set('n', '<m-u>', "winnr() <= winnr('$') - winnr() ? '<c-w>5-' : '<c-w>5+'", { noremap = true, expr = true })
-
-vim.api.nvim_set_keymap('t', '|', '<C-\\><C-n><C-W>w', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '|', '<C-w>w', { noremap = true, silent = true })
-
-vim.api.nvim_set_keymap('t', '<C-q>', '<C-\\><C-n>:q<CR>', { noremap = true, silent = true })
--- Diagnostics
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, {
-  desc = 'Open diagnostic location list',
+-- Navigation: help
+vim.keymap.set('n', 'vK', '<C-\\><C-N><Cmd>help!<CR>', {
+  desc = 'Open Neovim help for word under cursor',
 })
 
-vim.keymap.set('n', '<leader>Q', vim.diagnostic.setqflist, {
-  desc = 'Open diagnostic quickfix list',
-})
-
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
-
--- Text helpers
-vim.keymap.set('n', '\\w', "&wrap == 1 ? ':set nowrap<cr>' : ':set wrap<cr>'", { noremap = true, expr = true })
-
-vim.keymap.set('v', 'T', ':call v:lua.MagicToggleHump(v:true)<CR>', { noremap = true, silent = true })
-vim.keymap.set('v', 't', ':call v:lua.MagicToggleHump(v:false)<CR>', { noremap = true, silent = true })
-
-function MagicToggleHump(upperCase)
-  vim.fn.execute 'normal! gv"tx'
-  local w = vim.fn.getreg 't'
-  local toHump = w:find '_' ~= nil
-  if toHump then
-    w = w:gsub('_(%w)', function(c)
-      return c:upper()
-    end)
-  else
-    w = w:gsub('(%u)', function(c)
-      return '_' .. c:lower()
-    end)
-  end
-  if w:sub(1, 1) == '_' then
-    w = w:sub(2)
-  end
-  if upperCase then
-    w = w:sub(1, 1):upper() .. w:sub(2)
-  end
-  vim.fn.setreg('t', w)
-  vim.fn.execute 'normal! "tP'
-end
-
-vim.keymap.set('n', 'yc', 'yygccp', { remap = true, desc = '[D]uplicate a line and comment out the first line' })
-
--- Native multicursor
-local multicursor_ns = vim.api.nvim_create_namespace 'nvim.multicursor'
-local multicursor_group = vim.api.nvim_create_augroup('custom.multicursor', { clear = true })
-
-local function multicursor_insert(key)
-  local mode = vim.fn.mode()
-  if mode ~= 'v' and mode ~= 'V' then
-    return key
-  end
-
-  local buf = vim.api.nvim_get_current_buf()
-  vim.api.nvim_create_autocmd('InsertLeave', {
-    group = multicursor_group,
-    buffer = buf,
-    once = true,
-    callback = function()
-      vim.schedule(function()
-        vim.api.nvim_buf_clear_namespace(buf, multicursor_ns, 0, -1)
-      end)
-    end,
-  })
-  return 'Q' .. key
-end
-
-vim.keymap.set('x', 'I', function()
-  return multicursor_insert 'I'
-end, { expr = true, desc = 'Native multicursor insert at line starts' })
-vim.keymap.set('x', 'A', function()
-  return multicursor_insert 'A'
-end, { expr = true, desc = 'Native multicursor append at line ends' })
-
-
-vim.keymap.set('n', '<leader><C-l>', function()
-  vim.api.nvim_buf_clear_namespace(0, multicursor_ns, 0, -1)
-  vim.cmd.redraw()
-end, { desc = 'Clear native multicursors' })
-
--- Completions
--- vim.keymap.set("i", "<C-o>", function()
---   vim.lsp.completion.get()
--- end, { desc = "Trigger LSP completion" })
--- vim.keymap.set('i', '<CR>', function()
---   local info = vim.fn.complete_info({ 'selected' })
---   if vim.fn.pumvisible() == 1 and info.selected >= 0 then
---     return '<C-y>'
---   end
---   return '<C-e><CR>'
--- end, {
---   expr = true,
---   desc = 'Accept completion or insert newline',
--- })
---
-vim.keymap.set('c', '/', function()
-  local cmdtype = vim.fn.getcmdtype()
-  local cmdline = vim.fn.getcmdline()
-
-  if (cmdtype == '/' or cmdtype == '?')
-      and cmdline == '' then
-    return '<C-c><Esc>/\\%V'
-  end
-
-  return '/'
-end, { expr = true })
-
--- g?: Web search
-vim.keymap.set('n', 'g??', function()
-  vim.ui.open(('https://google.com/search?q=%s'):format(vim.fn.expand('<cword>')))
-end)
-vim.keymap.set('x', 'g??', function()
-  vim.ui.open(('https://google.com/search?q=%s'):format(vim.trim(table.concat(
-    vim.fn.getregion(vim.fn.getpos('.'), vim.fn.getpos('v'), { type = vim.fn.mode() }), ' '))))
-  vim.api.nvim_input('<esc>')
-end)
-
+-- Navigation: directories
 vim.keymap.set('n', 'cdg', function()
   local root = vim.fs.root(0, '.git')
   if not root then
@@ -307,37 +52,33 @@ vim.keymap.set('n', 'cd-', '<cmd>lcd - | verbose pwd<CR>', {
   desc = 'CD to previous directory',
 })
 
-vim.keymap.set('n', 'g>', '<cmd>40messages<CR>', {
-  desc = 'Show recent messages',
-})
 
-vim.keymap.set('i', '<C-y>', function()
-  if vim.fn.pumvisible() == 1 then
-    return '<C-y>'
-  end
+-- Navigation: search and marks
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
-  local col = vim.fn.virtcol('.')
-  local line = vim.fn.getline(vim.fn.line('.') - 1)
-  local pattern = [[\%]] .. col .. [[v\%(\k\+\|.\)]]
+vim.keymap.set('n', '\\', ':nohlsearch<CR>', { noremap = true, silent = true })
 
-  return vim.fn.matchstr(line, pattern)
-end, {
-  expr = true,
-  desc = 'Copy word from line above',
-})
-
+vim.keymap.set('n', '/', 'ms/')
+vim.keymap.set('n', '?', 'ms?')
 
 vim.keymap.set('n', 'n', function()
-  return vim.v.searchforward == 1 and 'n' or 'N'
-end, { expr = true })
+  return (vim.v.searchforward == 1 and 'n' or 'N') .. 'zvzz'
+end, { expr = true, desc = 'Next search result and center' })
 
 vim.keymap.set('n', 'N', function()
-  return vim.v.searchforward == 1 and 'N' or 'n'
-end, { expr = true })
+  return (vim.v.searchforward == 1 and 'N' or 'n') .. 'zvzz'
+end, { expr = true, desc = 'Previous search result and center' })
 
-vim.keymap.set('n', 'vK', '<C-\\><C-N><Cmd>help!<CR>', {
-  desc = 'Open Neovim help for word under cursor',
-})
+
+vim.keymap.set('n', '`', function()
+  local char = vim.fn.getcharstr()
+  return '`' .. char .. 'zz'
+end, { expr = true, desc = 'Jump to mark precise and center' })
+
+vim.keymap.set('n', "'", function()
+  local char = vim.fn.getcharstr()
+  return "'" .. char .. 'zz'
+end, { expr = true, desc = 'Jump to mark line and center' })
 
 local function search_cword(whole_word)
   local word = vim.fn.expand('<cword>')
@@ -371,6 +112,108 @@ vim.keymap.set('n', 'g#', function()
   search_cword(false)
 end, { desc = 'Highlight partial matches' })
 
+
+-- Navigation: web search
+vim.keymap.set('n', 'g??', function()
+  vim.ui.open(('https://google.com/search?q=%s'):format(vim.fn.expand('<cword>')))
+end)
+vim.keymap.set('x', 'g??', function()
+  vim.ui.open(('https://google.com/search?q=%s'):format(vim.trim(table.concat(
+    vim.fn.getregion(vim.fn.getpos('.'), vim.fn.getpos('v'), { type = vim.fn.mode() }), ' '))))
+  vim.api.nvim_input('<esc>')
+end)
+
+-- Editing: defaults and macros
+vim.keymap.set('n', 's', '<nop>')
+vim.keymap.set('n', 'S', '<nop>')
+vim.keymap.set('v', 's', '<nop>')
+vim.keymap.set('v', 'S', '<nop>')
+vim.keymap.set('n', '+', '<C-a>', { noremap = true })
+vim.keymap.set('n', '_', '<C-x>', { noremap = true })
+vim.keymap.set('n', ',', '@q', { noremap = true })
+
+-- Editing: registers
+vim.keymap.set('n', '<bs>', '"_ciw', { noremap = true })
+vim.keymap.set('i', '<c-h>', 'col(".") == col("$") ? \'<esc>"_db"_xa\' : \'<esc>"_db"_xi\'',
+  { noremap = true, expr = true })
+
+vim.keymap.set('v', '<BS>', '"_d', { noremap = true })
+vim.keymap.set('n', 'x', '"_x', { noremap = true })
+vim.keymap.set('v', 'x', '"_x', { noremap = true })
+vim.keymap.set('n', 'Y', 'y$', { noremap = true })
+vim.keymap.set('v', 'c', '"_c', { noremap = true })
+vim.keymap.set('v', 'p', 'pgvy', { noremap = true })
+vim.keymap.set('v', 'P', 'Pgvy', { noremap = true })
+
+-- Editing: insert mode
+vim.keymap.set('i', '<c-a>', '<Esc>I', { noremap = true })
+vim.keymap.set('i', '<c-e>', '<Esc>A', { noremap = true })
+vim.keymap.set('i', '<C-y>', function()
+  if vim.fn.pumvisible() == 1 then
+    return '<C-y>'
+  end
+
+  local col = vim.fn.virtcol('.')
+  local line = vim.fn.getline(vim.fn.line('.') - 1)
+  local pattern = [[\%]] .. col .. [[v\%(\k\+\|.\)]]
+
+  return vim.fn.matchstr(line, pattern)
+end, {
+  expr = true,
+  desc = 'Copy word from line above',
+})
+
+vim.keymap.set('i', '<C-k>', function()
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local line = vim.api.nvim_get_current_line()
+  vim.api.nvim_set_current_line(line:sub(1, col))
+end, { noremap = true, desc = 'Kill to end of line' })
+
+-- Editing: completion
+-- vim.keymap.set("i", "<C-o>", function()
+--   vim.lsp.completion.get()
+-- end, { desc = "Trigger LSP completion" })
+-- vim.keymap.set('i', '<CR>', function()
+--   local info = vim.fn.complete_info({ 'selected' })
+--   if vim.fn.pumvisible() == 1 and info.selected >= 0 then
+--     return '<C-y>'
+--   end
+--   return '<C-e><CR>'
+-- end, {
+--   expr = true,
+--   desc = 'Accept completion or insert newline',
+-- })
+
+-- Editing: case conversion
+vim.keymap.set('v', 'T', ':call v:lua.MagicToggleHump(v:true)<CR>', { noremap = true, silent = true })
+vim.keymap.set('v', 't', ':call v:lua.MagicToggleHump(v:false)<CR>', { noremap = true, silent = true })
+
+function MagicToggleHump(upperCase)
+  vim.fn.execute 'normal! gv"ty'
+  local w = vim.fn.getreg 't'
+  local toHump = w:find '_' ~= nil
+  if toHump then
+    w = w:gsub('_(%w)', function(c)
+      return c:upper()
+    end)
+  else
+    w = w:gsub('(%u)', function(c)
+      return '_' .. c:lower()
+    end)
+  end
+  if w:sub(1, 1) == '_' then
+    w = w:sub(2)
+  end
+  if upperCase then
+    w = w:sub(1, 1):upper() .. w:sub(2)
+  end
+  vim.fn.setreg('t', w)
+  vim.fn.execute 'normal! gv"tP'
+end
+
+vim.keymap.set('n', 'yc', 'yygccp', { remap = true, desc = '[D]uplicate a line and comment out the first line' })
+
+-- Editing: replacement
 vim.cmd [[
 func! s:trimws_ml(s) abort "trim whitespace across multiple lines
   return substitute(a:s, '^\_s*\(.\{-}\)\_s*$', '\1', '')
@@ -412,7 +255,84 @@ nnoremap <silent> dr  :<C-u>call <sid>set_reg(v:register)<bar>set opfunc=<sid>re
 nnoremap <silent> drr :<C-u>call <sid>set_reg(v:register)<cr>0:<C-u>set opfunc=<sid>replace_without_yank<CR>g@$
 ]]
 
--- buffers
+-- Selection: indentation
+vim.keymap.set('n', '<m-a>', 'ggVG', { noremap = true })
+vim.keymap.set('v', '<', '<gv', { noremap = true })
+vim.keymap.set('v', '>', '>gv', { noremap = true })
+vim.keymap.set('v', '<C-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true, desc = 'Move selection down' })
+vim.keymap.set('v', '<C-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true, desc = 'Move selection up' })
+
+-- Selection: multicursor
+local multicursor_ns = vim.api.nvim_create_namespace 'nvim.multicursor'
+local multicursor_group = vim.api.nvim_create_augroup('custom.multicursor', { clear = true })
+
+local function multicursor_insert(key)
+  local mode = vim.fn.mode()
+  if mode ~= 'v' and mode ~= 'V' then
+    return key
+  end
+
+  local buf = vim.api.nvim_get_current_buf()
+  vim.api.nvim_create_autocmd('InsertLeave', {
+    group = multicursor_group,
+    buffer = buf,
+    once = true,
+    callback = function()
+      vim.schedule(function()
+        vim.api.nvim_buf_clear_namespace(buf, multicursor_ns, 0, -1)
+      end)
+    end,
+  })
+  return 'Q' .. key
+end
+
+vim.keymap.set('x', 'I', function()
+  return multicursor_insert 'I'
+end, { expr = true, desc = 'Native multicursor insert at line starts' })
+vim.keymap.set('x', 'A', function()
+  return multicursor_insert 'A'
+end, { expr = true, desc = 'Native multicursor append at line ends' })
+
+
+vim.keymap.set('n', '<leader><C-l>', function()
+  vim.api.nvim_buf_clear_namespace(0, multicursor_ns, 0, -1)
+  vim.cmd.redraw()
+end, { desc = 'Clear native multicursors' })
+
+
+-- Command line: editing
+vim.keymap.set('n', ';', ':', {})
+vim.keymap.set('v', ';', ':', {})
+vim.keymap.set('c', '<c-a>', '<home>', { noremap = true })
+vim.keymap.set('c', '<c-e>', '<end>', { noremap = true })
+vim.keymap.set('c', '<C-k>', function()
+  local cmdline = vim.fn.getcmdline()
+  local pos = vim.fn.getcmdpos() - 1
+  vim.fn.setcmdline(cmdline:sub(1, pos))
+end, { noremap = true, desc = 'Kill to end of cmdline' })
+vim.keymap.set('c', '<C-b>', '<Left>', { noremap = true })
+vim.keymap.set('c', '<C-f>', '<Right>', { noremap = true })
+vim.keymap.set('c', '<C-d>', '<Del>', { noremap = true })
+
+-- Command line: selection search
+vim.keymap.set('c', '/', function()
+  local cmdtype = vim.fn.getcmdtype()
+  local cmdline = vim.fn.getcmdline()
+
+  if (cmdtype == '/' or cmdtype == '?')
+      and cmdline == '' then
+    return '<C-c><Esc>/\\%V'
+  end
+
+  return '/'
+end, { expr = true })
+
+
+-- Buffers: navigation
+vim.keymap.set('n', '<S-h>', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
+vim.keymap.set('n', '<S-l>', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
+
+-- Buffers: deletion
 vim.cmd [[
 func! s:compare_numbers(n1, n2) abort
   return a:n1 == a:n2 ? 0 : a:n1 > a:n2 ? 1 : -1
@@ -520,7 +440,7 @@ nnoremap <expr><silent> <leader>bd
       \ ':<C-u>call <SID>buf_kill('. !v:count .')<CR>'
 ]]
 
--- Delete other loaded buffers
+-- Buffers: delete others
 vim.keymap.set('n', '<leader>bo', function()
   local current = vim.api.nvim_get_current_buf()
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
@@ -530,56 +450,130 @@ vim.keymap.set('n', '<leader>bo', function()
   end
 end, { desc = 'Delete Other Buffers' })
 
--- New Markdown scratch buffer
+-- Buffers: scratch
 vim.keymap.set('n', '<leader>bs', function()
   local buf = vim.api.nvim_create_buf(true, true)
   vim.api.nvim_set_current_buf(buf)
   vim.bo[buf].filetype = 'markdown'
 end, { desc = 'New Scratch Buffer' })
--- terminal
+
+-- Tabs
+vim.keymap.set('n', 'te', ':tab split<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'th', ':-tabnext<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'tl', ':+tabnext<CR>', { noremap = true, silent = true })
+
+vim.keymap.set('n', 'tc', ':tabclose<CR>', { noremap = true, silent = true })
+
+
+vim.keymap.set('n', 'to', ':tabonly<CR>', { noremap = true, silent = true })
+
+
+for i = 1, 9 do
+  vim.keymap.set('n', 't' .. i, i .. 'gt', { noremap = true, silent = true })
+end
+
+
+vim.keymap.set('n', 'tt', '<cmd>tabnext #<cr>')
+
+
+vim.keymap.set('n', 'tL', ':tablast<CR>', { noremap = true, silent = true })
+
+vim.keymap.set('n', 'tH', ':tabfirst<CR>', { noremap = true, silent = true })
+
+
+vim.keymap.set('n', 'tmh', ':-tabmove<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'tml', ':+tabmove<CR>', { noremap = true, silent = true })
+
+
+-- Windows: navigation and sizing
+vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
+vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+
+vim.keymap.set('n', 'sv', ':vsp<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', 'sp', ':sp<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', 'sc', ':close<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', 'so', ':only<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', 'sh', '<c-w>h', { noremap = true, silent = true })
+vim.keymap.set('n', 'sl', '<c-w>l', { noremap = true, silent = true })
+vim.keymap.set('n', 'sk', '<c-w>k', { noremap = true, silent = true })
+vim.keymap.set('n', 'sj', '<c-w>j', { noremap = true, silent = true })
+
+vim.keymap.set('n', 's=', '<c-w>=', { noremap = true, silent = true })
+vim.keymap.set('n', '<m-.>', "winnr() <= winnr('$') - winnr() ? '<c-w>5>' : '<c-w>5<'", { noremap = true, expr = true })
+vim.keymap.set('n', '<m-,>', "winnr() <= winnr('$') - winnr() ? '<c-w>5<' : '<c-w>5>'", { noremap = true, expr = true })
+vim.keymap.set('n', '<m-d>', "winnr() <= winnr('$') - winnr() ? '<c-w>5+' : '<c-w>5-'", { noremap = true, expr = true })
+vim.keymap.set('n', '<m-u>', "winnr() <= winnr('$') - winnr() ? '<c-w>5-' : '<c-w>5+'", { noremap = true, expr = true })
+
+-- Windows: wrapping
+vim.keymap.set('n', '\\w', "&wrap == 1 ? ':set nowrap<cr>' : ':set wrap<cr>'", { noremap = true, expr = true })
+
+-- Diagnostics and messages
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, {
+  desc = 'Open diagnostic location list',
+})
+
+vim.keymap.set('n', '<leader>Q', vim.diagnostic.setqflist, {
+  desc = 'Open diagnostic quickfix list',
+})
+
+vim.keymap.set('n', 'g>', '<cmd>40messages<CR>', {
+  desc = 'Show recent messages',
+})
+
+-- Terminals: navigation
+vim.api.nvim_set_keymap('t', '|', '<C-\\><C-n><C-W>w', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '|', '<C-w>w', { noremap = true, silent = true })
+
+vim.api.nvim_set_keymap('t', '<C-q>', '<C-\\><C-n>:q<CR>', { noremap = true, silent = true })
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+
+-- Terminals: toggle
 local toggle_term = {
   win = nil,
   buf = nil,
 }
 
 local function toggle_my_terminal()
-  -- 1. If the terminal window is visible, hide it or focus it depending on current focus
+  -- Reuse the visible window.
   if toggle_term.win and vim.api.nvim_win_is_valid(toggle_term.win) then
     local curr_win = vim.api.nvim_get_current_win()
-    -- If inside the terminal window, hide it
+    -- Hide the focused terminal.
     if curr_win == toggle_term.win then
       vim.api.nvim_win_hide(toggle_term.win)
       toggle_term.win = nil
       return
     else
-      -- If open but unfocused, move focus to it (similar to snacks.terminal.focus)
+      -- Focus the visible terminal.
       vim.api.nvim_set_current_win(toggle_term.win)
       vim.cmd 'startinsert'
       return
     end
   end
 
-  -- 2. Split a new window downwards with a fixed height of 10 lines
+  -- Open a bottom split.
   vim.cmd 'belowright 10sp'
   local new_win = vim.api.nvim_get_current_win()
 
-  -- 3. Check if the terminal buffer exists and is valid
+  -- Reuse the terminal buffer.
   if toggle_term.buf and vim.api.nvim_buf_is_valid(toggle_term.buf) then
     -- Reuse existing buffer
     vim.api.nvim_win_set_buf(new_win, toggle_term.buf)
   else
-    -- Create a brand new terminal and store its buffer ID
+    -- Create the terminal buffer.
     vim.cmd 'terminal'
     toggle_term.buf = vim.api.nvim_get_current_buf()
-    -- Set custom filetype to avoid default terminal options pollution
+    -- Isolate terminal options.
     vim.bo[toggle_term.buf].filetype = 'vanilla_terminal'
   end
 
-  -- 4. Record the current bound window ID and enter insert mode
+  -- Enter terminal mode.
   toggle_term.win = new_win
   vim.cmd 'startinsert'
 end
 
--- Bind both keys to handle different terminal tracking definitions
+-- Terminal toggle aliases
 vim.keymap.set({ 'n', 't' }, '<c-/>', toggle_my_terminal, { silent = true })
 vim.keymap.set({ 'n', 't' }, '<c-_>', toggle_my_terminal, { silent = true })

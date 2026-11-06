@@ -1,3 +1,4 @@
+-- Deferred packages
 vim.pack.add({
   'https://github.com/rachartier/tiny-code-action.nvim',
   'https://github.com/MeanderingProgrammer/render-markdown.nvim',
@@ -5,6 +6,7 @@ vim.pack.add({
   load = function() end,
 })
 
+-- Plugin setup
 require("plugins.oil")
 require("plugins.fff")
 require("plugins.completions")

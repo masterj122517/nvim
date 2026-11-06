@@ -1,4 +1,4 @@
--- Plugins
+-- Packages
 vim.pack.add({
   'https://github.com/nvim-treesitter/nvim-treesitter',
   'https://github.com/nvim-treesitter/nvim-treesitter-textobjects',
@@ -7,7 +7,7 @@ vim.pack.add({
 
 local treesitter = require('nvim-treesitter')
 
--- Disable LSP semantic highlighting
+-- LSP highlighting
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('masterjVim_lsp_highlight', {
     clear = true,
@@ -21,7 +21,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
--- Enable Tree-sitter highlighting
+-- Parser startup
 local function start_treesitter(buf)
   if not vim.api.nvim_buf_is_valid(buf) then
     return false
@@ -36,7 +36,7 @@ local function start_treesitter(buf)
   return ok
 end
 
--- Install missing parsers
+-- Parser installation
 local installing = {}
 local failed = {}
 
@@ -100,5 +100,5 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
--- Wildfire
+-- Syntax selection
 require('wildfire').setup()

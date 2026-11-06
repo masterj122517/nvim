@@ -1,4 +1,4 @@
--- FFF configuration
+-- File search options
 vim.g.fff = {
   lazy_sync = true,
   debug = {
@@ -7,7 +7,7 @@ vim.g.fff = {
   },
 }
 
--- Build FFF on install or update
+-- Installation hook
 vim.api.nvim_create_autocmd('PackChanged', {
   group = vim.api.nvim_create_augroup('masterjVim_fff', { clear = true }),
   callback = function(ev)
@@ -23,16 +23,16 @@ vim.api.nvim_create_autocmd('PackChanged', {
   end,
 })
 
+-- Package
 vim.pack.add({
   'https://github.com/dmtrKovalenko/fff',
 })
 
--- Keymaps
+-- Search keymaps
 vim.keymap.set('n', '<C-f>', function()
   require('fff').find_files()
 end, { desc = 'Find files' })
 
-vim.filetype.add { extension = { wgsl = "wgsl" } }
 vim.keymap.set("n", "gf", function()
   require("fff").open_file_under_cursor(function()
     vim.api.nvim_command "wincmd k"
@@ -40,9 +40,3 @@ vim.keymap.set("n", "gf", function()
 end, { silent = true })
 
 vim.keymap.set("n", "<leader>/", function() require('fff').live_grep() end, { desc = 'LiFFFe grep' })
-
-vim.keymap.set('n', 'gf', function()
-  require('fff').open_file_under_cursor(function()
-    vim.api.nvim_command 'wincmd k'
-  end)
-end, { silent = true })

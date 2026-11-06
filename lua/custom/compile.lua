@@ -1,71 +1,186 @@
 local M = {}
-local generation = 0
+-- Compilation state
+local active
 local last_command = 'make'
 
-local function build(command)
-  generation = generation + 1
-  local current = generation
-  local cwd = vim.fn.getcwd()
-  local efm = vim.api.nvim_get_option_value('errorformat', {})
-
-  local function finish(result)
-    if current ~= generation then
-      return
+-- Quickfix display
+local function quickfix_text(info)
+  local lines = {}
+  if info.end_idx - info.start_idx < 128 then
+    -- Single-item reads avoid materializing the whole list for small redraws.
+    for index = info.start_idx, info.end_idx do
+      local item = vim.fn.getqflist({ id = info.id, idx = index, items = 0 }).items[1]
+      lines[#lines + 1] = item.text
     end
-
-    local lines = {}
-    for _, output in ipairs({ result.stdout or '', result.stderr or '' }) do
-      if output ~= '' then
-        local chunk = vim.split(output, '\n', { plain = true })
-        if chunk[#chunk] == '' then
-          table.remove(chunk)
-        end
-        vim.list_extend(lines, chunk)
-      end
-    end
-
-    -- Parse each original line so even ignored/multiline efm patterns cannot
-    -- swallow logs or blank lines. The directory entry anchors relative paths
-    -- to the build cwd, even if Neovim has since changed directory.
-    local items = { { text = '$ ' .. command, valid = 0 } }
-    for _, line in ipairs(lines) do
-      local parsed = vim.fn.getqflist({
-        lines = { '__build_directory__' .. cwd, line },
-        efm = '%D__build_directory__%f,' .. efm,
-      }).items
-      local item = parsed[#parsed] or {}
-      item.text = line
-      items[#items + 1] = item
-    end
-    local status = '[Process exited ' .. tostring(result.code)
-    if result.signal and result.signal ~= 0 then
-      status = status .. ', signal ' .. result.signal
-    end
-    items[#items + 1] = { text = status .. ']', valid = 0 }
-    vim.fn.setqflist({}, 'r', { title = command, items = items })
-    vim.cmd('botright copen')
+  else
+    -- Bulk reads avoid repeated linked-list traversal for large requests.
+    local expression = "map(getqflist({'id': %d, 'items': 0}).items[%d:%d], 'v:val.text')"
+    lines = vim.api.nvim_eval(expression:format(info.id, info.start_idx - 1, info.end_idx - 1))
   end
-
-  local argv = { vim.o.shell }
-  vim.list_extend(argv, vim.split(vim.o.shellcmdflag, '%s+', { trimempty = true }))
-  argv[#argv + 1] = command
-  local ok, process = pcall(vim.system, argv, {
-    cwd = cwd,
-    text = true,
-  }, function(result)
-    vim.schedule(function()
-      finish(result)
-    end)
-  end)
-  if not ok then
-    finish({ stderr = tostring(process), code = 'not started' })
-    return
+  for index, text in ipairs(lines) do
+    text = text:gsub('\n', ' ')
+    -- Empty strings fall back to Neovim's column separators.
+    lines[index] = text == '' and ' ' or text
   end
-  return process
+  return lines
 end
 
--- Buffer-local Odin fallback, outside the generic build function. Existing
--- :compiler / ftplugin errorformat settings take precedence.
+-- Diagnostic parsing
+local function output_format()
+  -- Only unescaped commas separate errorformat patterns.
+  local formats = vim.fn.split(vim.o.errorformat, [[\\\@<!\%(\\\\\)*\zs,]])
+  -- Preserve whole messages, including normally hidden log lines.
+  for i, format in ipairs(formats) do
+    local prefix, rest = format:match('^%%[-+]?([A-Z])(.*)$')
+    formats[i] = prefix and ('%+' .. prefix .. rest) or ('%+G' .. format)
+  end
+  return '%DBuild directory: %f,' .. table.concat(formats, ',')
+end
+
+-- Asynchronous builds
+local function build(command)
+  local cwd = vim.fn.getcwd()
+  local efm = output_format()
+  if active then
+    local previous = active
+    active = nil
+    vim.fn.jobstop(previous.job)
+    vim.fn.setqflist({}, 'a', {
+      id = previous.id,
+      items = { { text = '[Compilation replaced]', valid = 0 } },
+    })
+  end
+
+  vim.fn.setqflist({}, ' ', {
+    nr = '$',
+    title = command,
+    lines = { 'Build directory: ' .. cwd },
+    efm = efm,
+    quickfixtextfunc = quickfix_text,
+  })
+  local run = {
+    id = vim.fn.getqflist({ id = 0 }).id,
+    pending = {},
+    next_line = 1,
+    tail = '',
+    scheduled = false,
+  }
+  active = run
+  vim.fn.setqflist({}, 'a', {
+    id = run.id,
+    items = { { text = '$ ' .. command, valid = 0 } },
+  })
+
+  local function flush()
+    if active ~= run then
+      return
+    end
+    run.scheduled = false
+    local view = vim.fn.getqflist({ id = 0, nr = 0, size = 0, winid = 0 })
+    local follow = view.id == run.id and view.winid ~= 0
+        and vim.api.nvim_win_get_cursor(view.winid)[1] == view.size
+
+    if run.next_line <= #run.pending then
+      local previous = view.id == run.id and view.winid ~= 0 and view.size > 0
+          and vim.fn.getqflist({ id = run.id, idx = view.size, items = 0 }).items[1]
+      -- Bound each update so large logs do not block editing.
+      local last = math.min(run.next_line + 999, #run.pending)
+      local lines = vim.list_slice(run.pending, run.next_line, last)
+      run.next_line = last + 1
+      if run.next_line > #run.pending then
+        run.pending = {}
+        run.next_line = 1
+      end
+      if vim.fn.setqflist({}, 'a', { id = run.id, lines = lines, efm = efm }) == -1 then
+        active = nil
+        if run.job then
+          vim.fn.jobstop(run.job)
+        end
+        return
+      end
+      if previous then
+        local updated = vim.fn.getqflist({ id = run.id, idx = view.size, items = 0 }).items[1]
+        if not vim.deep_equal(previous, updated) then
+          -- Repaint a continued diagnostic without resetting its parser.
+          local saved = vim.api.nvim_win_call(view.winid, vim.fn.winsaveview)
+          vim.cmd('silent ' .. view.nr .. 'chistory')
+          vim.api.nvim_win_call(view.winid, function() vim.fn.winrestview(saved) end)
+        end
+      end
+    end
+    if run.next_line <= #run.pending then
+      run.scheduled = true
+      vim.defer_fn(flush, 20)
+    elseif run.status then
+      vim.fn.setqflist({}, 'a', {
+        id = run.id,
+        items = { { text = run.status, valid = 0 } },
+      })
+      active = nil
+    end
+    if follow then
+      local size = vim.fn.getqflist({ id = run.id, size = 0 }).size
+      vim.api.nvim_win_set_cursor(view.winid, { size, 0 })
+    end
+  end
+
+  function run.finish(status)
+    if active ~= run then
+      return
+    end
+    if run.tail ~= '' then
+      run.pending[#run.pending + 1] = run.tail:gsub('\r$', '')
+      run.tail = ''
+    end
+    run.status = status
+    if not run.scheduled then
+      flush()
+    end
+  end
+
+  local function receive(_, data)
+    if active ~= run then
+      return
+    end
+    data[1] = run.tail .. data[1]
+    for i = 1, #data - 1 do
+      run.pending[#run.pending + 1] = data[i]:gsub('\r$', '')
+    end
+    run.tail = data[#data]
+    if #run.pending > 0 and not run.scheduled then
+      run.scheduled = true
+      vim.defer_fn(flush, 20)
+    end
+  end
+
+  local source = vim.api.nvim_get_current_win()
+  vim.cmd('botright copen')
+  local win = vim.fn.getqflist({ winid = 0 }).winid
+  vim.api.nvim_win_set_cursor(win, { 2, 0 })
+  vim.api.nvim_set_current_win(source)
+
+  -- Merge streams before capture; jobstop terminates the process group.
+  local argv = { 'sh', '-c', 'exec "$@" 2>&1', 'build', vim.o.shell }
+  vim.list_extend(argv, vim.split(vim.o.shellcmdflag, '%s+', { trimempty = true }))
+  argv[#argv + 1] = command
+  local ok, job = pcall(vim.fn.jobstart, argv, {
+    cwd = cwd,
+    stdin = 'null',
+    on_stdout = receive,
+    on_exit = function(_, code)
+      run.finish('[Process exited ' .. code .. ']')
+    end,
+  })
+  if not ok or job <= 0 then
+    run.pending[#run.pending + 1] = tostring(job)
+    run.finish('[Process not started]')
+    return
+  end
+  run.job = job
+  return job
+end
+
+-- Odin diagnostics
 local function odin_errorformat(buf)
   if vim.bo[buf].errorformat == '' then
     vim.bo[buf].errorformat = '%f(%l:%c) %t%*[^:]: %m,%f(%l:%c) %m'
@@ -78,8 +193,7 @@ vim.api.nvim_create_autocmd('FileType', {
     odin_errorformat(event.buf)
   end,
 })
--- Set the fallback before ftplugins, including an existing :compiler odin
--- reference whose compiler file may be absent. Later compiler settings win.
+-- Set the fallback before Odin ftplugins load.
 vim.api.nvim_create_autocmd({ 'BufReadPre', 'BufAdd' }, {
   group = 'CustomCompile',
   pattern = '*.odin',
@@ -93,7 +207,7 @@ for _, buf in ipairs(vim.api.nvim_list_bufs()) do
   end
 end
 
--- Edit these commands directly; build() has no language-specific behavior.
+-- Language commands
 local function compileRun()
   local ft = vim.bo.filetype
   local file = vim.api.nvim_buf_get_name(0)
@@ -114,6 +228,7 @@ local function compileRun()
   end
 end
 
+-- Command prompt
 local function compile_manual()
   vim.cmd('redraw')
   local ok, command = pcall(vim.fn.input, {
@@ -129,16 +244,28 @@ local function compile_manual()
   build(command)
 end
 
+-- Error navigation
+local function jump_error(direction)
+  for _ = 1, vim.v.count1 do
+    repeat
+      vim.cmd(direction == 1 and 'cnext' or 'cprev')
+      local index = vim.fn.getqflist({ idx = 0 }).idx
+      local entry = vim.fn.getqflist({ idx = index, items = 0 }).items[1]
+    until entry.bufnr ~= 0
+  end
+end
+
+-- Compilation keymaps
 vim.keymap.set('n', '<leader>m', compile_manual, { desc = 'Compile command' })
 -- custom is loaded before plugins; reclaim this key after their setup runs.
 vim.schedule(function()
   vim.keymap.set('n', '<leader>m', compile_manual, { desc = 'Compile command' })
 end)
 vim.keymap.set('n', 'com', compileRun, { desc = 'Compile current file' })
-vim.keymap.set('n', ']q', '<cmd>cnext<CR>', { desc = 'Next compilation error' })
-vim.keymap.set('n', '[q', '<cmd>cprev<CR>', { desc = 'Previous compilation error' })
-vim.keymap.set('n', '<leader>q', '<cmd>copen<CR>', { desc = 'Open quickfix' })
+vim.keymap.set('n', ']q', function() jump_error(1) end, { desc = 'Next compilation error' })
+vim.keymap.set('n', '[q', function() jump_error(-1) end, { desc = 'Previous compilation error' })
 
+-- Exports
 M.build = build
 M.run = compileRun
 return M

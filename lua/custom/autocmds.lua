@@ -2,7 +2,7 @@ local function augroup(name)
   return vim.api.nvim_create_augroup('masterjVim_' .. name, { clear = true })
 end
 
--- Check if we need to reload the file when it changed
+-- Files: reload
 vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
   group = augroup 'checktime',
   callback = function()
@@ -12,29 +12,7 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
   end,
 })
 
--- Highlight on yank
-vim.api.nvim_create_autocmd('TextYankPost', {
-  group = augroup 'highlight_yank',
-  callback = function()
-    if vim.fn.has 'nvim-0.13' == 1 then
-      vim.hl.hl_op()
-    else
-      (vim.hl or vim.highlight).on_yank()
-    end
-  end,
-})
-
--- resize splits if window got resized
-vim.api.nvim_create_autocmd({ 'VimResized' }, {
-  group = augroup 'resize_splits',
-  callback = function()
-    local current_tab = vim.fn.tabpagenr()
-    vim.cmd 'tabdo wincmd ='
-    vim.cmd('tabnext ' .. current_tab)
-  end,
-})
-
--- go to last loc when opening a buffer
+-- Files: last position
 vim.api.nvim_create_autocmd('BufReadPost', {
   group = augroup 'last_loc',
   callback = function(event)
@@ -52,7 +30,43 @@ vim.api.nvim_create_autocmd('BufReadPost', {
   end,
 })
 
--- close some filetypes with <q>
+
+-- Files: create directories
+vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
+  group = augroup 'auto_create_dir',
+  callback = function(event)
+    if event.match:match '^%w%w+:[\\/][\\/]' then
+      return
+    end
+    local file = vim.uv.fs_realpath(event.match) or event.match
+    vim.fn.mkdir(vim.fn.fnamemodify(file, ':p:h'), 'p')
+  end,
+})
+
+
+-- Editing: yank highlight
+vim.api.nvim_create_autocmd('TextYankPost', {
+  group = augroup 'highlight_yank',
+  callback = function()
+    if vim.fn.has 'nvim-0.13' == 1 then
+      vim.hl.hl_op()
+    else
+      (vim.hl or vim.highlight).on_yank()
+    end
+  end,
+})
+
+-- Windows: resize
+vim.api.nvim_create_autocmd({ 'VimResized' }, {
+  group = augroup 'resize_splits',
+  callback = function()
+    local current_tab = vim.fn.tabpagenr()
+    vim.cmd 'tabdo wincmd ='
+    vim.cmd('tabnext ' .. current_tab)
+  end,
+})
+
+-- Filetypes: close with q
 vim.api.nvim_create_autocmd('FileType', {
   group = augroup 'close_with_q',
   pattern = {
@@ -88,7 +102,7 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
--- make it easier to close man-files when opened inline
+-- Filetypes: man buffers
 vim.api.nvim_create_autocmd('FileType', {
   group = augroup 'man_unlisted',
   pattern = { 'man' },
@@ -98,7 +112,7 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 
--- Fix conceallevel for json files
+-- Filetypes: JSON conceal
 vim.api.nvim_create_autocmd({ 'FileType' }, {
   group = augroup 'json_conceal',
   pattern = { 'json', 'jsonc', 'json5' },
@@ -107,20 +121,15 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
   end,
 })
 
--- Auto create dir when saving a file, in case some intermediate directory does not exist
-vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
-  group = augroup 'auto_create_dir',
-  callback = function(event)
-    if event.match:match '^%w%w+:[\\/][\\/]' then
-      return
-    end
-    local file = vim.uv.fs_realpath(event.match) or event.match
-    vim.fn.mkdir(vim.fn.fnamemodify(file, ':p:h'), 'p')
+-- Filetypes: comment continuation
+vim.api.nvim_create_autocmd('FileType', {
+  group = vim.api.nvim_create_augroup('masterjVim_formatoptions', { clear = true }),
+  callback = function()
+    vim.opt_local.formatoptions:remove 'o'
   end,
 })
 
-
--- Enter insert mode in terminals
+-- Terminals: insert mode
 vim.api.nvim_create_autocmd('TermOpen', {
   group = augroup('terminal_insert'),
   pattern = 'term://*',
@@ -128,7 +137,7 @@ vim.api.nvim_create_autocmd('TermOpen', {
 })
 
 
--- wrap and check for spell in text filetypes
+-- Optional: wrapping and spelling
 -- vim.api.nvim_create_autocmd('FileType', {
 --   group = augroup 'wrap_spell',
 --   pattern = { 'text', 'plaintex', 'typst', 'gitcommit', 'markdown' },
@@ -138,8 +147,9 @@ vim.api.nvim_create_autocmd('TermOpen', {
 --   end,
 -- })
 
--- Change directory to current file
+-- Optional: working directory
 -- vim.api.nvim_create_autocmd('BufEnter', {
-  -- group = augroup('auto_chdir'),
-  -- command = 'silent! lcd %:p:h',
+-- group = augroup('auto_chdir'),
+-- command = 'silent! lcd %:p:h',
 -- })
+

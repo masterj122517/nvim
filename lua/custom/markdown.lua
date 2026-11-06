@@ -1,3 +1,4 @@
+-- Markdown snippets
 vim.cmd([[
         "autocmd Filetype markdown map <leader>w yiWi[<esc>Ea](<esc>pa)
         autocmd Filetype markdown inoremap <buffer> ,f <Esc>/<++><CR>:nohlsearch<CR>"_c4l

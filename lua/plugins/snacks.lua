@@ -1,9 +1,9 @@
--- Plugins
+-- Package
 vim.pack.add({
   'https://github.com/folke/snacks.nvim',
 })
 
--- Snacks
+-- Editor services
 local Snacks = require('snacks')
 
 Snacks.setup({
@@ -27,7 +27,7 @@ Snacks.setup({
   image = { enabled = true }
 })
 
--- Pickers
+-- Picker keymaps
 local maps = {
   { '<leader>,',  function() Snacks.picker.buffers() end,                                 desc = 'Buffers' },
   { '<leader>:',  function() Snacks.picker.command_history() end,                         desc = 'Command History' },
@@ -36,22 +36,11 @@ local maps = {
   { '<leader>fb', function() Snacks.picker.buffers() end,                                 desc = 'Buffers' },
   { '<leader>fc', function() Snacks.picker.files({ cwd = vim.fn.stdpath('config') }) end, desc = 'Config Files' },
   { '<leader>ff', function() Snacks.picker.files() end,                                   desc = 'Find Files' },
-  { '<leader>fg', function() Snacks.picker.git_files() end,                               desc = 'Git Files' },
   { '<leader>fp', function() Snacks.picker.projects() end,                                desc = 'Projects' },
   { '<leader>fr', function() Snacks.picker.recent() end,                                  desc = 'Recent Files' },
 
-  -- Git
-  { '<leader>gb', function() Snacks.picker.git_branches() end,                            desc = 'Git Branches' },
-  { '<leader>gl', function() Snacks.picker.git_log() end,                                 desc = 'Git Log' },
-  { '<leader>gL', function() Snacks.picker.git_log_line() end,                            desc = 'Git Log Line' },
-  { '<leader>gs', function() Snacks.picker.git_status() end,                              desc = 'Git Status' },
-  { '<leader>gS', function() Snacks.picker.git_stash() end,                               desc = 'Git Stash' },
-  { '<leader>gd', function() Snacks.picker.git_diff() end,                                desc = 'Git Diff' },
-  { '<leader>gf', function() Snacks.picker.git_log_file() end,                            desc = 'Git File History' },
-  { '<leader>gi', function() Snacks.picker.gh_issue() end,                                desc = 'GitHub Issues' },
-  { '<leader>gI', function() Snacks.picker.gh_issue({ state = 'all' }) end,               desc = 'All GitHub Issues' },
-  { '<leader>gp', function() Snacks.picker.gh_pr() end,                                   desc = 'GitHub PRs' },
-  { '<leader>gP', function() Snacks.picker.gh_pr({ state = 'all' }) end,                  desc = 'All GitHub PRs' },
+  -- LazyGit
+  { '<leader>gg', function() Snacks.lazygit() end,                                        desc = 'Lazygit' },
 
   -- Search
   { '<leader>sb', function() Snacks.picker.lines() end,                                   desc = 'Buffer Lines' },
@@ -90,8 +79,6 @@ local maps = {
   { '<leader>.',  function() Snacks.scratch() end,                                        desc = 'Scratch Buffer' },
   { '<leader>S',  function() Snacks.scratch.select() end,                                 desc = 'Select Scratch' },
   { '<leader>cR', function() Snacks.rename.rename_file() end,                             desc = 'Rename File' },
-  { '<leader>gB', function() Snacks.gitbrowse() end,                                      mode = { 'n', 'x' },        desc = 'Git Browse' },
-  { '<leader>gg', function() Snacks.lazygit() end,                                        desc = 'Lazygit' },
   {
     '<leader>N',
     function()
@@ -106,7 +93,7 @@ local maps = {
   },
 }
 
--- Register keymaps
+-- Keymap registration
 for _, map in ipairs(maps) do
   vim.keymap.set(map.mode or 'n', map[1], map[2], {
     desc = map.desc,
@@ -114,7 +101,7 @@ for _, map in ipairs(maps) do
   })
 end
 
--- Toggles
+-- UI toggles
 Snacks.toggle.option('spell', { name = 'Spelling' }):map('<leader>us')
 Snacks.toggle.option('wrap', { name = 'Wrap' }):map('<leader>uw')
 Snacks.toggle.option('relativenumber', { name = 'Relative Number' }):map('<leader>uL')

@@ -1,11 +1,11 @@
--- Plugins
+-- Packages
 vim.pack.add({
   'https://github.com/folke/noice.nvim',
   'https://github.com/MunifTanjim/nui.nvim',
   'https://github.com/rcarriga/nvim-notify',
 })
 
--- Noice
+-- Messages and command line
 require('noice').setup({
   lsp = {
     override = {
@@ -23,6 +23,7 @@ require('noice').setup({
   },
 })
 
+-- Notifications
 require("notify").setup({
   background_colour = "#000000",
 })

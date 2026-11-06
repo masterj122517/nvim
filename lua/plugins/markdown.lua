@@ -1,7 +1,9 @@
+-- Preview package
 vim.pack.add({
-  'https://github.com/nvim-mini/mini.nvim',
   'https://github.com/iamcco/markdown-preview.nvim',
 })
+
+-- Rendering: filetype
 vim.api.nvim_create_autocmd('FileType', {
   group = vim.api.nvim_create_augroup('masterjVim_markdown', { clear = true }),
   pattern = 'markdown',
@@ -11,6 +13,7 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
+-- Rendering: command
 vim.api.nvim_create_user_command('RenderMarkdown', function(opts)
   vim.cmd.packadd('render-markdown.nvim')
   vim.cmd('RenderMarkdown ' .. opts.args)
@@ -22,6 +25,7 @@ end, {
   end,
 })
 
+-- Preview: installation
 vim.api.nvim_create_user_command('MarkdownPreviewInstall', function()
   vim.fn['mkdp#util#install']()
 end, {})

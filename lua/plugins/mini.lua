@@ -1,3 +1,4 @@
+-- Packages
 vim.pack.add({
 	{ src = "https://github.com/nvim-mini/mini.ai" },
 	{ src = "https://github.com/nvim-mini/mini.align" },
@@ -8,6 +9,7 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-mini/mini.hipatterns" },
 })
 
+-- Text objects
 local ai = require("mini.ai")
 ai.setup({
 	-- treesitter textobjects af/if function, ac/ic class
@@ -17,36 +19,58 @@ ai.setup({
 	},
 })
 
+-- Alignment
 require("mini.align").setup()
 
-require("mini.indentscope").setup({
-	symbol = "│",
-	draw = {
-		animation = require("mini.indentscope").gen_animation.none(),
-	},
+-- Indent guides
+local scope_group = vim.api.nvim_create_augroup('PluginIndentScope', { clear = true })
+vim.api.nvim_create_autocmd({ 'BufReadPre', 'BufNewFile', 'FileType', 'InsertEnter' }, {
+	group = scope_group,
+	callback = function()
+		vim.api.nvim_clear_autocmds({ group = scope_group })
+		require("mini.indentscope").setup({
+			symbol = "│",
+			draw = {
+				animation = require("mini.indentscope").gen_animation.none(),
+			},
+		})
+	end,
 })
 
--- auto pairs
-require("mini.pairs").setup()
+-- Pairs
+vim.api.nvim_create_autocmd('InsertEnter', {
+	once = true,
+	callback = function()
+		require("mini.pairs").setup()
+	end,
+})
 
--- icons, replace nvim_web_devicons
+-- Icons
 require("mini.icons").setup()
 MiniIcons.mock_nvim_web_devicons()
 
--- toggle formatting of brackets
+-- Bracket formatting
 require("mini.splitjoin").setup({
 	mappings = {
 		toggle = "<leader>m",
 	},
 })
 
-local hipatterns = require("mini.hipatterns")
-hipatterns.setup({
-	highlighters = {
-		hex_color = hipatterns.gen_highlighter.hex_color(),
-		fixme = { pattern = "FIXME", group = "MiniHipatternsFixme" },
-		hack = { pattern = "HACK", group = "MiniHipatternsHack" },
-		todo = { pattern = "TODO", group = "MiniHipatternsTodo" },
-		note = { pattern = "NOTE", group = "MiniHipatternsNote" },
-	},
+-- Pattern highlights
+local pattern_group = vim.api.nvim_create_augroup('PluginHiPatterns', { clear = true })
+vim.api.nvim_create_autocmd({ 'BufReadPre', 'BufNewFile', 'FileType', 'InsertEnter' }, {
+	group = pattern_group,
+	callback = function()
+		vim.api.nvim_clear_autocmds({ group = pattern_group })
+		local hipatterns = require("mini.hipatterns")
+		hipatterns.setup({
+			highlighters = {
+				hex_color = hipatterns.gen_highlighter.hex_color(),
+				fixme = { pattern = "FIXME", group = "MiniHipatternsFixme" },
+				hack = { pattern = "HACK", group = "MiniHipatternsHack" },
+				todo = { pattern = "TODO", group = "MiniHipatternsTodo" },
+				note = { pattern = "NOTE", group = "MiniHipatternsNote" },
+			},
+		})
+	end,
 })

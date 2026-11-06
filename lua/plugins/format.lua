@@ -1,4 +1,4 @@
--- Plugin
+-- Package
 vim.pack.add({
   'https://github.com/stevearc/conform.nvim',
 })
@@ -16,13 +16,9 @@ require('conform').setup({
     go = { 'gofmt' },
     zig = { 'zigfmt' },
   },
-
+  -- formatter specific configs
   formatters = {
-    biome = {
-      condition = function(_, ctx)
-        return vim.fs.root(ctx.dirname, { 'biome.json', 'biome.jsonc' }) ~= nil
-      end,
-    },
+
   },
 
   -- Format on save
@@ -46,7 +42,7 @@ require('conform').setup({
   end,
 })
 
--- Format buffer
+-- Keymaps: formatting
 vim.keymap.set({ 'n', 'x' }, '<leader>cf', function()
   require('conform').format({
     async = true,
@@ -54,7 +50,7 @@ vim.keymap.set({ 'n', 'x' }, '<leader>cf', function()
   })
 end, { desc = 'Format buffer' })
 
--- Toggle autoformat
+-- Keymaps: autoformat
 vim.keymap.set('n', '<leader>uf', function()
   vim.g.disable_autoformat = not vim.g.disable_autoformat
 
