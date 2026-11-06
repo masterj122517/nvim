@@ -74,8 +74,7 @@ vim.diagnostic.config {
   severity_sort = true,
 }
 
--- autocomplete
--- Omni, current buffer , other windows buffers, loaded buffers, unloaded buffers
+-- Completion
 vim.o.autocomplete = true
 vim.o.complete = 'o,.,w,b,u'
 vim.opt.completeopt = 'menuone,noselect,fuzzy,popup'
