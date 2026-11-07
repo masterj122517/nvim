@@ -9,7 +9,7 @@ local Snacks = require('snacks')
 Snacks.setup({
   bigfile = {
     enabled = true,
-    notify = false,
+    notify = true,
   },
   explorer = { enabled = false }, -- Oil handles file browsing
   indent = { enabled = true },
