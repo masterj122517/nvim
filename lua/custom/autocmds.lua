@@ -152,29 +152,47 @@ vim.api.nvim_create_autocmd('TermOpen', {
 -- group = augroup('auto_chdir'),
 -- command = 'silent! lcd %:p:h',
 -- })
+-- Chnage terminal's buffer dir when terminal shell changes
+local prompt_ns = vim.api.nvim_create_namespace('my.terminal.prompt')
 
+vim.api.nvim_create_autocmd('TermOpen', {
+  pattern = { '{term,shell}://*', ':shell*' },
+  callback = function()
+    vim.opt_local.signcolumn = 'auto'
 
---Handles OSC 7 dir change requests
-vim.api.nvim_create_autocmd({ 'TermRequest' }, {
-  callback = function(e)
-    if string.sub(vim.v.termrequest, 1, 4) == "\x1b]7;" then
-      local dir = string.gsub(vim.v.termrequest, "\x1b]7;file://[^/]*", "")
-      if vim.fn.isdirectory(dir) == 0 then
-        return
-      end
-      vim.api.nvim_buf_set_var(e.buf, "last_osc7_payload", dir)
-      if vim.o.autochdir and vim.api.nvim_get_current_buf() == e.buf then
+    local opts = { buffer = true, silent = true }
+    vim.keymap.set('n', '<CR>', 'i<CR><C-\\><C-n>', opts)
+    vim.keymap.set('n', '<C-c>', 'i<C-c><C-\\><C-n>', opts)
+  end,
+})
+
+vim.api.nvim_create_autocmd('TermRequest', {
+  callback = function(ev)
+    -- OSC 133: Shell prompt
+    if string.match(ev.data.sequence, '^\027]133;A') then
+      local lnum = ev.data.cursor[1]
+      vim.api.nvim_buf_set_extmark(ev.buf, prompt_ns, lnum - 1, 0, {
+        sign_text = '∙',
+      })
+    end
+
+    -- OSC 7: Directory change
+    local val, n = string.gsub(ev.data.sequence, '^\027]7;file://[^/]*', '')
+    if n > 0 then
+      local dir = val
+      assert(vim.fn.isdirectory(dir) ~= 0, 'invalid dir: ' .. dir)
+
+      if vim.api.nvim_get_current_buf() == ev.buf then
         vim.cmd.bcd(dir)
       end
     end
-  end
-})
-vim.api.nvim_create_autocmd({ 'bufenter', 'winenter', 'dirchanged' }, {
-  callback = function(e)
-    if vim.b.last_osc7_payload ~= nil
-        and vim.fn.isdirectory(vim.b.last_osc7_payload) == 1
-    then
-      vim.cmd.bcd(vim.b.last_osc7_payload)
-    end
-  end
+    vim.schedule(function()
+      if vim.api.nvim_buf_is_valid(ev.buf)
+          and vim.api.nvim_get_current_buf() == ev.buf then
+        vim.api.nvim_exec_autocmds('BufEnter', {
+          buffer = ev.buf,
+        })
+      end
+    end)
+  end,
 })
