@@ -153,3 +153,28 @@ vim.api.nvim_create_autocmd('TermOpen', {
 -- command = 'silent! lcd %:p:h',
 -- })
 
+
+--Handles OSC 7 dir change requests
+vim.api.nvim_create_autocmd({ 'TermRequest' }, {
+  callback = function(e)
+    if string.sub(vim.v.termrequest, 1, 4) == "\x1b]7;" then
+      local dir = string.gsub(vim.v.termrequest, "\x1b]7;file://[^/]*", "")
+      if vim.fn.isdirectory(dir) == 0 then
+        return
+      end
+      vim.api.nvim_buf_set_var(e.buf, "last_osc7_payload", dir)
+      if vim.o.autochdir and vim.api.nvim_get_current_buf() == e.buf then
+        vim.cmd.bcd(dir)
+      end
+    end
+  end
+})
+vim.api.nvim_create_autocmd({ 'bufenter', 'winenter', 'dirchanged' }, {
+  callback = function(e)
+    if vim.b.last_osc7_payload ~= nil
+        and vim.fn.isdirectory(vim.b.last_osc7_payload) == 1
+    then
+      vim.cmd.bcd(vim.b.last_osc7_payload)
+    end
+  end
+})

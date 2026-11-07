@@ -303,6 +303,9 @@ end, { desc = 'Clear native multicursors' })
 -- Command line: editing
 vim.keymap.set('n', ';', ':', {})
 vim.keymap.set('v', ';', ':', {})
+vim.keymap.set('n', ':', ';', {})
+vim.keymap.set('v', ':', ';', {})
+
 vim.keymap.set('c', '<c-a>', '<home>', { noremap = true })
 vim.keymap.set('c', '<c-e>', '<end>', { noremap = true })
 vim.keymap.set('c', '<C-k>', function()

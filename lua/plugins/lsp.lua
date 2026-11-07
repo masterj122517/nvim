@@ -29,7 +29,6 @@ local function setup()
       'ruff',
       'zls',
       'ols',
-      'bashls',
       'jsonls',
       'yamlls',
       'html',
