@@ -26,6 +26,78 @@ vim.o.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.smoothscroll = true
 vim.opt.shortmess = 'filnxtToOScIF'
+vim.opt.messagesopt:append({
+  "maxheight:30",
+  "timeout:5000",
+})
+
+local ui = require("vim._core.ui2")
+
+ui.enable({
+  enable = true,
+  msg = {
+    targets = {
+      default = "msg",
+      empty = "cmd",
+      bufwrite = "msg",
+      confirm = "cmd",
+      emsg = "pager",
+      echo = "msg",
+      echomsg = "msg",
+      echoerr = "pager",
+      completion = "cmd",
+      list_cmd = "pager",
+      lua_error = "pager",
+      lua_print = "msg",
+      progress = "pager",
+      rpc_error = "pager",
+      quickfix = "msg",
+      search_cmd = "cmd",
+      search_count = "cmd",
+      shell_cmd = "pager",
+      shell_err = "pager",
+      shell_out = "pager",
+      shell_ret = "msg",
+      undo = "msg",
+      verbose = "pager",
+      wildlist = "cmd",
+      wmsg = "msg",
+      typed_cmd = "cmd",
+    },
+    msg = { height = 0.3 },
+    dialog = { height = 0.5 },
+    pager = { height = 0.5 },
+  },
+})
+
+-- Position ephemeral messages at top-right.
+local messages = require("vim._core.ui2.messages")
+local original_set_pos = messages.set_pos
+
+messages.set_pos = function(target, focus)
+  original_set_pos(target, focus)
+
+  if target and target ~= "msg" then
+    return
+  end
+
+  local win = ui.wins.msg
+  if not vim.api.nvim_win_is_valid(win) then
+    return
+  end
+
+  if vim.api.nvim_win_get_config(win).hide then
+    return
+  end
+
+  vim.api.nvim_win_set_config(win, {
+    relative = "editor",
+    anchor = "NE",
+    row = 1,
+    col = vim.o.columns - 1,
+  })
+end
+
 
 -- Indentation
 vim.opt.autoindent = true
@@ -74,7 +146,7 @@ vim.diagnostic.config {
   severity_sort = true,
 }
 
--- Completion
-vim.o.autocomplete = true
-vim.o.complete = 'o,.,w,b,u'
-vim.opt.completeopt = 'menuone,noselect,fuzzy,popup'
+-- Completion (disabled)
+-- vim.o.autocomplete = true
+-- vim.o.complete = 'o,.,w,b,u'
+-- vim.opt.completeopt = 'menuone,noselect,fuzzy,popup'
