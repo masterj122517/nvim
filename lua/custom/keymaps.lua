@@ -465,7 +465,7 @@ vim.keymap.set('n', 'te', ':tab split<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'th', ':-tabnext<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'tl', ':+tabnext<CR>', { noremap = true, silent = true })
 
-vim.keymap.set('n', 'tc', ':tabclose<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'td', ':tabclose<CR>', { noremap = true, silent = true })
 
 
 vim.keymap.set('n', 'to', ':tabonly<CR>', { noremap = true, silent = true })
@@ -486,6 +486,30 @@ vim.keymap.set('n', 'tH', ':tabfirst<CR>', { noremap = true, silent = true })
 
 vim.keymap.set('n', 'tmh', ':-tabmove<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'tml', ':+tabmove<CR>', { noremap = true, silent = true })
+
+-- Navigation: directories
+vim.keymap.set('n', 'tcg', function()
+  local root = vim.fs.root(0, '.git')
+  if not root then
+    return
+  end
+
+  vim.cmd('tcd ' .. vim.fn.fnameescape(root))
+  vim.cmd('verbose pwd')
+end, { desc = 'Current Tab CD to Git root' })
+
+vim.keymap.set('n', 'tcn', '<cmd>tcd %:h | verbose pwd<CR>', {
+  desc = "Current Tab CD to current file's directory",
+})
+
+vim.keymap.set('n', 'tcu', '<cmd>tcd .. | verbose pwd<CR>', {
+  desc = 'Current Tab CD to parent directory',
+})
+
+vim.keymap.set('n', 'tc-', '<cmd>tcd - | verbose pwd<CR>', {
+  desc = 'Current Tab CD to previous directory',
+})
+
 
 
 -- Windows: navigation and sizing
