@@ -490,6 +490,31 @@ vim.keymap.set('n', 'tmh', ':-tabmove<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'tml', ':+tabmove<CR>', { noremap = true, silent = true })
 
 
+-- Navigation: directories
+vim.keymap.set('n', 'tcg', function()
+  local root = vim.fs.root(0, '.git')
+  if not root then
+    return
+  end
+
+  vim.cmd('tcd ' .. vim.fn.fnameescape(root))
+  vim.cmd('verbose pwd')
+end, { desc = 'Current Tab CD to Git root' })
+
+vim.keymap.set('n', 'tcn', '<cmd>tcd %:h | verbose pwd<CR>', {
+  desc = "Current Tab CD to current file's directory",
+})
+
+vim.keymap.set('n', 'tcu', '<cmd>tcd .. | verbose pwd<CR>', {
+  desc = 'Current Tab CD to parent directory',
+})
+
+vim.keymap.set('n', 'tc-', '<cmd>tcd - | verbose pwd<CR>', {
+  desc = 'Current Tab CD to previous directory',
+})
+
+
+
 -- Windows: navigation and sizing
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
