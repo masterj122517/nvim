@@ -175,19 +175,19 @@ vim.keymap.set('i', '<C-k>', function()
 end, { noremap = true, desc = 'Kill to end of line' })
 
 -- Editing: completion
-vim.keymap.set('i', '<C-o>', function()
-  vim.lsp.completion.get()
-end, { desc = 'Trigger LSP completion' })
-vim.keymap.set('i', '<CR>', function()
-  local info = vim.fn.complete_info({ 'selected' })
-  if vim.fn.pumvisible() == 1 and info.selected >= 0 then
-    return '<C-y>'
-  end
-  return '<C-e><CR>'
-end, {
-  expr = true,
-  desc = 'Accept completion or insert newline',
-})
+-- vim.keymap.set("i", "<C-o>", function()
+--   vim.lsp.completion.get()
+-- end, { desc = "Trigger LSP completion" })
+-- vim.keymap.set('i', '<CR>', function()
+--   local info = vim.fn.complete_info({ 'selected' })
+--   if vim.fn.pumvisible() == 1 and info.selected >= 0 then
+--     return '<C-y>'
+--   end
+--   return '<C-e><CR>'
+-- end, {
+--   expr = true,
+--   desc = 'Accept completion or insert newline',
+-- })
 
 -- Editing: case conversion
 vim.keymap.set('v', 'T', ':call v:lua.MagicToggleHump(v:true)<CR>', { noremap = true, silent = true })
@@ -308,6 +308,9 @@ end, { desc = 'Clear native multicursors' })
 -- Command line: editing
 vim.keymap.set('n', ';', ':', {})
 vim.keymap.set('v', ';', ':', {})
+vim.keymap.set('n', ':', ';', {})
+vim.keymap.set('v', ':', ';', {})
+
 vim.keymap.set('c', '<c-a>', '<home>', { noremap = true })
 vim.keymap.set('c', '<c-e>', '<end>', { noremap = true })
 vim.keymap.set('c', '<C-k>', function()
@@ -467,7 +470,7 @@ vim.keymap.set('n', 'te', ':tab split<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'th', ':-tabnext<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'tl', ':+tabnext<CR>', { noremap = true, silent = true })
 
-vim.keymap.set('n', 'tc', ':tabclose<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'td', ':tabclose<CR>', { noremap = true, silent = true })
 
 
 vim.keymap.set('n', 'to', ':tabonly<CR>', { noremap = true, silent = true })
@@ -488,7 +491,6 @@ vim.keymap.set('n', 'tH', ':tabfirst<CR>', { noremap = true, silent = true })
 
 vim.keymap.set('n', 'tmh', ':-tabmove<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', 'tml', ':+tabmove<CR>', { noremap = true, silent = true })
-
 
 -- Navigation: directories
 vim.keymap.set('n', 'tcg', function()
