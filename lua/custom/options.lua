@@ -14,7 +14,12 @@ vim.o.number = true
 vim.o.relativenumber = true
 vim.opt.numberwidth = 2
 vim.o.signcolumn = 'yes'
-vim.o.cursorline = true
+vim.o.cursorline = false
+vim.api.nvim_create_autocmd({ "VimEnter", "ColorScheme" },
+  {
+    command =
+    "hi Normal guibg=NONE ctermbg=NONE | hi NormalNC guibg=NONE ctermbg=NONE | hi NormalFloat guibg=NONE ctermbg=NONE | hi Pmenu guibg=NONE ctermbg=NONE"
+  })
 vim.o.showmode = false
 vim.o.cmdheight = 0
 vim.o.pumheight = 10
