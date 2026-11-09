@@ -1,7 +1,57 @@
--- Navigation: native tools
+-- Minimal Config Spec:
 vim.keymap.set('n', '-', '<cmd>Explore<CR>', { desc = 'Open file explorer' })
 vim.keymap.set('n', '<C-f>', ':find ', { desc = 'Find file' })
 vim.keymap.set('n', '<leader>co', '<cmd>copen<CR>', { desc = 'Open QuickFix List' })
+
+-- match paris
+local magic_insertpair = function(char) 
+    local pair_close = { ['('] = ')', ['['] = ']', ['{'] = '}' }
+    local close_set = { [')'] = true, [']'] = true, ['}'] = true, ['"'] = true, ["'"] = true, ['`'] = true }
+    local quote_set = { ['"'] = true, ["'"] = true, ['`'] = true }
+    local col = vim.fn.col('.')
+    local after = vim.api.nvim_get_current_line():sub(col, col)
+    local should_pair = after == '' or after == ';' or close_set[after]
+
+    if pair_close[char] then
+        if should_pair then return char .. pair_close[char] .. '<Left>' end
+        return char
+    end
+
+    if after == char then return '<Right>' end
+    if quote_set[char] and should_pair then return char .. char .. '<Left>' end
+    return char
+end
+-- delete pairs 
+local function magic_delpair() 
+    local line, col = vim.api.nvim_get_current_line(), vim.fn.col('.')
+    if col > 1 and vim.tbl_contains({ ')', ']', '}', '"', "'", '`' }, line:sub(col, col))
+        and vim.tbl_contains({ '(', '[', '{', '"', "'", '`' }, line:sub(col - 1, col - 1)) then
+        return '<Del><BS>'
+    end
+    return '<BS>'
+end
+
+for _, c in ipairs({ '(', '[', '{', ')', ']', '}', '"', "'", '`' }) do
+    vim.keymap.set('i', c, function() return magic_insertpair(c) end, { expr = true, noremap = true })
+end
+vim.keymap.set('i', '<BS>', magic_delpair, { expr = true, noremap = true })
+
+local function magic_enter() 
+    if vim.v.hlsearch == 1 and vim.fn.getreg('/') ~= '' then
+        local pos = vim.fn.searchpos(vim.fn.getreg('/'), 'bcnW')
+        if pos[1] == vim.fn.line('.') and pos[2] > 0 then
+            if vim.fn.matchend(vim.fn.getline('.'), vim.fn.getreg('/'), pos[2] - 1) >= vim.fn.col('.') then
+                vim.cmd('nohlsearch')
+                return
+            end
+        end
+    end
+    local cr = vim.api.nvim_replace_termcodes('<CR>', true, false, true)
+    vim.api.nvim_feedkeys(cr, 'n', false)
+end
+
+
+vim.keymap.set('n', '<CR>', magic_enter, { expr = true, desc = 'Magic Enter', silent = true })
 
 -- Navigation: movement
 vim.keymap.set({ 'n', 'x' }, 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, desc = 'Down', silent = true })
