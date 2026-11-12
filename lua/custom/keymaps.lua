@@ -62,12 +62,16 @@ vim.keymap.set('n', '/', 'ms/')
 vim.keymap.set('n', '?', 'ms?')
 
 vim.keymap.set('n', 'n', function()
-  return (vim.v.searchforward == 1 and 'n' or 'N') .. 'zvzz'
-end, { expr = true, desc = 'Next search result and center' })
+  --   return (vim.v.searchforward == 1 and 'n' or 'N') .. 'zvzz'
+  -- end, { expr = true, desc = 'Next search result and center' })
+  return (vim.v.searchforward == 1 and 'n' or 'N')
+end, { expr = true, desc = 'Next search result' })
 
 vim.keymap.set('n', 'N', function()
-  return (vim.v.searchforward == 1 and 'N' or 'n') .. 'zvzz'
-end, { expr = true, desc = 'Previous search result and center' })
+  -- return (vim.v.searchforward == 1 and 'N' or 'n') .. 'zvzz'
+  -- end, { expr = true, desc = 'Previous search result and center' })
+  return (vim.v.searchforward == 1 and 'N' or 'n')
+end, { expr = true, desc = 'Previous search result' })
 
 
 vim.keymap.set('n', '`', function()
