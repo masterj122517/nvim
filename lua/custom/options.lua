@@ -132,10 +132,38 @@ vim.opt.whichwrap = 'b,s,<,>,h,'
 vim.opt.backup = false
 vim.opt.swapfile = false
 
+
 -- Clipboard
-vim.schedule(function()
-  vim.o.clipboard = 'unnamedplus'
-end)
+vim.opt.clipboard = "unnamedplus"
+
+-- Whether a usable system clipboard exists
+local function has_system_clipboard()
+  -- Over SSH, the remote machine's clipboard is useless
+  if vim.env.SSH_TTY or vim.env.SSH_CONNECTION then
+    return false
+  end
+  -- Common clipboard tools; any one of them counts
+  for _, exe in ipairs({ "pbcopy", "wl-copy", "xclip", "xsel", "win32yank.exe", "clip.exe" }) do
+    if vim.fn.executable(exe) == 1 then
+      return true
+    end
+  end
+  return false
+end
+
+-- No graphical environment: fall back to OSC 52
+if not has_system_clipboard() then
+  local osc52 = require("vim.ui.clipboard.osc52")
+  -- Paste from Neovim's own register only, so it doesn't hang waiting for the terminal to reply
+  local function paste()
+    return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
+  end
+  vim.g.clipboard = {
+    name = "OSC 52",
+    copy = { ["+"] = osc52.copy("+"), ["*"] = osc52.copy("*") },
+    paste = { ["+"] = paste, ["*"] = paste },
+  }
+end
 
 -- Windows
 vim.o.splitright = true
