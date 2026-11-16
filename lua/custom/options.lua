@@ -134,27 +134,20 @@ vim.opt.swapfile = false
 
 
 -- Clipboard
-vim.opt.clipboard = "unnamedplus"
 
--- Whether a usable system clipboard exists
-local function has_system_clipboard()
-  -- Over SSH, the remote machine's clipboard is useless
-  if vim.env.SSH_TTY or vim.env.SSH_CONNECTION then
-    return false
-  end
-  -- Common clipboard tools; any one of them counts
-  for _, exe in ipairs({ "pbcopy", "wl-copy", "xclip", "xsel", "win32yank.exe", "clip.exe" }) do
-    if vim.fn.executable(exe) == 1 then
-      return true
-    end
-  end
-  return false
-end
+-- Clipboard
+vim.opt.autowrite = true -- Enable auto write
+vim.opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus"
 
--- No graphical environment: fall back to OSC 52
-if not has_system_clipboard() then
+-- Headless Linux (OrbStack/Docker/VM, even without SSH): send yanks via OSC 52
+local headless_linux = vim.fn.has("mac") == 0
+    and vim.fn.has("win32") == 0
+    and not vim.env.DISPLAY
+    and not vim.env.WAYLAND_DISPLAY
+
+if headless_linux then
   local osc52 = require("vim.ui.clipboard.osc52")
-  -- Paste from Neovim's own register only, so it doesn't hang waiting for the terminal to reply
+  -- Paste from Neovim's own register so it doesn't hang waiting for the terminal
   local function paste()
     return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
   end
